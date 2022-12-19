@@ -1,14 +1,162 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/platform/trunk/src/Core/System/SystemConfig/Schema/config.xsd">
+    
     <card>
-        <title>#BetterPayment# Settings</title>
-        <title lang="de-DE">#BetterPayment# Einstellungen</title>
+        <title>Base configuration</title>
+        <title lang="de-DE">Base configuration (DE)</title>
 
-        <input-field type="bool">
-            <name>active</name>
-            <label>Active</label>
-            <label lang="de-DE">Aktiviert</label>
+        <input-field type="single-select">
+            <name>whiteLabel</name>
+            <label>Choose your account owner company</label>
+            <label lang="de-DE">Choose your account owner company (DE)</label>
+            <helpText>This is demo help text</helpText>
+            <helpText lang="de-DE">This is demo help text (DE)</helpText>
+            <defaultValue>betterpayment</defaultValue>
+            <options>
+                <option>
+                    <id>betterpayment</id>
+                    <name>Better Payment</name>
+                </option>
+                <option>
+                    <id>solvendi</id>
+                    <name>Solvendi</name>
+                </option>
+                <option>
+                    <id>diagonal</id>
+                    <name>Diagonal-Payment</name>
+                </option>
+                <option>
+                    <id>collectai</id>
+                    <name>collectAI</name>
+                </option>
+                <option>
+                    <id>betterbill</id>
+                    <name>BetterBill GmbH</name>
+                </option>
+                <option>
+                    <id>kleverpay</id>
+                    <name>Kleverpay</name>
+                </option>
+                <option>
+                    <id>abilitapay</id>
+                    <name>abilitaPay</name>
+                </option>
+                <option>
+                    <id>prodefacto</id>
+                    <name>Prodefacto-Pay</name>
+                </option>
+                <option>
+                    <id>vr_dienste</id>
+                    <name>VR-Dienste</name>
+                </option>
+                <option>
+                    <id>vr_straubing</id>
+                    <name>Raiffeisenbank Straubing</name>
+                </option>
+                <option>
+                    <id>continentalpay</id>
+                    <name>Continental Pay</name>
+                </option>
+                <option>
+                    <id>vrkg</id>
+                    <name>Volksbank Bad Kissingen</name>
+                </option>
+                <option>
+                    <id>demondo</id>
+                    <name>Demondo Paygate</name>
+                </option>
+                <option>
+                    <id>vivapago</id>
+                    <name>Vivapago</name>
+                </option>
+                <option>
+                    <id>demo</id>
+                    <name>??? Demo ???</name>
+                </option>
+                <option>
+                    <id>bakersoftpay</id>
+                    <name>BakerSoft</name>
+                </option>
+            </options>
+        </input-field>
+        
+        <input-field type="single-select">
+            <name>environment</name>
+            <label>Environment</label>
+            <label lang="de-DE">Environment (DE)</label>
+            <helpText>This is demo help text</helpText>
+            <helpText lang="de-DE">This is demo help text (DE)</helpText>
+            <defaultValue>test</defaultValue>
+            <options>
+                <option>
+                    <id>test</id>
+                    <name>Test</name>
+                </option>
+                <option>
+                    <id>production</id>
+                    <name>Production</name>
+                </option>
+            </options>
+        </input-field>
+    </card>
+    
+    <card>
+        <title>Test environment credentials</title>
+        <title lang="de-DE">Test environment credentials (DE)</title>
+
+        <input-field>
+            <name>testAPIKey</name>
+            <label>API key</label>
+            <helpText>This is demo help text</helpText>
+            <helpText lang="de-DE">This is demo help text (DE)</helpText>
+        </input-field>
+        <input-field>
+            <name>testOutgoingKey</name>
+            <label>Outgoing key</label>
+            <helpText>This is demo help text</helpText>
+            <helpText lang="de-DE">This is demo help text (DE)</helpText>
+        </input-field>
+        <input-field>
+            <name>testIncomingKey</name>
+            <label>Incoming key</label>
+            <helpText>This is demo help text</helpText>
+            <helpText lang="de-DE">This is demo help text (DE)</helpText>
+        </input-field>
+    </card>
+
+    <card>
+        <title>Production environment credentials</title>
+        <title lang="de-DE">Production environment credentials (DE)</title>
+
+        <input-field>
+            <name>productionAPIKey</name>
+            <label>API key</label>
+            <helpText>This is demo help text</helpText>
+            <helpText lang="de-DE">This is demo help text (DE)</helpText>
+        </input-field>
+        <input-field>
+            <name>productionOutgoingKey</name>
+            <label>Outgoing key</label>
+            <helpText>This is demo help text</helpText>
+            <helpText lang="de-DE">This is demo help text (DE)</helpText>
+        </input-field>
+        <input-field>
+            <name>productionIncomingKey</name>
+            <label>Incoming key</label>
+            <helpText>This is demo help text</helpText>
+            <helpText lang="de-DE">This is demo help text (DE)</helpText>
+        </input-field>
+    </card>
+
+    <card>
+        <title>Payment Method specific configuration</title>
+        <title lang="de-DE">Payment Method specific configuration</title>
+
+        <input-field>
+            <name>example</name>
+            <label>Example</label>
+            <helpText>will be added and customised later on</helpText>
         </input-field>
     </card>
 </config>
