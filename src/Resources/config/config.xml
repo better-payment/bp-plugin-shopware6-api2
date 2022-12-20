@@ -71,10 +71,6 @@
                     <name>Vivapago</name>
                 </option>
                 <option>
-                    <id>demo</id>
-                    <name>??? Demo ???</name>
-                </option>
-                <option>
                     <id>bakersoftpay</id>
                     <name>BakerSoft</name>
                 </option>
