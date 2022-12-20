@@ -6,6 +6,7 @@ abstract class PaymentMethod
 {
     protected string $handler;
     protected string $name;
+    protected string $shortname;
     protected string $description;
     protected string $icon;
     protected array $translations;
@@ -19,6 +20,11 @@ abstract class PaymentMethod
     public function getName(): string
     {
         return $this->name;
+    }
+
+    public function getShortname(): string
+    {
+        return $this->shortname;
     }
 
     public function getDescription(): string

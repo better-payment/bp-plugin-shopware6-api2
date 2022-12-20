@@ -3,8 +3,14 @@
 namespace BetterPayment\Installer;
 
 use BetterPayment\BetterPayment;
-use BetterPayment\PaymentMethod\CreditCard;
+use BetterPayment\PaymentMethod\InvoiceB2B;
 use BetterPayment\PaymentMethod\PaymentMethod;
+use BetterPayment\PaymentMethod\CreditCard;
+use BetterPayment\PaymentMethod\Invoice;
+use BetterPayment\PaymentMethod\Paydirekt;
+use BetterPayment\PaymentMethod\SEPADirectDebit;
+use BetterPayment\PaymentMethod\SEPADirectDebitB2B;
+use BetterPayment\PaymentMethod\Sofort;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
@@ -19,7 +25,13 @@ use Shopware\Core\Framework\Plugin\Util\PluginIdProvider;
 class PaymentMethodInstaller
 {
     public const PAYMENT_METHODS = [
-        CreditCard::class
+        CreditCard::class,
+        Paydirekt::class,
+        Sofort::class,
+        SEPADirectDebit::class,
+        SEPADirectDebitB2B::class,
+        Invoice::class,
+        InvoiceB2B::class
     ];
 
     private PluginIdProvider $pluginIdProvider;
