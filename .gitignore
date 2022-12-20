@@ -1,0 +1,3 @@
+/tests/Cypress/node_modules/
+/tests/Cypress/cypress/screenshots
+/tests/Cypress/cypress/videos
