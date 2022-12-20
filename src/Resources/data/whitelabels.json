@@ -139,16 +139,6 @@
       "dash_hostname": "dashboard.vivapago.net"
     }
   },
-  "demo": {
-    "staging": {
-      "api_hostname": "testapi-demo.betterpayment.de",
-      "dash_hostname": "testdashboard-demo.betterpayment.de"
-    },
-    "production": {
-      "api_hostname": "api-demo.betterpayment.de",
-      "dash_hostname": "dashboard-demo.betterpayment.de"
-    }
-  },
   "bakersoftpay": {
     "staging": {
       "api_hostname": "testapi.bakersoftpay.de",
