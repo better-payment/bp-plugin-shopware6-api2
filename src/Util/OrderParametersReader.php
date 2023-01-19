@@ -22,6 +22,7 @@ class OrderParametersReader
 
     public function getAllParameters(SyncPaymentTransactionStruct $transaction): array
     {
+        // TODO change order to class variable maybe?
         $order = $transaction->getOrder();
 
         return array_merge(
@@ -37,7 +38,7 @@ class OrderParametersReader
     {
         return [
             // Any alphanumeric string to identify the Merchant’s order.
-            'order_id' => $order->getId(),
+            'order_id' => $order->getOrderNumber(),
             // See details about merchant reference - https://testdashboard.betterpayment.de/docs/#merchant-reference
             'merchant_reference' => $order->getId().' - '.'SHOP NAME HERE', // TODO fetch shop name or sales channel name https://developer.shopware.com/docs/guides/plugins/plugins/plugin-fundamentals/dependency-injection
             // Including possible shipping costs and VAT (float number)
@@ -45,7 +46,7 @@ class OrderParametersReader
             // Should be set if the order includes any shipping costs (float number)
             'shipping_costs' => $order->getShippingTotal(), // TODO needs to be checked
             // VAT amount (float number) if known
-            'VAT' => $order->getAmountTotal() - $order->getAmountNet(), // TODO needs to be checked
+            'vat' => $order->getAmountTotal() - $order->getAmountNet(), // TODO needs to be checked $transaction->getOrderTransaction()->getAmount()->getCalculatedTaxes()->getAmount()
             // 3-letter currency code (ISO 4217). Defaults to ‘EUR’
             'currency' => $order->getCurrency()->getIsoCode(),
             // If the order includes a risk check, this field can be set to prevent customers from making multiple order attempts with different personal information.

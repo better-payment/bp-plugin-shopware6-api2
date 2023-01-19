@@ -7,8 +7,8 @@
     <services>
         <service id="BetterPayment\PaymentHandler\CreditCardHandler">
             <argument type="service" id="Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler" />
-            <argument type="service" id="BetterPayment\Util\ConfigReader" />
-            <argument type="service" id="BetterPayment\Util\OrderParametersReader" />
+            <argument type="service" id="Shopware\Core\Checkout\Order\Aggregate\OrderTransactionCaptureRefund\OrderTransactionCaptureRefundStateHandler" />
+            <argument type="service" id="BetterPayment\Util\BetterPaymentClient" />
 
             <tag name="shopware.payment.method.async" />
         </service>
@@ -16,6 +16,11 @@
         <service id="BetterPayment\PaymentHandler\SEPADirectDebitHandler">
             <argument type="service" id="Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler" />
             <tag name="shopware.payment.method.sync" />
+        </service>
+
+        <service id="BetterPayment\Util\BetterPaymentClient">
+            <argument type="service" id="BetterPayment\Util\ConfigReader" />
+            <argument type="service" id="BetterPayment\Util\OrderParametersReader" />
         </service>
 
         <service id="BetterPayment\Util\ConfigReader">
