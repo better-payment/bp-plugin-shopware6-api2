@@ -5,17 +5,25 @@ namespace BetterPayment\Util;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 use Shopware\Core\Checkout\Payment\Cart\AsyncPaymentTransactionStruct;
+use Shopware\Core\DevOps\Environment\EnvironmentHelper;
+use Shopware\Core\Framework\Context;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 
 class BetterPaymentClient
 {
     private ConfigReader $configReader;
     private OrderParametersReader $orderParametersReader;
+    private EntityRepositoryInterface $orderTransactionRepository;
     private Client $client;
 
-    public function __construct(ConfigReader $configReader, OrderParametersReader $orderParametersReader)
-    {
+    public function __construct(
+        ConfigReader $configReader,
+        OrderParametersReader $orderParametersReader,
+        EntityRepositoryInterface $orderTransactionRepository
+    ){
         $this->configReader = $configReader;
         $this->orderParametersReader = $orderParametersReader;
+        $this->orderTransactionRepository = $orderTransactionRepository;
         $this->client = new Client();
     }
 
@@ -25,14 +33,12 @@ class BetterPaymentClient
         $requestParameters = array_merge($orderParameters, [
             'payment_type' => 'cc',
             'risk_check_approval' => '1',
-            'postback_url' => 'https://lightfulweb.free.beeceptor.com/bp-cc',
+            'postback_url' => EnvironmentHelper::getVariable('APP_URL').'/api/betterpayment/webhook',
             'success_url' => $transaction->getReturnUrl(),
-            'error_url' => 'http://localhost:8888/lightfulweb/shopware6/public/account/order/edit/'
-                .$transaction->getOrder()->getId()
-                .'?error-code=CHECKOUT__ASYNC_PAYMENT_PROCESS_INTERRUPTED', // TODO edit this temp url
+            'error_url' => EnvironmentHelper::getVariable('APP_URL').'/account/order/edit/' .$transaction->getOrder()->getId()
+                .'?error-code=CHECKOUT__ASYNC_PAYMENT_PROCESS_INTERRUPTED',
         ]);
 
-        // Do some API Call to your payment provider
         $headers = [
             'Authorization' => 'Basic REDACTED=',
             'Content-Type' => 'application/x-www-form-urlencoded'
@@ -47,9 +53,14 @@ class BetterPaymentClient
         // TODO log error codes and related messages to log file
         if ($response->getStatusCode() == 200) { // TODO almost all responses are 200 code, so check and handle them accordingly
             // store payment transaction_id to order transaction custom fields
-            $transaction->getOrderTransaction()->setCustomFields([
-                'betterPaymentTransactionID' => json_decode((string) $response->getBody())->transaction_id
-            ]);
+            $this->orderTransactionRepository->update([
+                [
+                    'id' => $transaction->getOrderTransaction()->getId(),
+                    'customFields' => [
+                        'better_payment_transaction_id' => json_decode((string) $response->getBody())->transaction_id
+                    ]
+                ]
+            ], Context::createDefaultContext());
 
             return json_decode((string) $response->getBody())->action_data->url;
         }
