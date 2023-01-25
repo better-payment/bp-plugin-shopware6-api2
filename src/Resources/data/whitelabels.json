@@ -1,16 +1,16 @@
 {
   "betterpayment": {
-    "staging": {
-      "api_hostname": "testapi.betterpayment.de",
+    "test": {
+      "api_hostname": "https://devapi.betterpayment.de",
       "dash_hostname": "testdashboard.betterpayment.de"
     },
     "production": {
-      "api_hostname": "api.betterpayment.de",
+      "api_hostname": "https://api.betterpayment.de",
       "dash_hostname": "dashboard.betterpayment.de"
     }
   },
   "solvendi": {
-    "staging": {
+    "test": {
       "api_hostname": "testapi-solvendi.betterpayment.de",
       "dash_hostname": "testdashboard-solvendi.betterpayment.de"
     },
@@ -20,7 +20,7 @@
     }
   },
   "diagonal": {
-    "staging": {
+    "test": {
       "api_hostname": "testapi.diagonal-payment.eu",
       "dash_hostname": "testdashboard.diagonal-payment.eu"
     },
@@ -30,7 +30,7 @@
     }
   },
   "collectai": {
-    "staging": {
+    "test": {
       "api_hostname": "testapi-collectai.betterpayment.de",
       "dash_hostname": "testdashboard-collectai.betterpayment.de"
     },
@@ -40,7 +40,7 @@
     }
   },
   "betterbill": {
-    "staging": {
+    "test": {
       "api_hostname": "testapi.betterbill.net",
       "dash_hostname": "testdashboard.betterbill.net"
     },
@@ -50,7 +50,7 @@
     }
   },
   "kleverpay": {
-    "staging": {
+    "test": {
       "api_hostname": "testapi.kleverpay.de",
       "dash_hostname": "testdashboard.kleverpay.de"
     },
@@ -60,7 +60,7 @@
     }
   },
   "abilitapay": {
-    "staging": {
+    "test": {
       "api_hostname": "testapi.abilitapay.de",
       "dash_hostname": "testdashboard.abilitapay.de"
     },
@@ -70,7 +70,7 @@
     }
   },
   "prodefacto": {
-    "staging": {
+    "test": {
       "api_hostname": "testapi.prodefacto-pay.de",
       "dash_hostname": "testdashboard.prodefacto-pay.de"
     },
@@ -80,7 +80,7 @@
     }
   },
   "vr_dienste": {
-    "staging": {
+    "test": {
       "api_hostname": "testapi.vr-jetztzahlen.de",
       "dash_hostname": "testdashboard.vr-jetztzahlen.de"
     },
@@ -90,7 +90,7 @@
     }
   },
   "vr_straubing": {
-    "staging": {
+    "test": {
       "api_hostname": "testapi-raiffeisenbank-straubing.betterpayment.de",
       "dash_hostname": "testdashboard-raiffeisenbank-straubing.betterpayment.de"
     },
@@ -100,7 +100,7 @@
     }
   },
   "continentalpay": {
-    "staging": {
+    "test": {
       "api_hostname": "testapi.continentalpay.com",
       "dash_hostname": "testdashboard.continentalpay.com"
     },
@@ -110,7 +110,7 @@
     }
   },
   "vrkg": {
-    "staging": {
+    "test": {
       "api_hostname": "testapi-vrkg.betterpayment.de",
       "dash_hostname": "testdashboard-vrkg.betterpayment.de"
     },
@@ -120,7 +120,7 @@
     }
   },
   "demondo": {
-    "staging": {
+    "test": {
       "api_hostname": "testapi.demondo-paygate.com",
       "dash_hostname": "testdashboard.demondo-paygate.com"
     },
@@ -130,7 +130,7 @@
     }
   },
   "vivapago": {
-    "staging": {
+    "test": {
       "api_hostname": "testapi.vivapago.net",
       "dash_hostname:testdashboard.vivapago.net": {}
     },
@@ -140,7 +140,7 @@
     }
   },
   "bakersoftpay": {
-    "staging": {
+    "test": {
       "api_hostname": "testapi.bakersoftpay.de",
       "dash_hostname": "testdashboard.bakersoftpay.de"
     },
