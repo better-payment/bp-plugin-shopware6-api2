@@ -2,6 +2,7 @@
 
 namespace BetterPayment\PaymentHandler;
 
+use BetterPayment\PaymentMethod\CreditCard;
 use BetterPayment\Util\BetterPaymentClient;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransactionCaptureRefund\OrderTransactionCaptureRefundStateHandler;
@@ -25,8 +26,7 @@ class CreditCardHandler implements AsynchronousPaymentHandlerInterface/*, Refund
         OrderTransactionStateHandler $orderTransactionStateHandler,
         OrderTransactionCaptureRefundStateHandler $refundStateHandler,
         BetterPaymentClient $betterPaymentClient
-    )
-    {
+    ){
         $this->orderTransactionStateHandler = $orderTransactionStateHandler;
 //        $this->refundStateHandler = $refundStateHandler;
         $this->betterPaymentClient = $betterPaymentClient;
@@ -39,7 +39,7 @@ class CreditCardHandler implements AsynchronousPaymentHandlerInterface/*, Refund
     {
         // Method that sends the return URL to the external gateway and gets a redirect URL back
         try {
-            $redirectUrl = $this->betterPaymentClient->request($transaction);
+            $redirectUrl = $this->betterPaymentClient->request($transaction, CreditCard::SHORTNAME);
         } catch (\Exception $e) {
             throw new AsyncPaymentProcessException(
                 $transaction->getOrderTransaction()->getId(),
