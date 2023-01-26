@@ -38,4 +38,19 @@ class ConfigReader
 
         return $data[$whiteLabel][$environment]['api_hostname'];
     }
+
+    public function getAPIKey(): string
+    {
+        return $this->get(self::ENVIRONMENT) == 'test' ? $this->get(self::TEST_API_KEY) : $this->get(self::PRODUCTION_API_KEY);
+    }
+
+    public function getOutgoingKey(): string
+    {
+        return $this->get(self::ENVIRONMENT) == 'test' ? $this->get(self::TEST_OUTGOING_KEY) : $this->get(self::PRODUCTION_OUTGOING_KEY);
+    }
+
+    public function getIncomingKey(): string
+    {
+        return $this->get(self::ENVIRONMENT) == 'test' ? $this->get(self::TEST_INCOMING_KEY) : $this->get(self::PRODUCTION_INCOMING_KEY);
+    }
 }
