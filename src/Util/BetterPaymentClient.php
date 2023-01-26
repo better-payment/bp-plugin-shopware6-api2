@@ -27,11 +27,11 @@ class BetterPaymentClient
         $this->client = new Client();
     }
 
-    public function request(AsyncPaymentTransactionStruct $transaction): string
+    public function request(AsyncPaymentTransactionStruct $transaction, string $paymentType): string
     {
         $orderParameters = $this->orderParametersReader->getAllParameters($transaction);
         $requestParameters = array_merge($orderParameters, [
-            'payment_type' => 'cc',
+            'payment_type' => $paymentType,
             'risk_check_approval' => '1',
             'postback_url' => EnvironmentHelper::getVariable('APP_URL').'/api/betterpayment/webhook',
             'success_url' => $transaction->getReturnUrl(),
