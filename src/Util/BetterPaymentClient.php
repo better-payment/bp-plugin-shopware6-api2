@@ -3,7 +3,9 @@
 namespace BetterPayment\Util;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Request;
+use RuntimeException;
 use Shopware\Core\Checkout\Payment\Cart\AsyncPaymentTransactionStruct;
 use Shopware\Core\DevOps\Environment\EnvironmentHelper;
 use Shopware\Core\Framework\Context;
@@ -24,48 +26,51 @@ class BetterPaymentClient
         $this->configReader = $configReader;
         $this->orderParametersReader = $orderParametersReader;
         $this->orderTransactionRepository = $orderTransactionRepository;
-        $this->client = new Client();
+        $this->client = new Client([
+            'base_uri' => $this->configReader->getAPIHostName()
+        ]);
     }
 
-    public function request(AsyncPaymentTransactionStruct $transaction): string
+    public function request(AsyncPaymentTransactionStruct $transaction, string $paymentType): string
     {
+        $headers = [
+            'Authorization' => 'Basic '.base64_encode($this->configReader->getAPIKey().':'.$this->configReader->getOutgoingKey()),
+            'Content-Type' => 'application/json'
+        ];
+
         $orderParameters = $this->orderParametersReader->getAllParameters($transaction);
         $requestParameters = array_merge($orderParameters, [
-            'payment_type' => 'cc',
+            'payment_type' => $paymentType,
             'risk_check_approval' => '1',
             'postback_url' => EnvironmentHelper::getVariable('APP_URL').'/api/betterpayment/webhook',
             'success_url' => $transaction->getReturnUrl(),
             'error_url' => EnvironmentHelper::getVariable('APP_URL').'/account/order/edit/' .$transaction->getOrder()->getId()
                 .'?error-code=CHECKOUT__ASYNC_PAYMENT_PROCESS_INTERRUPTED',
         ]);
+        $body = json_encode($requestParameters);
 
-        $headers = [
-            'Authorization' => 'Basic NzBhYmQ1OTQwODQ3ODdhMzkyZTg6NGE2NmI5MWU5YjVjOTBjYTQ3YjA=',
-            'Content-Type' => 'application/x-www-form-urlencoded'
-        ];
-        $options = [
-            'form_params' => $requestParameters
-        ];
-
-        $request = new Request('POST', $this->configReader->getAPIHostName().'/rest/payment', $headers);
-        $response = $this->client->send($request, $options);
-        // TODO check error_code = 0, means success and get transaction_id
-        // TODO log error codes and related messages to log file
-        if ($response->getStatusCode() == 200) { // TODO almost all responses are 200 code, so check and handle them accordingly
-            // store payment transaction_id to order transaction custom fields
-            $this->orderTransactionRepository->update([
-                [
-                    'id' => $transaction->getOrderTransaction()->getId(),
-                    'customFields' => [
-                        'better_payment_transaction_id' => json_decode((string) $response->getBody())->transaction_id
+        $request = new Request('POST', 'rest/payment', $headers, $body);
+        try {
+            $response = $this->client->send($request);
+            $responseBody = json_decode((string) $response->getBody());
+            if ($responseBody->error_code == 0) {
+                // store payment transaction_id to order transaction custom fields
+                $this->orderTransactionRepository->update([
+                    [
+                        'id' => $transaction->getOrderTransaction()->getId(),
+                        'customFields' => [
+                            'better_payment_transaction_id' => $responseBody->transaction_id
+                        ]
                     ]
-                ]
-            ], Context::createDefaultContext());
+                ], Context::createDefaultContext());
 
-            return json_decode((string) $response->getBody())->action_data->url;
-        }
-        else {
-            throw new \RuntimeException($response->getBody()); // TODO improve exception handling
+                return $responseBody->action_data->url;
+            }
+            else {
+                throw new RuntimeException('Better Payment Client ERROR: ' . $response->getBody());
+            }
+        } catch (GuzzleException $exception) {
+            throw new RuntimeException('Better Payment Client ERROR: ' . $exception->getMessage());
         }
     }
 }

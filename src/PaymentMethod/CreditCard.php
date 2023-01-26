@@ -6,9 +6,10 @@ use BetterPayment\PaymentHandler\CreditCardHandler;
 
 class CreditCard extends PaymentMethod
 {
+    public const SHORTNAME = 'cc';
+
     protected string $handler = CreditCardHandler::class;
     protected string $name = 'Credit Card';
-    protected string $shortname = 'cc';
     protected string $description = 'Credit Card description';
     protected string $icon = '';
     protected array $translations = [
