@@ -44,6 +44,7 @@
 
         <service id="BetterPayment\Util\OrderParametersReader">
             <argument type="service" id="customer_address.repository" />
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService" />
         </service>
 
         <service id="BetterPayment\Controller\WebhookController" public="true">
