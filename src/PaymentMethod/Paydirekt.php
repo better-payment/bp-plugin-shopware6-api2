@@ -6,9 +6,10 @@ use BetterPayment\PaymentHandler\PaydirektHandler;
 
 class Paydirekt extends PaymentMethod
 {
+    public const SHORTNAME = 'paydirekt';
+
     protected string $handler = PaydirektHandler::class;
     protected string $name = 'Paydirekt';
-    protected string $shortname = 'paydirekt';
     protected string $description = 'Paydirekt description';
     protected string $icon = '';
     protected array $translations = [
