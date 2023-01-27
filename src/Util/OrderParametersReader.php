@@ -4,29 +4,35 @@ namespace BetterPayment\Util;
 
 
 use Shopware\Core\Checkout\Customer\Aggregate\CustomerAddress\CustomerAddressEntity;
+use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionEntity;
 use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Checkout\Payment\Cart\SyncPaymentTransactionStruct;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
+use Shopware\Core\System\SystemConfig\SystemConfigService;
 
 class OrderParametersReader
 {
     private EntityRepositoryInterface $customerAddressRepository;
+    private SystemConfigService $systemConfigService;
 
-    // TODO check whether parent object is not null before accessing child object
-    public function __construct(EntityRepositoryInterface $customerAddressRepository)
-    {
+    public function __construct(
+        EntityRepositoryInterface $customerAddressRepository,
+        SystemConfigService $systemConfigService
+    ){
         $this->customerAddressRepository = $customerAddressRepository;
+        $this->systemConfigService = $systemConfigService;
     }
 
     public function getAllParameters(SyncPaymentTransactionStruct $transaction): array
     {
-        // TODO change order to class variable maybe?
+        $orderTransaction = $transaction->getOrderTransaction();
         $order = $transaction->getOrder();
 
+        // TODO in all below methods check whether parent object is not null before accessing child object
         return array_merge(
-            $this->getCommonParameters($order),
+            $this->getCommonParameters($order, $orderTransaction),
             $this->getBillingAddressParameters($order),
             $this->getShippingAddressParameters($order),
             $this->getCompanyDetailParameters($order)
@@ -34,19 +40,19 @@ class OrderParametersReader
     }
 
     // The following parameters are used with all payment methods
-    public function getCommonParameters(OrderEntity $order): array
+    public function getCommonParameters(OrderEntity $order, OrderTransactionEntity $orderTransaction): array
     {
         return [
             // Any alphanumeric string to identify the Merchant’s order.
             'order_id' => $order->getOrderNumber(),
             // See details about merchant reference - https://testdashboard.betterpayment.de/docs/#merchant-reference
-            'merchant_reference' => $order->getId().' - '.'SHOP NAME HERE', // TODO fetch shop name or sales channel name https://developer.shopware.com/docs/guides/plugins/plugins/plugin-fundamentals/dependency-injection
+            'merchant_reference' => $order->getOrderNumber().' - '.$this->systemConfigService->getString('core.basicInformation.shopName', $order->getSalesChannelId()),
             // Including possible shipping costs and VAT (float number)
-            'amount' => $order->getAmountTotal(), // TODO needs to be checked
+            'amount' => $order->getAmountTotal(),
             // Should be set if the order includes any shipping costs (float number)
-            'shipping_costs' => $order->getShippingTotal(), // TODO needs to be checked
+            'shipping_costs' => $order->getShippingTotal(),
             // VAT amount (float number) if known
-            'vat' => $order->getAmountTotal() - $order->getAmountNet(), // TODO needs to be checked $transaction->getOrderTransaction()->getAmount()->getCalculatedTaxes()->getAmount()
+            'vat' => $orderTransaction->getAmount()->getCalculatedTaxes()->getAmount(),
             // 3-letter currency code (ISO 4217). Defaults to ‘EUR’
             'currency' => $order->getCurrency()->getIsoCode(),
             // If the order includes a risk check, this field can be set to prevent customers from making multiple order attempts with different personal information.
