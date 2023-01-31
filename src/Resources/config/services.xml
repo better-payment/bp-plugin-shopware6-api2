@@ -29,7 +29,12 @@
 
         <service id="BetterPayment\PaymentHandler\SEPADirectDebitHandler">
             <argument type="service" id="Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler" />
+
             <tag name="shopware.payment.method.sync" />
+        </service>
+
+        <service id="BetterPayment\EventSubscriber\CheckoutEventSubscriber">
+            <tag name="kernel.event_subscriber"/>
         </service>
 
         <service id="BetterPayment\Util\BetterPaymentClient">
