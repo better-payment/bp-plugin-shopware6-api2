@@ -1,0 +1,10 @@
+{% sw_extends '@Storefront/storefront/page/checkout/confirm/index.html.twig' %}
+
+{% block page_checkout_confirm %}
+    {{ parent() }}
+
+    {% if page.extensions.betterpayment %}
+        {% sw_include page.extensions.betterpayment.template %}
+    {% endif %}
+{% endblock %}
+
