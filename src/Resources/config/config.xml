@@ -146,13 +146,38 @@
     </card>
 
     <card>
-        <title>Payment Method specific configuration</title>
-        <title lang="de-DE">Payment Method specific configuration</title>
+        <title>SEPA Direct Debit payment method configuration</title>
+        <title lang="de-DE">SEPA Direct Debit payment method configuration</title>
 
         <input-field>
-            <name>example</name>
-            <label>Example</label>
-            <helpText>will be added and customised later on</helpText>
+            <name>sepaDirectDebitCreditorID</name>
+            <label>Creditor ID</label>
+            <helpText>This is demo help text</helpText>
+            <helpText lang="de-DE">This is demo help text (DE)</helpText>
+        </input-field>
+        <input-field>
+            <name>sepaDirectDebitCompanyName</name>
+            <label>Company name</label>
+            <helpText>This is demo help text</helpText>
+            <helpText lang="de-DE">This is demo help text (DE)</helpText>
+        </input-field>
+    </card>
+
+    <card>
+        <title>SEPA Direct Debit B2B payment method configuration</title>
+        <title lang="de-DE">SEPA Direct Debit B2B payment method configuration</title>
+
+        <input-field>
+            <name>sepaDirectDebitB2BCreditorID</name>
+            <label>Creditor ID</label>
+            <helpText>This is demo help text</helpText>
+            <helpText lang="de-DE">This is demo help text (DE)</helpText>
+        </input-field>
+        <input-field>
+            <name>sepaDirectDebitB2BCompanyName</name>
+            <label>Company name</label>
+            <helpText>This is demo help text</helpText>
+            <helpText lang="de-DE">This is demo help text (DE)</helpText>
         </input-field>
     </card>
 </config>

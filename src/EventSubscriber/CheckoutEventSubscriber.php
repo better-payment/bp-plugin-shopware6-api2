@@ -2,14 +2,24 @@
 
 namespace BetterPayment\EventSubscriber;
 
+use BetterPayment\PaymentHandler\SEPADirectDebitB2BHandler;
 use BetterPayment\PaymentHandler\SEPADirectDebitHandler;
 use BetterPayment\Storefront\Struct\CheckoutData;
+use BetterPayment\Util\ConfigReader;
+use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Storefront\Page\Checkout\Confirm\CheckoutConfirmPageLoadedEvent;
 use Shopware\Storefront\Page\PageLoadedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class CheckoutEventSubscriber implements EventSubscriberInterface
 {
+    private ConfigReader $configReader;
+
+    public function __construct(ConfigReader $configReader)
+    {
+        $this->configReader = $configReader;
+    }
+
     /**
      * @inheritDoc
      */
@@ -28,6 +38,14 @@ class CheckoutEventSubscriber implements EventSubscriberInterface
 
         if ($paymentMethod->getHandlerIdentifier() == SEPADirectDebitHandler::class) {
             $data = new CheckoutData();
+
+            $data->assign([
+                'template' => '@Storefront/betterpayment/sepa-direct-debit.html.twig',
+                'creditorID' => $this->configReader->get('sepaDirectDebitCreditorID'),
+                'companyName' => $this->configReader->get('sepaDirectDebitCompanyName'),
+                'mandateReference' => Uuid::randomHex(),
+            ]);
+
             $page->addExtension(CheckoutData::EXTENSION_NAME, $data);
         }
     }

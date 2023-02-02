@@ -6,9 +6,10 @@ use BetterPayment\PaymentHandler\SEPADirectDebitHandler;
 
 class SEPADirectDebit extends PaymentMethod
 {
+    public const SHORTNAME = 'dd';
+
     protected string $handler = SEPADirectDebitHandler::class;
     protected string $name = 'SEPA Direct Debit';
-    protected string $shortname = 'dd';
     protected string $description = 'SEPA Direct Debit description';
     protected string $icon = '';
     protected array $translations = [
