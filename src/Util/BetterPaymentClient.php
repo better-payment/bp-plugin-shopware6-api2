@@ -86,7 +86,7 @@ class BetterPaymentClient
         ];
 
         $orderParameters = $this->orderParametersReader->getAllParameters($transaction);
-        if ($paymentType == SEPADirectDebit::SHORTNAME) {
+        if ($paymentType == SEPADirectDebit::SHORTNAME || $paymentType == SEPADirectDebitB2B::SHORTNAME) {
             $orderParameters += [
                 'account_holder' => $dataBag->get('betterpayment_account_holder'),
                 'iban' => $dataBag->get('betterpayment_iban'),

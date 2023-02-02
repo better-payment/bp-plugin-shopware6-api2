@@ -48,5 +48,17 @@ class CheckoutEventSubscriber implements EventSubscriberInterface
 
             $page->addExtension(CheckoutData::EXTENSION_NAME, $data);
         }
+        elseif ($paymentMethod->getHandlerIdentifier() == SEPADirectDebitB2BHandler::class) {
+            $data = new CheckoutData();
+
+            $data->assign([
+                'template' => '@Storefront/betterpayment/sepa-direct-debit.html.twig',
+                'creditorID' => $this->configReader->get('sepaDirectDebitB2BCreditorID'),
+                'companyName' => $this->configReader->get('sepaDirectDebitB2BCompanyName'),
+                'mandateReference' => Uuid::randomHex(),
+            ]);
+
+            $page->addExtension(CheckoutData::EXTENSION_NAME, $data);
+        }
     }
 }
