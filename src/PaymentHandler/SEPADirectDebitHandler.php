@@ -26,7 +26,6 @@ class SEPADirectDebitHandler implements SynchronousPaymentHandlerInterface
 
     public function pay(SyncPaymentTransactionStruct $transaction, RequestDataBag $dataBag, SalesChannelContext $salesChannelContext): void
     {
-        dd($dataBag);
         try {
             $status = $this->betterPaymentClient->syncRequest($transaction, SEPADirectDebit::SHORTNAME, $dataBag);
         } catch (\Exception $e) {
