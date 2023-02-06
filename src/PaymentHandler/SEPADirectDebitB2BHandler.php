@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace BetterPayment\PaymentHandler;
 
@@ -27,7 +27,7 @@ class SEPADirectDebitB2BHandler implements SynchronousPaymentHandlerInterface
     public function pay(SyncPaymentTransactionStruct $transaction, RequestDataBag $dataBag, SalesChannelContext $salesChannelContext): void
     {
         try {
-            $status = $this->betterPaymentClient->syncRequest($transaction, SEPADirectDebitB2B::SHORTNAME, $dataBag);
+            $status = $this->betterPaymentClient->request($transaction, SEPADirectDebitB2B::SHORTNAME, $dataBag)->status;
         } catch (\Exception $e) {
             throw new SyncPaymentProcessException(
                 $transaction->getOrderTransaction()->getId(),
@@ -40,7 +40,7 @@ class SEPADirectDebitB2BHandler implements SynchronousPaymentHandlerInterface
             $this->orderTransactionStateHandler->process($transaction->getOrderTransaction()->getId(), $context);
         }
         else {
-            $this->orderTransactionStateHandler->fail($transaction->getOrderTransaction()->getId(), $context);
+            $this->orderTransactionStateHandler->reopen($transaction->getOrderTransaction()->getId(), $context);
         }
     }
 }

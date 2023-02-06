@@ -1,13 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace BetterPayment\Util;
 
+use BetterPayment\Installer\PaymentMethodInstaller;
+use BetterPayment\PaymentMethod\Invoice;
+use BetterPayment\PaymentMethod\InvoiceB2B;
+use BetterPayment\PaymentMethod\PaymentMethod;
 use BetterPayment\PaymentMethod\SEPADirectDebit;
 use BetterPayment\PaymentMethod\SEPADirectDebitB2B;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Request;
 use RuntimeException;
+use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionEntity;
 use Shopware\Core\Checkout\Payment\Cart\AsyncPaymentTransactionStruct;
 use Shopware\Core\Checkout\Payment\Cart\SyncPaymentTransactionStruct;
 use Shopware\Core\DevOps\Environment\EnvironmentHelper;
@@ -20,7 +25,6 @@ class BetterPaymentClient
     private ConfigReader $configReader;
     private OrderParametersReader $orderParametersReader;
     private EntityRepositoryInterface $orderTransactionRepository;
-    private Client $client;
 
     public function __construct(
         ConfigReader $configReader,
@@ -30,45 +34,19 @@ class BetterPaymentClient
         $this->configReader = $configReader;
         $this->orderParametersReader = $orderParametersReader;
         $this->orderTransactionRepository = $orderTransactionRepository;
-        $this->client = new Client([
-            'base_uri' => $this->configReader->getAPIHostName()
-        ]);
     }
 
-    public function request(AsyncPaymentTransactionStruct $transaction, string $paymentType): string
+    public function request(SyncPaymentTransactionStruct $transaction, string $paymentType, RequestDataBag $dataBag = null)
     {
-        $headers = [
-            'Authorization' => 'Basic '.base64_encode($this->configReader->getAPIKey().':'.$this->configReader->getOutgoingKey()),
-            'Content-Type' => 'application/json'
-        ];
-
-        $orderParameters = $this->orderParametersReader->getAllParameters($transaction);
-        $requestParameters = array_merge($orderParameters, [
-            'payment_type' => $paymentType,
-            'risk_check_approval' => '1',
-            'postback_url' => EnvironmentHelper::getVariable('APP_URL').'/api/betterpayment/webhook',
-            'success_url' => $transaction->getReturnUrl(),
-            'error_url' => EnvironmentHelper::getVariable('APP_URL').'/account/order/edit/' .$transaction->getOrder()->getId()
-                .'?error-code=CHECKOUT__ASYNC_PAYMENT_PROCESS_INTERRUPTED',
-        ]);
+        $requestParameters = $this->getRequestParameters($transaction, $paymentType, $dataBag);
         $body = json_encode($requestParameters);
-
-        $request = new Request('POST', 'rest/payment', $headers, $body);
+        $request = new Request('POST', 'rest/payment', $this->getHeaders(), $body);
         try {
-            $response = $this->client->send($request);
+            $response = $this->getClient()->send($request);
             $responseBody = json_decode((string) $response->getBody());
             if ($responseBody->error_code == 0) {
-                // store payment transaction_id to order transaction custom fields
-                $this->orderTransactionRepository->update([
-                    [
-                        'id' => $transaction->getOrderTransaction()->getId(),
-                        'customFields' => [
-                            'better_payment_transaction_id' => $responseBody->transaction_id
-                        ]
-                    ]
-                ], Context::createDefaultContext());
-
-                return $responseBody->action_data->url;
+                $this->storeBetterPaymentTransactionID($transaction->getOrderTransaction(), $responseBody->transaction_id);
+                return $responseBody;
             }
             else {
                 throw new RuntimeException('Better Payment Client ERROR: ' . $response->getBody());
@@ -78,54 +56,114 @@ class BetterPaymentClient
         }
     }
 
-    public function syncRequest(SyncPaymentTransactionStruct $transaction, string $paymentType, RequestDataBag $dataBag)
+    private function getClient(): Client
     {
-        $headers = [
+        return new Client([
+            'base_uri' => $this->configReader->getAPIHostName()
+        ]);
+    }
+
+    private function getHeaders(): array
+    {
+        return [
             'Authorization' => 'Basic '.base64_encode($this->configReader->getAPIKey().':'.$this->configReader->getOutgoingKey()),
             'Content-Type' => 'application/json'
         ];
+    }
 
-        $orderParameters = $this->orderParametersReader->getAllParameters($transaction);
+    // TODO refactor this method
+    private function getRequestParameters(SyncPaymentTransactionStruct $transaction, string $paymentType, RequestDataBag $dataBag = null): array
+    {
+        // this is common for almost all payment methods
+        $requestParameters = $this->orderParametersReader->getAllParameters($transaction);
+
+        // this is specific to Direct Debit payment methods
         if ($paymentType == SEPADirectDebit::SHORTNAME || $paymentType == SEPADirectDebitB2B::SHORTNAME) {
-            $orderParameters += [
+            $requestParameters += [
                 'account_holder' => $dataBag->get('betterpayment_account_holder'),
                 'iban' => $dataBag->get('betterpayment_iban'),
                 'bic' => $dataBag->get('betterpayment_bic'),
                 'sepa_mandate' => $dataBag->get('betterpayment_sepa_mandate')
             ];
         }
-        $requestParameters = array_merge($orderParameters, [
+
+        // this is specific to Invoice payment methods
+        if ($paymentType == Invoice::SHORTNAME || $paymentType == InvoiceB2B::SHORTNAME) {
+            $requestParameters += $this->riskCheckParameters();
+        }
+
+        // this is common for all payment methods
+        $requestParameters += [
             'payment_type' => $paymentType,
             'risk_check_approval' => '1',
             'postback_url' => EnvironmentHelper::getVariable('APP_URL').'/api/betterpayment/webhook',
-//            'success_url' => $transaction->getReturnUrl(),
-//            'error_url' => EnvironmentHelper::getVariable('APP_URL').'/account/order/edit/' .$transaction->getOrder()->getId()
-//                .'?error-code=CHECKOUT__ASYNC_PAYMENT_PROCESS_INTERRUPTED',
-        ]);
-        $body = json_encode($requestParameters);
+        ];
 
-        $request = new Request('POST', 'rest/payment', $headers, $body);
-        try {
-            $response = $this->client->send($request);
-            $responseBody = json_decode((string) $response->getBody());
-            if ($responseBody->error_code == 0) {
-                // store payment transaction_id to order transaction custom fields
-                $this->orderTransactionRepository->update([
-                    [
-                        'id' => $transaction->getOrderTransaction()->getId(),
-                        'customFields' => [
-                            'better_payment_transaction_id' => $responseBody->transaction_id
-                        ]
-                    ]
-                ], Context::createDefaultContext());
-
-                return $responseBody->status;
-            }
-            else {
-                throw new RuntimeException('Better Payment Client ERROR: ' . $response->getBody());
-            }
-        } catch (GuzzleException $exception) {
-            throw new RuntimeException('Better Payment Client ERROR: ' . $exception->getMessage());
+        if (get_class($transaction) == AsyncPaymentTransactionStruct::class) {
+            $requestParameters += [
+                'success_url' => $transaction->getReturnUrl(),
+                'error_url' => EnvironmentHelper::getVariable('APP_URL').'/account/order/edit/' .$transaction->getOrder()->getId()
+                    .'?error-code=CHECKOUT__ASYNC_PAYMENT_PROCESS_INTERRUPTED',
+            ];
         }
+
+        return $requestParameters;
+    }
+
+    // store better payment transaction_id in order transaction custom fields
+    private function storeBetterPaymentTransactionID(OrderTransactionEntity $orderTransactionEntity, string $betterPaymentTransactionID): void
+    {
+        // TODO once again make sure below line is not working
+//        $orderTransactionEntity->setCustomFields();
+
+        $this->orderTransactionRepository->update([
+            [
+                'id' => $orderTransactionEntity->getId(),
+                'customFields' => [
+                    'better_payment_transaction_id' => $betterPaymentTransactionID
+                ]
+            ]
+        ], Context::createDefaultContext());
+    }
+
+    // TODO this can be used to remove $paymentType parameter dependency from request() method
+    private function getPaymentMethodByTransaction(SyncPaymentTransactionStruct $transaction): ?PaymentMethod
+    {
+        $handler = $transaction->getOrderTransaction()->getPaymentMethod()->getHandlerIdentifier();
+        foreach (PaymentMethodInstaller::PAYMENT_METHODS as $PAYMENT_METHOD) {
+            /** @var PaymentMethod $paymentMethod */
+            $paymentMethod = new $PAYMENT_METHOD();
+            if ($paymentMethod->getHandler() == $handler)
+                return $paymentMethod;
+        }
+
+        return null;
+    }
+
+    // TODO this can be used to generalise preparing payment method specific request parameters
+    private function paymentMethodParameters(PaymentMethod $paymentMethod): array
+    {
+        // TODO make dataBag class variable to fetch it here as $this->dataBag
+        $dataBag = new RequestDataBag();
+        switch ($paymentMethod) {
+            case SEPADirectDebit::class:
+            case SEPADirectDebitB2B::class:
+                return [
+                    'account_holder' => $dataBag->get('betterpayment_account_holder'),
+                    'iban' => $dataBag->get('betterpayment_iban'),
+                    'bic' => $dataBag->get('betterpayment_bic'),
+                    'sepa_mandate' => $dataBag->get('betterpayment_sepa_mandate')
+                ];
+            default:
+                return [];
+        }
+    }
+
+    private function riskCheckParameters(): array
+    {
+        return [
+            'date_of_birth' => '2000-01-01',
+            'gender' => 'm'
+        ];
     }
 }
