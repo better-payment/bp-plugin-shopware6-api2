@@ -58,7 +58,7 @@ class WebhookController extends AbstractController
     {
         switch ($betterPaymentTransactionState) {
             case 'started':
-                $this->orderTransactionStateHandler->reopen($orderTransactionID, $context);
+                $this->orderTransactionStateHandler->process($orderTransactionID, $context);
                 break;
             case 'authorized':
                 $this->orderTransactionStateHandler->authorize($orderTransactionID, $context);
@@ -90,6 +90,8 @@ class WebhookController extends AbstractController
                 else
                     $this->orderTransactionStateHandler->refundPartially($orderTransactionID, $context);
                 break;
+            default:
+                $this->orderTransactionStateHandler->reopen($orderTransactionID, $context);
         }
     }
 }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace BetterPayment\PaymentHandler;
 
@@ -33,7 +33,7 @@ class PaydirektHandler implements AsynchronousPaymentHandlerInterface
     {
         // Method that sends the return URL to the external gateway and gets a redirect URL back
         try {
-            $redirectUrl = $this->betterPaymentClient->request($transaction, Paydirekt::SHORTNAME);
+            $redirectUrl = $this->betterPaymentClient->request($transaction, Paydirekt::SHORTNAME)->action_data->url;
         } catch (\Exception $e) {
             throw new AsyncPaymentProcessException(
                 $transaction->getOrderTransaction()->getId(),
