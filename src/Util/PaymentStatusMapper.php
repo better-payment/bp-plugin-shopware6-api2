@@ -18,7 +18,7 @@ class PaymentStatusMapper
     {
         switch ($betterPaymentTransactionState) {
             case 'started':
-                $this->orderTransactionStateHandler->process($orderTransactionID, $context);
+                $this->orderTransactionStateHandler->reopen($orderTransactionID, $context);
                 break;
             case 'authorized':
                 $this->orderTransactionStateHandler->authorize($orderTransactionID, $context);
