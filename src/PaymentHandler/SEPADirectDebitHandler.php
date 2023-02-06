@@ -4,7 +4,7 @@ namespace BetterPayment\PaymentHandler;
 
 use BetterPayment\PaymentMethod\SEPADirectDebit;
 use BetterPayment\Util\BetterPaymentClient;
-use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler;
+use BetterPayment\Util\PaymentStatusMapper;
 use Shopware\Core\Checkout\Payment\Cart\PaymentHandler\SynchronousPaymentHandlerInterface;
 use Shopware\Core\Checkout\Payment\Cart\SyncPaymentTransactionStruct;
 use Shopware\Core\Checkout\Payment\Exception\SyncPaymentProcessException;
@@ -13,14 +13,14 @@ use Shopware\Core\System\SalesChannel\SalesChannelContext;
 
 class SEPADirectDebitHandler implements SynchronousPaymentHandlerInterface
 {
-    private OrderTransactionStateHandler $orderTransactionStateHandler;
+    private PaymentStatusMapper $paymentStatusMapper;
     private BetterPaymentClient $betterPaymentClient;
 
     public function __construct(
-        OrderTransactionStateHandler $orderTransactionStateHandler,
+        PaymentStatusMapper $paymentStatusMapper,
         BetterPaymentClient $betterPaymentClient
     ){
-        $this->orderTransactionStateHandler = $orderTransactionStateHandler;
+        $this->paymentStatusMapper = $paymentStatusMapper;
         $this->betterPaymentClient = $betterPaymentClient;
     }
 
@@ -28,19 +28,14 @@ class SEPADirectDebitHandler implements SynchronousPaymentHandlerInterface
     {
         try {
             $status = $this->betterPaymentClient->request($transaction, SEPADirectDebit::SHORTNAME, $dataBag)->status;
+            $context = $salesChannelContext->getContext();
+
+            $this->paymentStatusMapper->updateOrderTransactionState($transaction->getOrderTransaction()->getId(), $status, $context);
         } catch (\Exception $e) {
             throw new SyncPaymentProcessException(
                 $transaction->getOrderTransaction()->getId(),
                 'An error occurred during the communication with external payment gateway' . PHP_EOL . $e->getMessage()
             );
-        }
-
-        $context = $salesChannelContext->getContext();
-        if ($status == 'started') {
-            $this->orderTransactionStateHandler->process($transaction->getOrderTransaction()->getId(), $context);
-        }
-        else {
-            $this->orderTransactionStateHandler->reopen($transaction->getOrderTransaction()->getId(), $context);
         }
     }
 }
