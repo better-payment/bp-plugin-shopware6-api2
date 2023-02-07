@@ -39,7 +39,7 @@ class CreditCardHandler implements AsynchronousPaymentHandlerInterface/*, Refund
     {
         // Method that sends the return URL to the external gateway and gets a redirect URL back
         try {
-            $redirectUrl = $this->betterPaymentClient->request($transaction, CreditCard::SHORTNAME);
+            $redirectUrl = $this->betterPaymentClient->request($transaction, CreditCard::SHORTNAME)->action_data->url;
         } catch (\Exception $e) {
             throw new AsyncPaymentProcessException(
                 $transaction->getOrderTransaction()->getId(),
