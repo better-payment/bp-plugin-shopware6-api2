@@ -6,9 +6,10 @@ use BetterPayment\PaymentHandler\InvoiceB2BHandler;
 
 class InvoiceB2B extends PaymentMethod
 {
+    public const SHORTNAME = 'kar_b2b';
+
     protected string $handler = InvoiceB2BHandler::class;
     protected string $name = 'Invoice (B2B)';
-    protected string $shortname = 'kar_b2b';
     protected string $description = 'Invoice (B2B) description';
     protected string $icon = '';
     protected array $translations = [
