@@ -72,6 +72,7 @@
         </service>
 
         <service id="BetterPayment\Util\OrderParametersReader">
+            <argument type="service" id="order_address.repository" />
             <argument type="service" id="customer_address.repository" />
             <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService" />
         </service>
