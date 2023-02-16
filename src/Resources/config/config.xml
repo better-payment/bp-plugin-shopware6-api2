@@ -161,6 +161,18 @@
             <helpText>This is demo help text</helpText>
             <helpText lang="de-DE">This is demo help text (DE)</helpText>
         </input-field>
+        <input-field type="bool">
+            <name>sepaDirectDebitCollectDateOfBirth</name>
+            <label>Collect date of birth</label>
+            <helpText>May be used for risk checks</helpText>
+            <helpText lang="de-DE">May be used for risk checks (DE)</helpText>
+        </input-field>
+        <input-field type="bool">
+            <name>sepaDirectDebitCollectGender</name>
+            <label>Collect gender</label>
+            <helpText>May be used for risk checks</helpText>
+            <helpText lang="de-DE">May be used for risk checks (DE)</helpText>
+        </input-field>
     </card>
 
     <card>
@@ -178,6 +190,90 @@
             <label>Company name</label>
             <helpText>This is demo help text</helpText>
             <helpText lang="de-DE">This is demo help text (DE)</helpText>
+        </input-field>
+        <input-field type="bool">
+            <name>sepaDirectDebitB2BCollectDateOfBirth</name>
+            <label>Collect date of birth</label>
+            <helpText>May be used for risk checks</helpText>
+            <helpText lang="de-DE">May be used for risk checks (DE)</helpText>
+        </input-field>
+        <input-field type="bool">
+            <name>sepaDirectDebitB2BCollectGender</name>
+            <label>Collect gender</label>
+            <helpText>May be used for risk checks</helpText>
+            <helpText lang="de-DE">May be used for risk checks (DE)</helpText>
+        </input-field>
+    </card>
+
+    <card>
+        <title>Invoice payment method configuration</title>
+        <title lang="de-DE">Invoice payment method configuration</title>
+
+        <input-field type="bool">
+            <name>invoiceDisplayInstruction</name>
+            <label>Display payment instruction to the customer</label>
+            <helpText>If these fields exist, we will show them in checkout page, instructing the customer that they should send ORDER_ID as a reference with amount due to this bank account</helpText>
+            <helpText lang="de-DE">If these fields exist, we will show them in checkout page, instructing the customer that they should send ORDER_ID as a reference with amount due to this bank account (DE)</helpText>
+        </input-field>
+        <input-field>
+            <name>invoiceIBAN</name>
+            <label>IBAN (optional)</label>
+            <helpText>IBAN of merchant</helpText>
+            <helpText lang="de-DE">IBAN of merchant (DE)</helpText>
+        </input-field>
+        <input-field>
+            <name>invoiceBIC</name>
+            <label>BIC (optional)</label>
+            <helpText>BIC of merchant</helpText>
+            <helpText lang="de-DE">BIC of merchant (DE)</helpText>
+        </input-field>
+        <input-field type="bool">
+            <name>invoiceCollectDateOfBirth</name>
+            <label>Collect date of birth</label>
+            <helpText>May be used for risk checks</helpText>
+            <helpText lang="de-DE">May be used for risk checks (DE)</helpText>
+        </input-field>
+        <input-field type="bool">
+            <name>invoiceCollectGender</name>
+            <label>Collect gender</label>
+            <helpText>May be used for risk checks</helpText>
+            <helpText lang="de-DE">May be used for risk checks (DE)</helpText>
+        </input-field>
+    </card>
+
+    <card>
+        <title>Invoice B2B payment method configuration</title>
+        <title lang="de-DE">Invoice B2B payment method configuration</title>
+
+        <input-field type="bool">
+            <name>invoiceB2BDisplayInstruction</name>
+            <label>Display payment instruction to the customer</label>
+            <helpText>If these fields exist, we will show them in checkout page, instructing the customer that they should send ORDER_ID as a reference with amount due to this bank account</helpText>
+            <helpText lang="de-DE">If these fields exist, we will show them in checkout page, instructing the customer that they should send ORDER_ID as a reference with amount due to this bank account (DE)</helpText>
+        </input-field>
+        <input-field>
+            <name>invoiceB2BIBAN</name>
+            <label>IBAN (optional)</label>
+            <helpText>IBAN of merchant</helpText>
+            <helpText lang="de-DE">IBAN of merchant (DE)</helpText>
+        </input-field>
+        <input-field>
+            <name>invoiceB2BBIC</name>
+            <label>BIC (optional)</label>
+            <helpText>BIC of merchant</helpText>
+            <helpText lang="de-DE">BIC of merchant (DE)</helpText>
+        </input-field>
+        <input-field type="bool">
+            <name>invoiceB2BCollectDateOfBirth</name>
+            <label>Collect date of birth</label>
+            <helpText>May be used for risk checks</helpText>
+            <helpText lang="de-DE">May be used for risk checks (DE)</helpText>
+        </input-field>
+        <input-field type="bool">
+            <name>invoiceB2BCollectGender</name>
+            <label>Collect gender</label>
+            <helpText>May be used for risk checks</helpText>
+            <helpText lang="de-DE">May be used for risk checks (DE)</helpText>
         </input-field>
     </card>
 </config>
