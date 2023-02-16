@@ -145,7 +145,7 @@ class OrderParametersReader
     {
         return [
             // Company name
-            'company' => $order->getBillingAddress()->getCompany(), // TODO get company name from shipping maybe ?
+            'company' => $order->getOrderCustomer()->getCompany(), // TODO get company name from billing address maybe ?
             // Starts with ISO 3166-1 alpha2 followed by 2 to 11 characters. See more details about Vat - http://ec.europa.eu/taxation_customs/vies/
             'company_vat_id' => $order->getOrderCustomer()->getVatIds()[0], // TODO VAT_ID is available from billingAddress too
             // Company trade registry no
