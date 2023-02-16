@@ -37,9 +37,14 @@ class WebhookController extends AbstractController
             $betterPaymentTransactionState = $request->get('status');
             $orderTransactionID = $this->getOrderTransactionByBetterPaymentTransactionID($betterPaymentTransactionID, $context)->getId();
 
-            $this->paymentStatusMapper->updateOrderTransactionState($orderTransactionID, $betterPaymentTransactionState, $context);
+            if ($orderTransactionID) {
+                $this->paymentStatusMapper->updateOrderTransactionState($orderTransactionID, $betterPaymentTransactionState, $context);
 
-            return new Response($request->get('message'), 200);
+                return new Response($request->get('message'), 200);
+            }
+            else {
+                return new Response('Transaction not found', 404);
+            }
         }
         else {
             return new Response('checksum verification failed', 401);

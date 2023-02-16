@@ -12,6 +12,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Request;
 use RuntimeException;
+use Shopware\Core\Checkout\Customer\CustomerEntity;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionEntity;
 use Shopware\Core\Checkout\Payment\Cart\AsyncPaymentTransactionStruct;
 use Shopware\Core\Checkout\Payment\Cart\SyncPaymentTransactionStruct;
@@ -87,9 +88,12 @@ class BetterPaymentClient
             ];
         }
 
-        // this is specific to Invoice payment methods
-        if ($paymentType == Invoice::SHORTNAME || $paymentType == InvoiceB2B::SHORTNAME) {
-            $requestParameters += $this->riskCheckParameters();
+        // this is specific to following payment methods
+        if ($paymentType == Invoice::SHORTNAME || $paymentType == InvoiceB2B::SHORTNAME
+            || $paymentType == SEPADirectDebit::SHORTNAME || $paymentType == SEPADirectDebitB2B::SHORTNAME)
+        {
+            $customer = $transaction->getOrder()->getOrderCustomer()->getCustomer();
+            $requestParameters += $this->riskCheckParameters($paymentType, $customer);
         }
 
         // this is common for all payment methods
@@ -159,11 +163,56 @@ class BetterPaymentClient
         }
     }
 
-    private function riskCheckParameters(): array
+    private function riskCheckParameters(string $paymentType, CustomerEntity $customer): array
     {
-        return [
-            'date_of_birth' => '2000-01-01',
-            'gender' => 'm'
-        ];
+        $params = [];
+
+        // depending on payment method(type) and config option retrieve birthdate
+        if (($paymentType == SEPADirectDebit::SHORTNAME && $this->configReader->getBool(ConfigReader::SEPA_DIRECT_DEBIT_COLLECT_DATE_OF_BIRTH))
+            || ($paymentType == SEPADirectDebitB2B::SHORTNAME && $this->configReader->getBool(ConfigReader::SEPA_DIRECT_DEBIT_B2B_COLLECT_DATE_OF_BIRTH))
+            || ($paymentType == Invoice::SHORTNAME && $this->configReader->getBool(ConfigReader::INVOICE_COLLECT_DATE_OF_BIRTH))
+            || ($paymentType == InvoiceB2B::SHORTNAME && $this->configReader->getBool(ConfigReader::INVOICE_B2B_COLLECT_DATE_OF_BIRTH)))
+        {
+            $params += [
+                'date_of_birth' => $this->getBirthday($customer)
+            ];
+        }
+
+        // depending on payment method(type) and config option retrieve gender
+        if (($paymentType == SEPADirectDebit::SHORTNAME && $this->configReader->getBool(ConfigReader::SEPA_DIRECT_DEBIT_COLLECT_GENDER))
+            || ($paymentType == SEPADirectDebitB2B::SHORTNAME && $this->configReader->getBool(ConfigReader::SEPA_DIRECT_DEBIT_B2B_COLLECT_GENDER))
+            || ($paymentType == Invoice::SHORTNAME && $this->configReader->getBool(ConfigReader::INVOICE_COLLECT_GENDER))
+            || ($paymentType == InvoiceB2B::SHORTNAME && $this->configReader->getBool(ConfigReader::INVOICE_B2B_COLLECT_GENDER)))
+        {
+            $params += [
+                'gender' => $this->getGender($customer)
+            ];
+        }
+
+        return $params;
+    }
+
+    // birthdate field must be activated in shopware
+    private function getBirthday(CustomerEntity $customer): ?string
+    {
+        return $customer->getBirthday() ? $customer->getBirthday()->format('Y-m-d') : null;
+    }
+
+    // salutation is used to determine customer gender for now
+    private function getGender(CustomerEntity $customer): string
+    {
+        if ($customer->getSalutation()) {
+            switch ($customer->getSalutation()->getSalutationKey()) {
+                case 'mr':
+                    return 'm';
+                case 'mrs':
+                    return 'f';
+                default:
+                    return 'd'; // as required by BP API
+            }
+        }
+        else {
+            return '';
+        }
     }
 }
