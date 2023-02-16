@@ -4,6 +4,7 @@ namespace BetterPayment\Util;
 
 
 use Shopware\Core\Checkout\Customer\Aggregate\CustomerAddress\CustomerAddressEntity;
+use Shopware\Core\Checkout\Order\Aggregate\OrderAddress\OrderAddressEntity;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionEntity;
 use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Checkout\Payment\Cart\SyncPaymentTransactionStruct;
@@ -14,13 +15,16 @@ use Shopware\Core\System\SystemConfig\SystemConfigService;
 
 class OrderParametersReader
 {
+    private EntityRepositoryInterface $orderAddressRepository;
     private EntityRepositoryInterface $customerAddressRepository;
     private SystemConfigService $systemConfigService;
 
     public function __construct(
+        EntityRepositoryInterface $orderAddressRepository,
         EntityRepositoryInterface $customerAddressRepository,
         SystemConfigService $systemConfigService
     ){
+        $this->orderAddressRepository = $orderAddressRepository;
         $this->customerAddressRepository = $customerAddressRepository;
         $this->systemConfigService = $systemConfigService;
     }
@@ -67,7 +71,16 @@ class OrderParametersReader
     // Billing information is required in all payment methods.
     public function getBillingAddressParameters(OrderEntity $order): array
     {
-        $billingAddress = $order->getBillingAddress();
+        // this custom query for getting billing address made
+        // because it cannot fetch countryState name directly by $order->getBillingAddress()
+        $criteria = new Criteria([$order->getBillingAddressId()]);
+        $criteria->addAssociations(['country', 'countryState']);
+
+        /** @var OrderAddressEntity $billingAddress */
+        $billingAddress = $this->orderAddressRepository->search(
+            $criteria,
+            Context::createDefaultContext()
+        )->first();
 
         return [
             // Street address
@@ -79,7 +92,7 @@ class OrderParametersReader
             // The postal code or zip code of the billing address
             'postal_code' => $billingAddress->getZipcode(),
             // The county, state or region of the billing address
-            'state' => $billingAddress->getCountryState() ? $billingAddress->getCountryState()->getName() : null, //TODO check it again
+            'state' => $billingAddress->getCountryState() ? $billingAddress->getCountryState()->getName() : null,
             // Country Code in ISO 3166-1
             'country' => $billingAddress->getCountry()->getIso(),
             // Customer’s first name
@@ -117,7 +130,7 @@ class OrderParametersReader
             // The postal code or zip code of the shipping address
             'shipping_postal_code' => $shippingAddress->getZipcode(),
             // The county, state or region of the shipping address
-            'shipping_state' => $shippingAddress->getCountryState() ? $shippingAddress->getCountryState()->getName() : null, //TODO check it again
+            'shipping_state' => $shippingAddress->getCountryState() ? $shippingAddress->getCountryState()->getName() : null,
             // Country Code in ISO 3166-1 alpha2
             'shipping_country' => $shippingAddress->getCountry()->getIso(),
             // Customer’s first name
@@ -134,7 +147,7 @@ class OrderParametersReader
             // Company name
             'company' => $order->getBillingAddress()->getCompany(), // TODO get company name from shipping maybe ?
             // Starts with ISO 3166-1 alpha2 followed by 2 to 11 characters. See more details about Vat - http://ec.europa.eu/taxation_customs/vies/
-            'company_vat_id' => '',
+            'company_vat_id' => $order->getOrderCustomer()->getVatIds()[0], // TODO VAT_ID is available from billingAddress too
             // Company trade registry no
             'company_trade_register' => ''
         ];
