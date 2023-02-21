@@ -2,8 +2,39 @@
     {% parent %}
 
     <sw-card title="Better Payment Refunds">
-        <sw-button>
-            Create new refund
-        </sw-button>
+        <sw-container>
+            <sw-card-section divider="bottom">
+                <sw-container columns="1fr 1fr" gap="0px 14px">
+                    <div>
+                        <sw-number-field required label="Amount" numberType="float" :digits="2" :allowEmpty="false">
+                        </sw-number-field>
+                    </div>
+                    <sw-datepicker label="Date">
+                    </sw-datepicker>
+                </sw-container>
+                <sw-textarea-field type="textarea" label="Comment">
+                </sw-textarea-field>
+                <sw-button>
+                    Create new refund
+                </sw-button>
+            </sw-card-section>
+{#            <sw-card-section secondary="true" slim="true">#}
+            <sw-grid :items="refunds" :selectable="false" :table="true">
+                <template #columns="{ item }">
+                    <sw-grid-column flex="minmax(50px, 1fr)" label="Amount">
+                        {{ item.amount }}
+                    </sw-grid-column>
+
+                    <sw-grid-column flex="minmax(400px, 1fr)" label="Comment">
+                        {{ item.comment }}
+                    </sw-grid-column>
+
+                    <sw-grid-column flex="minmax(100px, 1fr)" label="Date">
+                        {{ item.date }}
+                    </sw-grid-column>
+                </template>
+            </sw-grid>
+{#            </sw-card-section>#}
+        </sw-container>
     </sw-card>
 {% endblock %}
