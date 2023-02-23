@@ -2,39 +2,45 @@
     {% parent %}
 
     <sw-card :title="$tc('betterpayment.refund.title')">
-        <sw-container>
-            <sw-card-section divider="bottom">
+        <template #grid>
+            <sw-card-section divider="bottom" slim="true">
                 <sw-container columns="1fr 1fr" gap="0px 14px">
-                    <div>
-                        <sw-number-field required :label="$tc('betterpayment.refund.amount')" numberType="float" :digits="2" :allowEmpty="false">
-                        </sw-number-field>
-                    </div>
-                    <sw-datepicker :label="$tc('betterpayment.refund.date')">
+                    <sw-number-field
+                            required numberType="float" :digits="2" :allowEmpty="false"
+                            :label="$tc('betterpayment.refund.amount')"
+                            v-model="refund.amount">
+                    </sw-number-field>
+                    <sw-datepicker
+                            :label="$tc('betterpayment.refund.date')"
+                            v-model="refund.execution_date">
                     </sw-datepicker>
                 </sw-container>
-                <sw-textarea-field type="textarea" :label="$tc('betterpayment.refund.comment')">
+                <sw-textarea-field
+                        type="textarea"
+                        :label="$tc('betterpayment.refund.comment')"
+                        v-model="refund.comment">
                 </sw-textarea-field>
-                <sw-button>
+                <sw-button-process
+                        :processSuccess="processSuccess"
+                        :disabled="buttonDisabled"
+                        @click="storeRefund"
+                        variant="ghost"
+                        size="small"
+                        @process-finish="storeRefundFinished">
                     {{ $tc('betterpayment.refund.createNew') }}
-                </sw-button>
+                </sw-button-process>
             </sw-card-section>
-{#            <sw-card-section secondary="true" slim="true">#}
-            <sw-grid :items="refunds" :selectable="false" :table="true">
-                <template #columns="{ item }">
-                    <sw-grid-column flex="minmax(50px, 1fr)" :label="$tc('betterpayment.refund.amount')">
-                        {{ item.amount }}
-                    </sw-grid-column>
-
-                    <sw-grid-column flex="minmax(400px, 1fr)" :label="$tc('betterpayment.refund.comment')">
-                        {{ item.message }}
-                    </sw-grid-column>
-
-                    <sw-grid-column flex="minmax(100px, 1fr)" :label="$tc('betterpayment.refund.date')">
-                        {{ item.execution_date }}
-                    </sw-grid-column>
-                </template>
-            </sw-grid>
-{#            </sw-card-section>#}
-        </sw-container>
+            <sw-data-grid
+                    :isLoading="isLoading"
+                    :showSelection="false" :showActions="false"
+                    :dataSource="refunds" v-if="refunds"
+                    :columns="[
+                     { property: 'amount', label: $tc('betterpayment.refund.amount') },
+                     { property: 'message', label: $tc('betterpayment.refund.comment') },
+                     { property: 'created_at', label: $tc('betterpayment.refund.date') }
+                ]">
+                {# TODO: parse it according to shop setting for datetime #}
+            </sw-data-grid>
+        </template>
     </sw-card>
 {% endblock %}
