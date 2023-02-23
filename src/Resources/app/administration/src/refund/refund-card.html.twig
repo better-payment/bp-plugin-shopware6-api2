@@ -1,36 +1,36 @@
 {% block sw_order_detail_base_line_items_card %}
     {% parent %}
 
-    <sw-card title="Better Payment Refunds">
+    <sw-card :title="$tc('betterpayment.refund.title')">
         <sw-container>
             <sw-card-section divider="bottom">
                 <sw-container columns="1fr 1fr" gap="0px 14px">
                     <div>
-                        <sw-number-field required label="Amount" numberType="float" :digits="2" :allowEmpty="false">
+                        <sw-number-field required :label="$tc('betterpayment.refund.amount')" numberType="float" :digits="2" :allowEmpty="false">
                         </sw-number-field>
                     </div>
-                    <sw-datepicker label="Date">
+                    <sw-datepicker :label="$tc('betterpayment.refund.date')">
                     </sw-datepicker>
                 </sw-container>
-                <sw-textarea-field type="textarea" label="Comment">
+                <sw-textarea-field type="textarea" :label="$tc('betterpayment.refund.comment')">
                 </sw-textarea-field>
                 <sw-button>
-                    Create new refund
+                    {{ $tc('betterpayment.refund.createNew') }}
                 </sw-button>
             </sw-card-section>
 {#            <sw-card-section secondary="true" slim="true">#}
             <sw-grid :items="refunds" :selectable="false" :table="true">
                 <template #columns="{ item }">
-                    <sw-grid-column flex="minmax(50px, 1fr)" label="Amount">
+                    <sw-grid-column flex="minmax(50px, 1fr)" :label="$tc('betterpayment.refund.amount')">
                         {{ item.amount }}
                     </sw-grid-column>
 
-                    <sw-grid-column flex="minmax(400px, 1fr)" label="Comment">
-                        {{ item.comment }}
+                    <sw-grid-column flex="minmax(400px, 1fr)" :label="$tc('betterpayment.refund.comment')">
+                        {{ item.message }}
                     </sw-grid-column>
 
-                    <sw-grid-column flex="minmax(100px, 1fr)" label="Date">
-                        {{ item.date }}
+                    <sw-grid-column flex="minmax(100px, 1fr)" :label="$tc('betterpayment.refund.date')">
+                        {{ item.execution_date }}
                     </sw-grid-column>
                 </template>
             </sw-grid>

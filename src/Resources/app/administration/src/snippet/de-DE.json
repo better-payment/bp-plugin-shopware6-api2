@@ -1,0 +1,11 @@
+{
+  "betterpayment": {
+    "refund": {
+      "title": "Better Payment Refunds (DE)",
+      "amount": "Amount",
+      "comment": "Comment",
+      "date": "Date",
+      "createNew": "Create new refund"
+    }
+  }
+}
