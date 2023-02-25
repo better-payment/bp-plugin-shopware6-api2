@@ -1,11 +1,24 @@
 {
   "betterpayment": {
     "refund": {
-      "title": "Better Payment Refunds",
-      "amount": "Amount",
-      "comment": "Comment",
-      "date": "Date",
-      "createNew": "Create new refund"
+      "cardTitle": "Better Payment Refunds",
+
+      "labels": {
+        "amount": "Amount",
+        "comment": "Comment",
+        "transactionId": "Transaction ID",
+        "date": "Date",
+        "noMoreRefunds": "Transaction is refunded completely. You cannot create anymore refunds."
+      },
+
+      "actions": {
+        "createNew": "Create new refund"
+      },
+
+      "messages": {
+        "successfulRefundRequest": "Refunded successfully",
+        "invalidRefundRequest": "Invalid refund request"
+      }
     }
   }
 }
