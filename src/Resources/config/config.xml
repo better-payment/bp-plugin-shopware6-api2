@@ -104,18 +104,21 @@
         <input-field>
             <name>testAPIKey</name>
             <label>API key</label>
+            <label lang="de-DE">API key (DE)</label>
             <helpText>This is demo help text</helpText>
             <helpText lang="de-DE">This is demo help text (DE)</helpText>
         </input-field>
         <input-field>
             <name>testOutgoingKey</name>
             <label>Outgoing key</label>
+            <label lang="de-DE">Outgoing key (DE)</label>
             <helpText>This is demo help text</helpText>
             <helpText lang="de-DE">This is demo help text (DE)</helpText>
         </input-field>
         <input-field>
             <name>testIncomingKey</name>
             <label>Incoming key</label>
+            <label lang="de-DE">Incoming key (DE)</label>
             <helpText>This is demo help text</helpText>
             <helpText lang="de-DE">This is demo help text (DE)</helpText>
         </input-field>
@@ -128,18 +131,21 @@
         <input-field>
             <name>productionAPIKey</name>
             <label>API key</label>
+            <label lang="de-DE">API key (DE)</label>
             <helpText>This is demo help text</helpText>
             <helpText lang="de-DE">This is demo help text (DE)</helpText>
         </input-field>
         <input-field>
             <name>productionOutgoingKey</name>
             <label>Outgoing key</label>
+            <label lang="de-DE">Outgoing key (DE)</label>
             <helpText>This is demo help text</helpText>
             <helpText lang="de-DE">This is demo help text (DE)</helpText>
         </input-field>
         <input-field>
             <name>productionIncomingKey</name>
             <label>Incoming key</label>
+            <label lang="de-DE">Incoming key (DE)</label>
             <helpText>This is demo help text</helpText>
             <helpText lang="de-DE">This is demo help text (DE)</helpText>
         </input-field>
@@ -152,24 +158,28 @@
         <input-field>
             <name>sepaDirectDebitCreditorID</name>
             <label>Creditor ID</label>
+            <label lang="de-DE">Creditor ID (DE)</label>
             <helpText>This is demo help text</helpText>
             <helpText lang="de-DE">This is demo help text (DE)</helpText>
         </input-field>
         <input-field>
             <name>sepaDirectDebitCompanyName</name>
             <label>Company name</label>
+            <label lang="de-DE">Company name (DE)</label>
             <helpText>This is demo help text</helpText>
             <helpText lang="de-DE">This is demo help text (DE)</helpText>
         </input-field>
         <input-field type="bool">
             <name>sepaDirectDebitCollectDateOfBirth</name>
             <label>Collect date of birth</label>
+            <label lang="de-DE">Collect date of birth (DE)</label>
             <helpText>May be used for risk checks</helpText>
             <helpText lang="de-DE">May be used for risk checks (DE)</helpText>
         </input-field>
         <input-field type="bool">
             <name>sepaDirectDebitCollectGender</name>
             <label>Collect gender</label>
+            <label lang="de-DE">Collect gender (DE)</label>
             <helpText>May be used for risk checks</helpText>
             <helpText lang="de-DE">May be used for risk checks (DE)</helpText>
         </input-field>
@@ -182,24 +192,28 @@
         <input-field>
             <name>sepaDirectDebitB2BCreditorID</name>
             <label>Creditor ID</label>
+            <label lang="de-DE">Creditor ID (DE)</label>
             <helpText>This is demo help text</helpText>
             <helpText lang="de-DE">This is demo help text (DE)</helpText>
         </input-field>
         <input-field>
             <name>sepaDirectDebitB2BCompanyName</name>
             <label>Company name</label>
+            <label lang="de-DE">Company name (DE)</label>
             <helpText>This is demo help text</helpText>
             <helpText lang="de-DE">This is demo help text (DE)</helpText>
         </input-field>
         <input-field type="bool">
             <name>sepaDirectDebitB2BCollectDateOfBirth</name>
             <label>Collect date of birth</label>
+            <label lang="de-DE">Collect date of birth (DE)</label>
             <helpText>May be used for risk checks</helpText>
             <helpText lang="de-DE">May be used for risk checks (DE)</helpText>
         </input-field>
         <input-field type="bool">
             <name>sepaDirectDebitB2BCollectGender</name>
             <label>Collect gender</label>
+            <label lang="de-DE">Collect gender (DE)</label>
             <helpText>May be used for risk checks</helpText>
             <helpText lang="de-DE">May be used for risk checks (DE)</helpText>
         </input-field>
@@ -212,30 +226,35 @@
         <input-field type="bool">
             <name>invoiceDisplayInstruction</name>
             <label>Display payment instruction to the customer</label>
+            <label lang="de-DE">Display payment instruction to the customer (DE)</label>
             <helpText>If these fields exist, we will show them in checkout page, instructing the customer that they should send ORDER_ID as a reference with amount due to this bank account</helpText>
             <helpText lang="de-DE">If these fields exist, we will show them in checkout page, instructing the customer that they should send ORDER_ID as a reference with amount due to this bank account (DE)</helpText>
         </input-field>
         <input-field>
             <name>invoiceIBAN</name>
             <label>IBAN (optional)</label>
+            <label lang="de-DE">IBAN (optional) (DE)</label>
             <helpText>IBAN of merchant</helpText>
             <helpText lang="de-DE">IBAN of merchant (DE)</helpText>
         </input-field>
         <input-field>
             <name>invoiceBIC</name>
             <label>BIC (optional)</label>
+            <label lang="de-DE">BIC (optional) (DE)</label>
             <helpText>BIC of merchant</helpText>
             <helpText lang="de-DE">BIC of merchant (DE)</helpText>
         </input-field>
         <input-field type="bool">
             <name>invoiceCollectDateOfBirth</name>
             <label>Collect date of birth</label>
+            <label lang="de-DE">Collect date of birth (DE)</label>
             <helpText>May be used for risk checks</helpText>
             <helpText lang="de-DE">May be used for risk checks (DE)</helpText>
         </input-field>
         <input-field type="bool">
             <name>invoiceCollectGender</name>
             <label>Collect gender</label>
+            <label lang="de-DE">Collect gender (DE)</label>
             <helpText>May be used for risk checks</helpText>
             <helpText lang="de-DE">May be used for risk checks (DE)</helpText>
         </input-field>
@@ -248,30 +267,35 @@
         <input-field type="bool">
             <name>invoiceB2BDisplayInstruction</name>
             <label>Display payment instruction to the customer</label>
+            <label lang="de-DE">Display payment instruction to the customer (DE)</label>
             <helpText>If these fields exist, we will show them in checkout page, instructing the customer that they should send ORDER_ID as a reference with amount due to this bank account</helpText>
             <helpText lang="de-DE">If these fields exist, we will show them in checkout page, instructing the customer that they should send ORDER_ID as a reference with amount due to this bank account (DE)</helpText>
         </input-field>
         <input-field>
             <name>invoiceB2BIBAN</name>
             <label>IBAN (optional)</label>
+            <label lang="de-DE">IBAN (optional) (DE)</label>
             <helpText>IBAN of merchant</helpText>
             <helpText lang="de-DE">IBAN of merchant (DE)</helpText>
         </input-field>
         <input-field>
             <name>invoiceB2BBIC</name>
             <label>BIC (optional)</label>
+            <label lang="de-DE">BIC (optional) (DE)</label>
             <helpText>BIC of merchant</helpText>
             <helpText lang="de-DE">BIC of merchant (DE)</helpText>
         </input-field>
         <input-field type="bool">
             <name>invoiceB2BCollectDateOfBirth</name>
             <label>Collect date of birth</label>
+            <label lang="de-DE">Collect date of birth (DE)</label>
             <helpText>May be used for risk checks</helpText>
             <helpText lang="de-DE">May be used for risk checks (DE)</helpText>
         </input-field>
         <input-field type="bool">
             <name>invoiceB2BCollectGender</name>
             <label>Collect gender</label>
+            <label lang="de-DE">Collect gender (DE)</label>
             <helpText>May be used for risk checks</helpText>
             <helpText lang="de-DE">May be used for risk checks (DE)</helpText>
         </input-field>
