@@ -39,8 +39,7 @@ class CheckoutFinishEventSubscriber implements EventSubscriberInterface
             $data->assign([
                 'template' => '@Storefront/betterpayment/invoice-instructions.html.twig',
                 'iban' => $this->configReader->getString(ConfigReader::INVOICE_IBAN),
-                'bic' => $this->configReader->getString(ConfigReader::INVOICE_BIC),
-                'orderID' => $page->getOrder()->getOrderNumber(),
+                'bic' => $this->configReader->getString(ConfigReader::INVOICE_BIC)
             ]);
 
             $page->addExtension(CheckoutData::EXTENSION_NAME, $data);
@@ -51,8 +50,7 @@ class CheckoutFinishEventSubscriber implements EventSubscriberInterface
             $data->assign([
                 'template' => '@Storefront/betterpayment/invoice-instructions.html.twig',
                 'iban' => $this->configReader->getString(ConfigReader::INVOICE_B2B_IBAN),
-                'bic' => $this->configReader->getString(ConfigReader::INVOICE_B2B_BIC),
-                'orderID' => $page->getOrder()->getOrderNumber(),
+                'bic' => $this->configReader->getString(ConfigReader::INVOICE_B2B_BIC)
             ]);
 
             $page->addExtension(CheckoutData::EXTENSION_NAME, $data);
