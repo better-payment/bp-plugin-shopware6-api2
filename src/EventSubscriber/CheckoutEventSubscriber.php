@@ -9,6 +9,7 @@ use BetterPayment\PaymentHandler\SEPADirectDebitHandler;
 use BetterPayment\Storefront\Struct\CheckoutData;
 use BetterPayment\Util\ConfigReader;
 use Shopware\Core\Framework\Uuid\Uuid;
+use Shopware\Storefront\Page\Account\Order\AccountEditOrderPageLoadedEvent;
 use Shopware\Storefront\Page\Checkout\Confirm\CheckoutConfirmPageLoadedEvent;
 use Shopware\Storefront\Page\PageLoadedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -29,7 +30,7 @@ class CheckoutEventSubscriber implements EventSubscriberInterface
     {
         return [
             CheckoutConfirmPageLoadedEvent::class => 'addForm',
-//            AccountEditOrderPageLoadedEvent::class => 'addForm'
+            AccountEditOrderPageLoadedEvent::class => 'addForm'
         ];
     }
 

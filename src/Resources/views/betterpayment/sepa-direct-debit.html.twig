@@ -1,35 +1,33 @@
-<h3>Direct Debit extra info</h3>
+<h3>{{ 'betterpayment.sepa-direct-debit.title' | trans }}</h3>
 
 <input hidden name="betterpayment_account_holder" value="{{ context.customer.firstName ~ ' ' ~ context.customer.lastName }}" form="confirmOrderForm">
 <input hidden name="betterpayment_sepa_mandate" value="{{ page.extensions.betterpayment.mandateReference }}" form="confirmOrderForm">
 
 <div class="form-group">
-    <label for="betterpayment_iban">IBAN: <span class="text-danger">*</span></label>
+    <label for="betterpayment_iban">{{ 'betterpayment.sepa-direct-debit.iban' | trans }}<span class="text-danger">*</span></label>
     <input type="text" id="betterpayment_iban" name="betterpayment_iban" class="form-control" form="confirmOrderForm" required>
-    <small class="form-text text-muted">Enter your IBAN number</small>
+    <small class="form-text text-muted">{{ 'betterpayment.sepa-direct-debit.ibanHelpText' | trans }}</small>
 </div>
 <div class="form-group">
-    <label for="betterpayment_bic">BIC:</label>
+    <label for="betterpayment_bic">{{ 'betterpayment.sepa-direct-debit.bic' | trans }}</label>
     <input type="text" id="betterpayment_bic" name="betterpayment_bic" class="form-control" form="confirmOrderForm">
-    <small class="form-text text-muted">Enter your BIC number (optional)</small>
+    <small class="form-text text-muted">{{ 'betterpayment.sepa-direct-debit.bicHelpText' | trans }}</small>
 </div>
 
 <div>
-    <label><b>Customer name: </b></label> {{ context.customer.firstName ~ ' ' ~ context.customer.lastName }}
+    <label><b>{{ 'betterpayment.sepa-direct-debit.customerName' | trans }}</b></label> {{ context.customer.firstName ~ ' ' ~ context.customer.lastName }}
     <br>
-    <label><b>Creditor ID: </b></label> {{ page.extensions.betterpayment.creditorID }}
+    <label><b>{{ 'betterpayment.sepa-direct-debit.creditorId' | trans }}</b></label> {{ page.extensions.betterpayment.creditorID }}
     <br>
-    <label><b>Company name: </b></label> {{ page.extensions.betterpayment.companyName }}
+    <label><b>{{ 'betterpayment.sepa-direct-debit.companyName' | trans }}</b></label> {{ page.extensions.betterpayment.companyName }}
     <br>
-    <label><b>Mandate reference: </b></label> {{ page.extensions.betterpayment.mandateReference }}
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed in dapibus elit, eget laoreet ipsum. Ut et quam in odio blandit congue eu non tellus.</p>
-    <p>Nam commodo varius enim, non laoreet velit. Quisque vitae libero quis mauris rutrum bibendum vel vel libero.</p>
-    <p>Suspendisse potenti. Nam laoreet, mauris vel bibendum tristique, enim odio viverra metus, vel euismod velit odio a nibh.</p>
+    <label><b>{{ 'betterpayment.sepa-direct-debit.mandateReference' | trans }}</b></label> {{ page.extensions.betterpayment.mandateReference }}
+    <p>{{ 'betterpayment.sepa-direct-debit.description' | trans }}</p>
     <div>
         <input type="checkbox" id="agreement" form="confirmOrderForm" required>
-        <label for="agreement">I agree to the following mandate <span class="text-danger">*</span></label>
+        <label for="agreement">{{ 'betterpayment.sepa-direct-debit.agreementLabel' | trans }}<span class="text-danger">*</span></label>
     </div>
 </div>
 
 <br>
-<p class="text-muted">Fields indicated with <span class="text-danger">*</span> are required</p>
+<p class="text-muted">{{ 'betterpayment.sepa-direct-debit.requiredLabel' | trans }}<span class="text-danger">*</span></p>

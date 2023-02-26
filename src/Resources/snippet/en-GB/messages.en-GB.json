@@ -1,0 +1,26 @@
+{
+  "betterpayment": {
+    "invoice-instructions": {
+      "title": "Invoice instructions",
+      "iban": "IBAN: ",
+      "bic": "BIC: ",
+      "reference": "Reference: ",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed in dapibus elit, eget laoreet ipsum. Ut et quam in odio blandit congue eu non tellus."
+    },
+
+    "sepa-direct-debit": {
+      "title": "Direct Debit extra info",
+      "iban": "IBAN: ",
+      "ibanHelpText": "Enter your IBAN number",
+      "bic": "BIC: ",
+      "bicHelpText": "Enter your BIC number (optional)",
+      "customerName": "Customer name: ",
+      "creditorId": "Creditor ID: ",
+      "companyName": "Company name: ",
+      "mandateReference": "Mandate reference: ",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed in dapibus elit, eget laoreet ipsum. Ut et quam in odio blandit congue eu non tellus. Nam commodo varius enim, non laoreet velit. Quisque vitae libero quis mauris rutrum bibendum vel vel libero. Suspendisse potenti. Nam laoreet, mauris vel bibendum tristique, enim odio viverra metus, vel euismod velit odio a nibh.",
+      "agreementLabel": "I agree to the following mandate ",
+      "requiredLabel": "Required fields are indicated with "
+    }
+  }
+}
