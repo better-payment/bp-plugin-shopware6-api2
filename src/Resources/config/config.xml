@@ -4,14 +4,12 @@
     
     <card>
         <title>Base configuration</title>
-        <title lang="de-DE">Base configuration (DE)</title>
+        <title lang="de-DE">Basis-Konfiguration</title>
 
         <input-field type="single-select">
             <name>whiteLabel</name>
-            <label>Choose your account owner company</label>
-            <label lang="de-DE">Choose your account owner company (DE)</label>
-            <helpText>This is demo help text</helpText>
-            <helpText lang="de-DE">This is demo help text (DE)</helpText>
+            <label>Select your payment provider</label>
+            <label lang="de-DE">Wählen Sie Ihren Zahlungsanbieter</label>
             <defaultValue>betterpayment</defaultValue>
             <options>
                 <option>
@@ -43,10 +41,6 @@
                     <name>abilitaPay</name>
                 </option>
                 <option>
-                    <id>prodefacto</id>
-                    <name>Prodefacto-Pay</name>
-                </option>
-                <option>
                     <id>vr_dienste</id>
                     <name>VR-Dienste</name>
                 </option>
@@ -70,19 +64,15 @@
                     <id>vivapago</id>
                     <name>Vivapago</name>
                 </option>
-                <option>
-                    <id>bakersoftpay</id>
-                    <name>BakerSoft</name>
-                </option>
             </options>
         </input-field>
         
         <input-field type="single-select">
             <name>environment</name>
             <label>Environment</label>
-            <label lang="de-DE">Environment (DE)</label>
-            <helpText>This is demo help text</helpText>
-            <helpText lang="de-DE">This is demo help text (DE)</helpText>
+            <label lang="de-DE">Umwelt</label>
+            <helpText>Select test for testing purposes. Use production only for your live shops.</helpText>
+            <helpText lang="de-DE">Wählen Sie Test für Testzwecke. Verwenden Sie Produktion nur für Ihre Live-Shops.</helpText>
             <defaultValue>test</defaultValue>
             <options>
                 <option>
@@ -99,123 +89,123 @@
     
     <card>
         <title>Test environment credentials</title>
-        <title lang="de-DE">Test environment credentials (DE)</title>
+        <title lang="de-DE">Anmeldedaten für die Testumgebung</title>
 
         <input-field>
             <name>testAPIKey</name>
             <label>API key</label>
-            <label lang="de-DE">API key (DE)</label>
-            <helpText>This is demo help text</helpText>
-            <helpText lang="de-DE">This is demo help text (DE)</helpText>
+            <label lang="de-DE">API-Key</label>
+            <helpText>You can find your test API key in test dashboard of the payment provider.</helpText>
+            <helpText lang="de-DE">Sie können Ihre Test-API-Key im Test-Dashboard des Zahlungsanbieters finden.</helpText>
         </input-field>
         <input-field>
             <name>testOutgoingKey</name>
             <label>Outgoing key</label>
-            <label lang="de-DE">Outgoing key (DE)</label>
-            <helpText>This is demo help text</helpText>
-            <helpText lang="de-DE">This is demo help text (DE)</helpText>
+            <label lang="de-DE">Outgoing-Key</label>
+            <helpText>You can find your test Outgoing key in test dashboard of the payment provider.</helpText>
+            <helpText lang="de-DE">Sie können Ihre Test-Outgoing-Key im Test-Dashboard des Zahlungsanbieters finden.</helpText>
         </input-field>
         <input-field>
             <name>testIncomingKey</name>
             <label>Incoming key</label>
-            <label lang="de-DE">Incoming key (DE)</label>
-            <helpText>This is demo help text</helpText>
-            <helpText lang="de-DE">This is demo help text (DE)</helpText>
+            <label lang="de-DE">Incoming-Key</label>
+            <helpText>You can find your test Incoming key in test dashboard of the payment provider.</helpText>
+            <helpText lang="de-DE">Sie können Ihre Test-Incoming-Key im Test-Dashboard des Zahlungsanbieters finden.</helpText>
         </input-field>
     </card>
 
     <card>
         <title>Production environment credentials</title>
-        <title lang="de-DE">Production environment credentials (DE)</title>
+        <title lang="de-DE">Anmeldedaten für die Produktionsumgebung</title>
 
         <input-field>
             <name>productionAPIKey</name>
             <label>API key</label>
-            <label lang="de-DE">API key (DE)</label>
-            <helpText>This is demo help text</helpText>
-            <helpText lang="de-DE">This is demo help text (DE)</helpText>
+            <label lang="de-DE">API-Key</label>
+            <helpText>You can find your API key in production dashboard of the payment provider.</helpText>
+            <helpText lang="de-DE">Sie können Ihren API-Key im Produktions-Dashboard des Zahlungsanbieters finden.</helpText>
         </input-field>
         <input-field>
             <name>productionOutgoingKey</name>
             <label>Outgoing key</label>
-            <label lang="de-DE">Outgoing key (DE)</label>
-            <helpText>This is demo help text</helpText>
-            <helpText lang="de-DE">This is demo help text (DE)</helpText>
+            <label lang="de-DE">Outgoing-Key</label>
+            <helpText>You can find your Outgoing key in production dashboard of the payment provider.</helpText>
+            <helpText lang="de-DE">Sie können Ihren Outgoing-Key im Produktions-Dashboard des Zahlungsanbieters finden.</helpText>
         </input-field>
         <input-field>
             <name>productionIncomingKey</name>
             <label>Incoming key</label>
-            <label lang="de-DE">Incoming key (DE)</label>
-            <helpText>This is demo help text</helpText>
-            <helpText lang="de-DE">This is demo help text (DE)</helpText>
+            <label lang="de-DE">Incoming-Key</label>
+            <helpText>You can find your Incoming key in production dashboard of the payment provider.</helpText>
+            <helpText lang="de-DE">Sie können Ihren Incoming-Key im Produktions-Dashboard des Zahlungsanbieters finden.</helpText>
         </input-field>
     </card>
 
     <card>
         <title>SEPA Direct Debit payment method configuration</title>
-        <title lang="de-DE">SEPA Direct Debit payment method configuration</title>
+        <title lang="de-DE">Konfiguration der Zahlungsmethode SEPA-Lastschrifteinzug</title>
 
         <input-field>
             <name>sepaDirectDebitCreditorID</name>
             <label>Creditor ID</label>
-            <label lang="de-DE">Creditor ID (DE)</label>
-            <helpText>This is demo help text</helpText>
-            <helpText lang="de-DE">This is demo help text (DE)</helpText>
+            <label lang="de-DE">Gläubiger-ID</label>
+            <helpText>You need to provide a valid Creditor ID, to be shown in mandate agreement on the checkout page.</helpText>
+            <helpText lang="de-DE">Sie müssen eine gültige Gläubiger-ID angeben, die im Mandatsvertrag auf der Kassenseite angezeigt wird.</helpText>
         </input-field>
         <input-field>
             <name>sepaDirectDebitCompanyName</name>
             <label>Company name</label>
-            <label lang="de-DE">Company name (DE)</label>
-            <helpText>This is demo help text</helpText>
-            <helpText lang="de-DE">This is demo help text (DE)</helpText>
+            <label lang="de-DE">Firmenname</label>
+            <helpText>You need to provide Company Name, to be shown in mandate reference agreement on the checkout page.</helpText>
+            <helpText lang="de-DE">Sie müssen den Firmennamen angeben, der in der Mandatsreferenzvereinbarung auf der Kassenseite angezeigt werden soll.</helpText>
         </input-field>
         <input-field type="bool">
             <name>sepaDirectDebitCollectDateOfBirth</name>
             <label>Collect date of birth</label>
-            <label lang="de-DE">Collect date of birth (DE)</label>
-            <helpText>May be used for risk checks</helpText>
-            <helpText lang="de-DE">May be used for risk checks (DE)</helpText>
+            <label lang="de-DE">Geburtsdatum sammeln</label>
+            <helpText>If you have configured risk checks with the payment provider, it may require date of birth from your customers.</helpText>
+            <helpText lang="de-DE">Wenn Sie beim Zahlungsanbieter Risikoprüfungen konfiguriert haben, kann er von Ihren Kunden das Geburtsdatum verlangen.</helpText>
         </input-field>
         <input-field type="bool">
             <name>sepaDirectDebitCollectGender</name>
-            <label>Collect gender</label>
-            <label lang="de-DE">Collect gender (DE)</label>
-            <helpText>May be used for risk checks</helpText>
-            <helpText lang="de-DE">May be used for risk checks (DE)</helpText>
+            <label>Collect gender information</label>
+            <label lang="de-DE">Sammeln Sie geschlechtsspezifische Informationen</label>
+            <helpText>If you have configured risk checks with the payment provider, it may require date of gender from your customers.</helpText>
+            <helpText lang="de-DE">Wenn Sie Risikoprüfungen mit dem Zahlungsanbieter konfiguriert haben, kann dieser das Datum des Geschlechts von Ihren Kunden verlangen.</helpText>
         </input-field>
     </card>
 
     <card>
         <title>SEPA Direct Debit B2B payment method configuration</title>
-        <title lang="de-DE">SEPA Direct Debit B2B payment method configuration</title>
+        <title lang="de-DE">Konfiguration der B2B-Zahlungsmethode SEPA-Lastschrift</title>
 
         <input-field>
             <name>sepaDirectDebitB2BCreditorID</name>
             <label>Creditor ID</label>
-            <label lang="de-DE">Creditor ID (DE)</label>
-            <helpText>This is demo help text</helpText>
-            <helpText lang="de-DE">This is demo help text (DE)</helpText>
+            <label lang="de-DE">Gläubiger-ID</label>
+            <helpText>You need to provide a valid Creditor ID, to be shown in mandate agreement on the checkout page.</helpText>
+            <helpText lang="de-DE">Sie müssen eine gültige Gläubiger-ID angeben, die im Mandatsvertrag auf der Kassenseite angezeigt wird.</helpText>
         </input-field>
         <input-field>
             <name>sepaDirectDebitB2BCompanyName</name>
             <label>Company name</label>
-            <label lang="de-DE">Company name (DE)</label>
-            <helpText>This is demo help text</helpText>
-            <helpText lang="de-DE">This is demo help text (DE)</helpText>
+            <label lang="de-DE">Firmenname</label>
+            <helpText>You need to provide Company Name, to be shown in mandate reference agreement on the checkout page.</helpText>
+            <helpText lang="de-DE">Sie müssen den Firmennamen angeben, der in der Mandatsreferenzvereinbarung auf der Kassenseite angezeigt werden soll.</helpText>
         </input-field>
         <input-field type="bool">
             <name>sepaDirectDebitB2BCollectDateOfBirth</name>
             <label>Collect date of birth</label>
-            <label lang="de-DE">Collect date of birth (DE)</label>
-            <helpText>May be used for risk checks</helpText>
-            <helpText lang="de-DE">May be used for risk checks (DE)</helpText>
+            <label lang="de-DE">Geburtsdatum sammeln</label>
+            <helpText>If you have configured risk checks with the payment provider, it may require date of birth from your customers.</helpText>
+            <helpText lang="de-DE">Wenn Sie beim Zahlungsanbieter Risikoprüfungen konfiguriert haben, kann er von Ihren Kunden das Geburtsdatum verlangen.</helpText>
         </input-field>
         <input-field type="bool">
             <name>sepaDirectDebitB2BCollectGender</name>
-            <label>Collect gender</label>
-            <label lang="de-DE">Collect gender (DE)</label>
-            <helpText>May be used for risk checks</helpText>
-            <helpText lang="de-DE">May be used for risk checks (DE)</helpText>
+            <label>Collect gender information</label>
+            <label lang="de-DE">Sammeln Sie geschlechtsspezifische Informationen</label>
+            <helpText>If you have configured risk checks with the payment provider, it may require date of gender from your customers.</helpText>
+            <helpText lang="de-DE">Wenn Sie Risikoprüfungen mit dem Zahlungsanbieter konfiguriert haben, kann dieser das Datum des Geschlechts von Ihren Kunden verlangen.</helpText>
         </input-field>
     </card>
 
@@ -233,16 +223,16 @@
         <input-field>
             <name>invoiceIBAN</name>
             <label>IBAN (optional)</label>
-            <label lang="de-DE">IBAN (optional) (DE)</label>
-            <helpText>IBAN of merchant</helpText>
-            <helpText lang="de-DE">IBAN of merchant (DE)</helpText>
+            <label lang="de-DE">IBAN (fakultativ)</label>
+            <helpText>Your company's IBAN.</helpText>
+            <helpText lang="de-DE">Die IBAN Ihres Unternehmens.</helpText>
         </input-field>
         <input-field>
             <name>invoiceBIC</name>
             <label>BIC (optional)</label>
-            <label lang="de-DE">BIC (optional) (DE)</label>
-            <helpText>BIC of merchant</helpText>
-            <helpText lang="de-DE">BIC of merchant (DE)</helpText>
+            <label lang="de-DE">BIC (fakultativ)</label>
+            <helpText>Your company's BIC.</helpText>
+            <helpText lang="de-DE">Der BIC Ihres Unternehmens.</helpText>
         </input-field>
         <input-field type="bool">
             <name>invoiceCollectDateOfBirth</name>
@@ -267,37 +257,37 @@
         <input-field type="bool">
             <name>invoiceB2BDisplayInstruction</name>
             <label>Display payment instruction to the customer</label>
-            <label lang="de-DE">Display payment instruction to the customer (DE)</label>
-            <helpText>If these fields exist, we will show them in checkout page, instructing the customer that they should send ORDER_ID as a reference with amount due to this bank account</helpText>
-            <helpText lang="de-DE">If these fields exist, we will show them in checkout page, instructing the customer that they should send ORDER_ID as a reference with amount due to this bank account (DE)</helpText>
+            <label lang="de-DE">Anzeige der Zahlungsanweisung an den Kunden</label>
+            <helpText>When activated, we will be instructing the customer that they should send ORDER_ID as a reference with amount due to the given bank account below.</helpText>
+            <helpText lang="de-DE">Nach der Aktivierung weisen wir den Kunden an, die ORDER_ID als Referenz mit dem fälligen Betrag an das unten angegebene Bankkonto zu senden.</helpText>
         </input-field>
         <input-field>
             <name>invoiceB2BIBAN</name>
             <label>IBAN (optional)</label>
-            <label lang="de-DE">IBAN (optional) (DE)</label>
-            <helpText>IBAN of merchant</helpText>
-            <helpText lang="de-DE">IBAN of merchant (DE)</helpText>
+            <label lang="de-DE">IBAN (fakultativ)</label>
+            <helpText>Your company's IBAN.</helpText>
+            <helpText lang="de-DE">Die IBAN Ihres Unternehmens.</helpText>
         </input-field>
         <input-field>
             <name>invoiceB2BBIC</name>
             <label>BIC (optional)</label>
-            <label lang="de-DE">BIC (optional) (DE)</label>
-            <helpText>BIC of merchant</helpText>
-            <helpText lang="de-DE">BIC of merchant (DE)</helpText>
+            <label lang="de-DE">BIC (fakultativ)</label>
+            <helpText>Your company's BIC.</helpText>
+            <helpText lang="de-DE">Der BIC Ihres Unternehmens.</helpText>
         </input-field>
         <input-field type="bool">
             <name>invoiceB2BCollectDateOfBirth</name>
             <label>Collect date of birth</label>
-            <label lang="de-DE">Collect date of birth (DE)</label>
-            <helpText>May be used for risk checks</helpText>
-            <helpText lang="de-DE">May be used for risk checks (DE)</helpText>
+            <label lang="de-DE">Geburtsdatum sammeln</label>
+            <helpText>If you have configured risk checks with the payment provider, it may require date of birth from your customers.</helpText>
+            <helpText lang="de-DE">Wenn Sie beim Zahlungsanbieter Risikoprüfungen konfiguriert haben, kann er von Ihren Kunden das Geburtsdatum verlangen.</helpText>
         </input-field>
         <input-field type="bool">
             <name>invoiceB2BCollectGender</name>
-            <label>Collect gender</label>
-            <label lang="de-DE">Collect gender (DE)</label>
-            <helpText>May be used for risk checks</helpText>
-            <helpText lang="de-DE">May be used for risk checks (DE)</helpText>
+            <label>Collect gender information</label>
+            <label lang="de-DE">Sammeln Sie geschlechtsspezifische Informationen</label>
+            <helpText>If you have configured risk checks with the payment provider, it may require date of gender from your customers.</helpText>
+            <helpText lang="de-DE">Wenn Sie Risikoprüfungen mit dem Zahlungsanbieter konfiguriert haben, kann dieser das Datum des Geschlechts von Ihren Kunden verlangen.</helpText>
         </input-field>
     </card>
 </config>
