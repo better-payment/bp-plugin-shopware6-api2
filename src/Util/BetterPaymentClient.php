@@ -198,21 +198,10 @@ class BetterPaymentClient
         return $customer->getBirthday() ? $customer->getBirthday()->format('Y-m-d') : null;
     }
 
-    // salutation is used to determine customer gender for now
-    private function getGender(CustomerEntity $customer): string
+    // custom field is used to determine customer gender
+    private function getGender(CustomerEntity $customer): ?string
     {
-        if ($customer->getSalutation()) {
-            switch ($customer->getSalutation()->getSalutationKey()) {
-                case 'mr':
-                    return 'm';
-                case 'mrs':
-                    return 'f';
-                default:
-                    return 'd'; // as required by BP API
-            }
-        }
-        else {
-            return '';
-        }
+        // returns m|f|d|null as required by API and as custom field setup (null if not set yet)
+        return $customer->getCustomFields()['better_payment_gender'];
     }
 }
