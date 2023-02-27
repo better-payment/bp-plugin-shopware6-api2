@@ -3,6 +3,11 @@
 namespace BetterPayment\EventSubscriber;
 
 use BetterPayment\Util\ConfigReader;
+use Shopware\Core\Framework\Context;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
+use Shopware\Core\System\CustomField\CustomFieldEntity;
 use Shopware\Core\System\SystemConfig\Event\SystemConfigChangedEvent;
 use Shopware\Core\System\SystemConfig\SystemConfigService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -11,11 +16,13 @@ class PluginConfigChangedEventSubscriber implements EventSubscriberInterface
 {
     private ConfigReader $configReader;
     private SystemConfigService $systemConfigService;
+    private EntityRepositoryInterface $customFieldRepository;
 
-    public function __construct(ConfigReader $configReader, SystemConfigService $systemConfigService)
+    public function __construct(ConfigReader $configReader, SystemConfigService $systemConfigService, EntityRepositoryInterface $customFieldRepository)
     {
         $this->configReader = $configReader;
         $this->systemConfigService = $systemConfigService;
+        $this->customFieldRepository = $customFieldRepository;
     }
 
     public static function getSubscribedEvents(): array
@@ -33,11 +40,30 @@ class PluginConfigChangedEventSubscriber implements EventSubscriberInterface
             $this->systemConfigService->set('core.loginRegistration.birthdayFieldRequired', $this->birthdayIsCollected());
         }
 
-        // TODO: set gender customfield active and required which was installed during plugin install or manually
         // Admin can delete that custom field, so check whether it exists first
-//        if ($this->anyCollectGenderConfigChanged($event)) {
-//
-//        }
+        if ($this->anyCollectGenderConfigChanged($event)) {
+            $context = Context::createDefaultContext();
+            $criteria = new Criteria();
+            $criteria->addFilter(new EqualsFilter('name', 'better_payment_gender'));
+
+            /** @var CustomFieldEntity $customField */
+            $customField = $this->customFieldRepository->search($criteria, $context)->first();
+
+            if ($customField) {
+                $config = $customField->getConfig() + ['validation' => 'required'];
+
+                $data = [
+                    [
+                        'id' => $customField->getId(),
+                        'active' => true,
+                        'allowCustomerWrite' => true,
+                        'config' => $config
+                    ]
+                ];
+
+                $this->customFieldRepository->update($data, $context);
+            }
+        }
     }
 
     private function anyCollectBirthdayConfigChanged(SystemConfigChangedEvent $event): bool

@@ -64,6 +64,7 @@
         <service id="BetterPayment\EventSubscriber\PluginConfigChangedEventSubscriber">
             <argument type="service" id="BetterPayment\Util\ConfigReader"/>
             <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
+            <argument type="service" id="custom_field.repository" />
 
             <tag name="kernel.event_subscriber"/>
         </service>
