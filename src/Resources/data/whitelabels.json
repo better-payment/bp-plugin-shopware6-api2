@@ -1,7 +1,7 @@
 {
   "betterpayment": {
     "test": {
-      "api_hostname": "https://devapi.betterpayment.de",
+      "api_hostname": "https://testapi.betterpayment.de",
       "dash_hostname": "testdashboard.betterpayment.de"
     },
     "production": {
