@@ -120,7 +120,8 @@ class PaymentMethodInstaller
             'handlerIdentifier' => $paymentMethod->getHandler(),
             'name' => $paymentMethod->getName(),
             'description' => $paymentMethod->getDescription(),
-            'translations' => $paymentMethod->getTranslations()
+            'translations' => $paymentMethod->getTranslations(),
+            'afterOrderEnabled' => true
         ];
 
         $this->paymentMethodRepository->create([$paymentMethodData], $context);

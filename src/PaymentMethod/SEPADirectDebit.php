@@ -10,16 +10,16 @@ class SEPADirectDebit extends PaymentMethod
 
     protected string $handler = SEPADirectDebitHandler::class;
     protected string $name = 'SEPA Direct Debit';
-    protected string $description = 'SEPA Direct Debit description';
+    protected string $description = '';
     protected string $icon = '';
     protected array $translations = [
         'de-DE' => [
-            'name' => 'SEPA Direct Debit (DE)',
-            'description' => 'SEPA Direct Debit description (DE)',
+            'name' => 'SEPA-Lastschrift',
+            'description' => '',
         ],
         'en-GB' => [
             'name' => 'SEPA Direct Debit',
-            'description' => 'SEPA Direct Debit description',
+            'description' => '',
         ],
     ];
 }
