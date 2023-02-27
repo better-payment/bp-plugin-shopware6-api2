@@ -245,7 +245,7 @@
             <name>invoiceCollectGender</name>
             <label>Collect gender information</label>
             <label lang="de-DE">Sammeln Sie geschlechtsspezifische Informationen</label>
-            <helpText>If you have configured risk checks with the payment provider, it may require gender from your customers..</helpText>
+            <helpText>If you have configured risk checks with the payment provider, it may require gender from your customers.</helpText>
             <helpText lang="de-DE">Wenn Sie beim Zahlungsanbieter Risikoprüfungen konfiguriert haben, kann es sein, dass er von Ihren Kunden ein Geschlecht verlangt.</helpText>
         </input-field>
     </card>
