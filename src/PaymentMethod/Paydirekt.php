@@ -10,16 +10,16 @@ class Paydirekt extends PaymentMethod
 
     protected string $handler = PaydirektHandler::class;
     protected string $name = 'Paydirekt';
-    protected string $description = 'Paydirekt description';
+    protected string $description = '';
     protected string $icon = '';
     protected array $translations = [
         'de-DE' => [
-            'name' => 'Paydirekt (DE)',
-            'description' => 'Paydirekt description (DE)',
+            'name' => 'Paydirekt',
+            'description' => '',
         ],
         'en-GB' => [
             'name' => 'Paydirekt',
-            'description' => 'Paydirekt description',
+            'description' => '',
         ],
     ];
 }

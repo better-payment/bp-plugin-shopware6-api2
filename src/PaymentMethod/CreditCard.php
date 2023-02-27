@@ -10,16 +10,16 @@ class CreditCard extends PaymentMethod
 
     protected string $handler = CreditCardHandler::class;
     protected string $name = 'Credit Card';
-    protected string $description = 'Credit Card description';
+    protected string $description = '';
     protected string $icon = '';
     protected array $translations = [
         'de-DE' => [
-            'name' => 'Credit Card (DE)',
-            'description' => 'Credit Card description (DE)',
+            'name' => 'Kreditkarte',
+            'description' => '',
         ],
         'en-GB' => [
             'name' => 'Credit Card',
-            'description' => 'Credit Card description',
+            'description' => '',
         ],
     ];
 }
