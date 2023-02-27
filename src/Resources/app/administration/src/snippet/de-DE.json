@@ -1,23 +1,23 @@
 {
   "betterpayment": {
     "refund": {
-      "cardTitle": "Better-Payment Erstattungen",
+      "cardTitle": "Better-Payment Rückerstattungen",
 
       "labels": {
         "amount": "Betrag",
         "comment": "Kommentar",
         "transactionId": "Transaktions-ID",
         "date": "Datum",
-        "noMoreRefunds": "Die Transaktion wird vollständig zurückerstattet. Sie können keine weiteren Erstattungen über das Zahlungsgateway ausstellen."
+        "noMoreRefunds": "Die Transaktion wurde in voller Höhe rückerstattet. Sie können keine weiteren Rückerstattungen über das Zahlungsgateway ausstellen."
       },
 
       "actions": {
-        "createNew": "Neue Erstattung erstellen"
+        "createNew": "Neue Rückerstattung erstellen"
       },
 
       "messages": {
-        "successfulRefundRequest": "Erfolgreich erstattet",
-        "invalidRefundRequest": "Erstattung fehlgeschlagen. Bitte überprüfen Sie Ihre Daten und versuchen Sie es erneut."
+        "successfulRefundRequest": "Rückerstattung erfolgreich",
+        "invalidRefundRequest": "Rückerstattung fehlgeschlagen. Bitte überprüfen Sie Ihre Daten und versuchen Sie es erneut."
       }
     }
   }
