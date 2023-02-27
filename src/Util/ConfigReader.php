@@ -7,7 +7,8 @@ use Shopware\Core\System\SystemConfig\SystemConfigService;
 class ConfigReader
 {
     private SystemConfigService $systemConfigService;
-    private const CONFIG_DOMAIN = 'BetterPayment.config.';
+
+    public const CONFIG_DOMAIN = 'BetterPayment.config.';
 
     public const ENVIRONMENT = 'environment';
     public const WHITE_LABEL = 'whiteLabel';
