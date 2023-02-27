@@ -5,22 +5,26 @@
       "iban": "IBAN: ",
       "bic": "BIC: ",
       "reference": "Reference: ",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed in dapibus elit, eget laoreet ipsum. Ut et quam in odio blandit congue eu non tellus."
+      "description": "Please, transfer the full invoice amount to the bank account displayed in this page. Your order will stay pending until the payment has been cleared."
     },
 
     "sepa-direct-debit": {
-      "title": "Direct Debit extra info",
+      "title": "Payment and mandate information",
       "iban": "IBAN: ",
-      "ibanHelpText": "Enter your IBAN number",
+      "ibanHelpText": "Please, enter your IBAN.",
       "bic": "BIC: ",
-      "bicHelpText": "Enter your BIC number (optional)",
-      "customerName": "Customer name: ",
+      "bicHelpText": "Please, enter your BIC. (optional)",
+      "customerName": "Account Holder: ",
       "creditorId": "Creditor ID: ",
       "companyName": "Company name: ",
       "mandateReference": "Mandate reference: ",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed in dapibus elit, eget laoreet ipsum. Ut et quam in odio blandit congue eu non tellus. Nam commodo varius enim, non laoreet velit. Quisque vitae libero quis mauris rutrum bibendum vel vel libero. Suspendisse potenti. Nam laoreet, mauris vel bibendum tristique, enim odio viverra metus, vel euismod velit odio a nibh.",
+      "description": "By signing this mandate form, you authorise (A) {Company Name} to send instructions to your bank to debit your account and (B) your bank to debit your account in accordance with the instructions from {NAME OF MERCHANT}. As part of your rights, you are entitled to a refund from your bank under the terms and conditions of your agreement with your bank. A refund must be claimed within eight weeks starting from the date on which your account was debited.",
       "agreementLabel": "I agree to the following mandate ",
       "requiredLabel": "Required fields are indicated with "
     }
   }
 }
+
+// B2B Mandate Description
+// Mit Ihrer Unterschrift auf diesem Mandatsformular ermächtigen Sie (A) {Name des Unternehmens}, Ihrer Bank Anweisungen zur Belastung Ihres Kontos zu erteilen, und (B) Ihre Bank, Ihr Konto gemäß den Anweisungen von {NAME DES HÄNDLERS} zu belasten. Dieses Mandat ist nur für Business-to-Business-Transaktionen bestimmt. Sie haben keinen Anspruch auf eine Erstattung durch Ihre Bank, nachdem Ihr Konto belastet wurde, aber Sie sind berechtigt, Ihre Bank aufzufordern, Ihr Konto bis zu dem Tag, an dem die Zahlung fällig ist, nicht zu belasten.
+// By signing this mandate form, you authorise (A) {Company Name} to send instructions to your bank to debit your account and (B) your bank to debit your account in accordance with the instructions from {NAME OF MERCHANT}. This mandate is only intended for business-to-business transactions. You are not entitled to a refund from your bank after your account has been debited, but you are entitled to request your bank not to debit your account up until the day on which the payment is due.

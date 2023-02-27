@@ -1,26 +1,29 @@
 {
   "betterpayment": {
     "invoice-instructions": {
-      "title": "Invoice instructions",
+      "title": "Zahlungsanweisungen für Rechnungen",
       "iban": "IBAN: ",
       "bic": "BIC: ",
-      "reference": "Reference: ",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed in dapibus elit, eget laoreet ipsum. Ut et quam in odio blandit congue eu non tellus."
+      "reference": "Referenz: ",
+      "description": "Bitte überweisen Sie den vollen Rechnungsbetrag auf das auf dieser Seite angegebene Bankkonto. Ihre Bestellung bleibt so lange offen, bis die Zahlung eingegangen ist."
     },
 
     "sepa-direct-debit": {
-      "title": "Direct Debit extra info",
+      "title": "Konto- und Mandatsinformationen",
       "iban": "IBAN: ",
-      "ibanHelpText": "Enter your IBAN number",
+      "ibanHelpText": "Geben Sie Ihre IBAN-Nummer ein",
       "bic": "BIC: ",
-      "bicHelpText": "Enter your BIC number (optional)",
-      "customerName": "Customer name: ",
-      "creditorId": "Creditor ID: ",
-      "companyName": "Company name: ",
-      "mandateReference": "Mandate reference: ",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed in dapibus elit, eget laoreet ipsum. Ut et quam in odio blandit congue eu non tellus. Nam commodo varius enim, non laoreet velit. Quisque vitae libero quis mauris rutrum bibendum vel vel libero. Suspendisse potenti. Nam laoreet, mauris vel bibendum tristique, enim odio viverra metus, vel euismod velit odio a nibh.",
-      "agreementLabel": "I agree to the following mandate ",
-      "requiredLabel": "Required fields are indicated with "
+      "bicHelpText": "Geben Sie Ihre BIC-Nummer ein (fakultativ)",
+      "customerName": "Name des Kunden: ",
+      "creditorId": "Gläubiger-ID: ",
+      "companyName": "Firmenname: ",
+      "mandateReference": "Mandatsreferenz: ",
+      "description": "Mit Ihrer Unterschrift auf diesem Mandatsformular ermächtigen (A) Sie {Name des Unternehmens}, Ihrer Bank Anweisungen zu erteilen, Ihr Konto zu belasten, und (B) Ihre Bank zu ermächtigen, Ihr Konto gemäß den Anweisungen von {NAME DES HÄNDLERS} zu belasten. Als Teil Ihrer Rechte haben Sie Anspruch auf eine Rückerstattung von Ihrer Bank gemäß den Bedingungen Ihrer Vereinbarung mit Ihrer Bank. Eine Erstattung muss innerhalb von acht Wochen ab dem Datum der Belastung Ihres Kontos beantragt werden.",
+      "agreementLabel": "Ich erkläre mich mit dem folgenden Sepa-Mandat einverstanden ",
+      "requiredLabel": "Erforderliche Felder sind gekennzeichnet mit "
     }
   }
 }
+
+// B2B Mandate Description
+// Mit Ihrer Unterschrift auf diesem Mandatsformular ermächtigen (A) Sie {Name des Unternehmens}, Ihrer Bank Anweisungen zur Belastung Ihres Kontos zu erteilen, und (B) Ihre Bank, Ihr Konto gemäß den Anweisungen von {NAME DES HÄNDLERS} zu belasten. Dieses Mandat ist nur für Business-to-Business-Transaktionen bestimmt. Sie haben keinen Anspruch auf eine Erstattung durch Ihre Bank, nachdem Ihr Konto belastet wurde, aber Sie sind berechtigt, Ihre Bank aufzufordern, Ihr Konto bis zu dem Tag, an dem die Zahlung fällig ist, nicht zu belasten.
