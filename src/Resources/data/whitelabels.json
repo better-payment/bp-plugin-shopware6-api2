@@ -2,7 +2,7 @@
   "betterpayment": {
     "test": {
       "api_hostname": "https://testapi.betterpayment.de",
-      "dash_hostname": "testdashboard.betterpayment.de"
+      "dash_hostname": "https://testdashboard.betterpayment.de"
     },
     "production": {
       "api_hostname": "https://api.betterpayment.de",
