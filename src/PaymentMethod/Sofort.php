@@ -10,16 +10,16 @@ class Sofort extends PaymentMethod
 
     protected string $handler = SofortHandler::class;
     protected string $name = 'Sofort';
-    protected string $description = 'Sofort description';
+    protected string $description = '';
     protected string $icon = '';
     protected array $translations = [
         'de-DE' => [
-            'name' => 'Sofort (DE)',
-            'description' => 'Sofort description (DE)',
+            'name' => 'Sofortuberweisung',
+            'description' => '',
         ],
         'en-GB' => [
             'name' => 'Sofort',
-            'description' => 'Sofort description',
+            'description' => '',
         ],
     ];
 }
