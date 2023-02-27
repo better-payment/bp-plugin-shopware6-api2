@@ -170,8 +170,8 @@
             <name>sepaDirectDebitCollectGender</name>
             <label>Collect gender information</label>
             <label lang="de-DE">Sammeln Sie geschlechtsspezifische Informationen</label>
-            <helpText>If you have configured risk checks with the payment provider, it may require date of gender from your customers.</helpText>
-            <helpText lang="de-DE">Wenn Sie Risikoprüfungen mit dem Zahlungsanbieter konfiguriert haben, kann dieser das Datum des Geschlechts von Ihren Kunden verlangen.</helpText>
+            <helpText>If you have configured risk checks with the payment provider, it may require gender from your customers.</helpText>
+            <helpText lang="de-DE">Wenn Sie beim Zahlungsanbieter Risikoprüfungen konfiguriert haben, kann es sein, dass er von Ihren Kunden ein Geschlecht verlangt.</helpText>
         </input-field>
     </card>
 
@@ -204,22 +204,22 @@
             <name>sepaDirectDebitB2BCollectGender</name>
             <label>Collect gender information</label>
             <label lang="de-DE">Sammeln Sie geschlechtsspezifische Informationen</label>
-            <helpText>If you have configured risk checks with the payment provider, it may require date of gender from your customers.</helpText>
-            <helpText lang="de-DE">Wenn Sie Risikoprüfungen mit dem Zahlungsanbieter konfiguriert haben, kann dieser das Datum des Geschlechts von Ihren Kunden verlangen.</helpText>
+            <helpText>If you have configured risk checks with the payment provider, it may require gender from your customers..</helpText>
+            <helpText lang="de-DE">Wenn Sie beim Zahlungsanbieter Risikoprüfungen konfiguriert haben, kann es sein, dass er von Ihren Kunden ein Geschlecht verlangt.</helpText>
         </input-field>
     </card>
 
     <card>
         <title>Invoice payment method configuration</title>
-        <title lang="de-DE">Invoice payment method configuration</title>
+        <title lang="de-DE">Konfiguration der Zahlungsmethode für Rechnungen</title>
 
         <input-field type="bool">
             <name>invoiceDisplayInstruction</name>
             <label>Display payment instruction to the customer</label>
-            <label lang="de-DE">Display payment instruction to the customer (DE)</label>
-            <helpText>If these fields exist, we will show them in checkout page, instructing the customer that they should send ORDER_ID as a reference with amount due to this bank account</helpText>
-            <helpText lang="de-DE">If these fields exist, we will show them in checkout page, instructing the customer that they should send ORDER_ID as a reference with amount due to this bank account (DE)</helpText>
-        </input-field>
+            <label lang="de-DE">Anzeige der Zahlungsanweisung an den Kunden</label>
+            <helpText>When activated, we will be instructing the customer that they should send ORDER_ID as a reference with amount due to the given bank account below.</helpText>
+            <helpText lang="de-DE">Nach der Aktivierung weisen wir den Kunden an, die ORDER_ID als Referenz mit dem fälligen Betrag an das unten angegebene Bankkonto zu senden.</helpText>
+       </input-field>
         <input-field>
             <name>invoiceIBAN</name>
             <label>IBAN (optional)</label>
@@ -237,22 +237,22 @@
         <input-field type="bool">
             <name>invoiceCollectDateOfBirth</name>
             <label>Collect date of birth</label>
-            <label lang="de-DE">Collect date of birth (DE)</label>
-            <helpText>May be used for risk checks</helpText>
-            <helpText lang="de-DE">May be used for risk checks (DE)</helpText>
+            <label lang="de-DE">Geburtsdatum sammeln</label>
+            <helpText>If you have configured risk checks with the payment provider, it may require date of birth from your customers.</helpText>
+            <helpText lang="de-DE">Wenn Sie beim Zahlungsanbieter Risikoprüfungen konfiguriert haben, kann er von Ihren Kunden das Geburtsdatum verlangen.</helpText>
         </input-field>
         <input-field type="bool">
             <name>invoiceCollectGender</name>
-            <label>Collect gender</label>
-            <label lang="de-DE">Collect gender (DE)</label>
-            <helpText>May be used for risk checks</helpText>
-            <helpText lang="de-DE">May be used for risk checks (DE)</helpText>
+            <label>Collect gender information</label>
+            <label lang="de-DE">Sammeln Sie geschlechtsspezifische Informationen</label>
+            <helpText>If you have configured risk checks with the payment provider, it may require gender from your customers..</helpText>
+            <helpText lang="de-DE">Wenn Sie beim Zahlungsanbieter Risikoprüfungen konfiguriert haben, kann es sein, dass er von Ihren Kunden ein Geschlecht verlangt.</helpText>
         </input-field>
     </card>
 
     <card>
         <title>Invoice B2B payment method configuration</title>
-        <title lang="de-DE">Invoice B2B payment method configuration</title>
+        <title lang="de-DE">Konfiguration der B2B-Zahlungsmethode für Rechnungen</title>
 
         <input-field type="bool">
             <name>invoiceB2BDisplayInstruction</name>
@@ -286,8 +286,8 @@
             <name>invoiceB2BCollectGender</name>
             <label>Collect gender information</label>
             <label lang="de-DE">Sammeln Sie geschlechtsspezifische Informationen</label>
-            <helpText>If you have configured risk checks with the payment provider, it may require date of gender from your customers.</helpText>
-            <helpText lang="de-DE">Wenn Sie Risikoprüfungen mit dem Zahlungsanbieter konfiguriert haben, kann dieser das Datum des Geschlechts von Ihren Kunden verlangen.</helpText>
+            <helpText>If you have configured risk checks with the payment provider, it may require gender from your customers..</helpText>
+            <helpText lang="de-DE">Wenn Sie beim Zahlungsanbieter Risikoprüfungen konfiguriert haben, kann es sein, dass er von Ihren Kunden ein Geschlecht verlangt.</helpText>
         </input-field>
     </card>
 </config>
