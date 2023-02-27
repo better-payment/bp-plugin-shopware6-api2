@@ -1,0 +1,27 @@
+{
+  "betterpayment": {
+    "invoice-instructions": {
+      "title": "Zahlungsanweisungen für Rechnungen",
+      "iban": "IBAN: ",
+      "bic": "BIC: ",
+      "reference": "Referenz: ",
+      "description": "Bitte überweisen Sie den vollen Rechnungsbetrag auf das auf dieser Seite angegebene Bankkonto. Fügen Sie Ihrer Überweisung die oben genannte Referenz bei. Ihre Bestellung bleibt so lange offen, bis die Zahlung eingegangen ist."
+    },
+
+    "sepa-direct-debit": {
+      "title": "Konto- und Mandatsinformationen",
+      "iban": "IBAN: ",
+      "ibanHelpText": "Geben Sie Ihre IBAN-Nummer ein",
+      "bic": "BIC: ",
+      "bicHelpText": "Geben Sie Ihre BIC-Nummer ein (fakultativ)",
+      "customerName": "Name des Kunden: ",
+      "creditorId": "Gläubiger-ID: ",
+      "companyName": "Firmenname: ",
+      "mandateReference": "Mandatsreferenz: ",
+      "description": "Mit Ihrer Unterschrift auf diesem Mandatsformular ermächtigen (A) Sie %companyName%, Ihrer Bank Anweisungen zu erteilen, Ihr Konto zu belasten, und (B) Ihre Bank zu ermächtigen, Ihr Konto gemäß den Anweisungen von %companyName% zu belasten. Als Teil Ihrer Rechte haben Sie Anspruch auf eine Rückerstattung von Ihrer Bank gemäß den Bedingungen Ihrer Vereinbarung mit Ihrer Bank. Eine Erstattung muss innerhalb von acht Wochen ab dem Datum der Belastung Ihres Kontos beantragt werden.",
+      "descriptionB2B": "Mit Ihrer Unterschrift auf diesem Mandatsformular ermächtigen (A) Sie %companyName%, Ihrer Bank Anweisungen zur Belastung Ihres Kontos zu erteilen, und (B) Ihre Bank, Ihr Konto gemäß den Anweisungen von %companyName% zu belasten. Dieses Mandat ist nur für Business-to-Business-Transaktionen bestimmt. Sie haben keinen Anspruch auf eine Erstattung durch Ihre Bank, nachdem Ihr Konto belastet wurde, aber Sie sind berechtigt, Ihre Bank aufzufordern, Ihr Konto bis zu dem Tag, an dem die Zahlung fällig ist, nicht zu belasten.",
+      "agreementLabel": "Ich erkläre mich mit dem folgenden Sepa-Mandat einverstanden ",
+      "requiredLabel": "Erforderliche Felder sind gekennzeichnet mit "
+    }
+  }
+}

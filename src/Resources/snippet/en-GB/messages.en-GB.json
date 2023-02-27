@@ -1,0 +1,27 @@
+{
+  "betterpayment": {
+    "invoice-instructions": {
+      "title": "Invoice payment instructions",
+      "iban": "IBAN: ",
+      "bic": "BIC: ",
+      "reference": "Reference: ",
+      "description": "Please, transfer the full invoice amount to the bank account displayed in this page. Include reference mentioned above, in your transfer. Your order will stay pending until the payment has been cleared."
+    },
+
+    "sepa-direct-debit": {
+      "title": "Payment and mandate information",
+      "iban": "IBAN: ",
+      "ibanHelpText": "Please, enter your IBAN.",
+      "bic": "BIC: ",
+      "bicHelpText": "Please, enter your BIC. (optional)",
+      "customerName": "Account Holder: ",
+      "creditorId": "Creditor ID: ",
+      "companyName": "Company name: ",
+      "mandateReference": "Mandate reference: ",
+      "description": "By signing this mandate form, you authorise (A) %companyName% to send instructions to your bank to debit your account and (B) your bank to debit your account in accordance with the instructions from %companyName%. As part of your rights, you are entitled to a refund from your bank under the terms and conditions of your agreement with your bank. A refund must be claimed within eight weeks starting from the date on which your account was debited.",
+      "descriptionB2B": "By signing this mandate form, you authorise (A) %companyName% to send instructions to your bank to debit your account and (B) your bank to debit your account in accordance with the instructions from %companyName%. This mandate is only intended for business-to-business transactions. You are not entitled to a refund from your bank after your account has been debited, but you are entitled to request your bank not to debit your account up until the day on which the payment is due.",
+      "agreementLabel": "I agree to the following mandate ",
+      "requiredLabel": "Required fields are indicated with "
+    }
+  }
+}

@@ -9,6 +9,7 @@ use BetterPayment\PaymentHandler\SEPADirectDebitHandler;
 use BetterPayment\Storefront\Struct\CheckoutData;
 use BetterPayment\Util\ConfigReader;
 use Shopware\Core\Framework\Uuid\Uuid;
+use Shopware\Storefront\Page\Account\Order\AccountEditOrderPageLoadedEvent;
 use Shopware\Storefront\Page\Checkout\Confirm\CheckoutConfirmPageLoadedEvent;
 use Shopware\Storefront\Page\PageLoadedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -29,7 +30,7 @@ class CheckoutEventSubscriber implements EventSubscriberInterface
     {
         return [
             CheckoutConfirmPageLoadedEvent::class => 'addForm',
-//            AccountEditOrderPageLoadedEvent::class => 'addForm'
+            AccountEditOrderPageLoadedEvent::class => 'addForm'
         ];
     }
 
@@ -54,7 +55,7 @@ class CheckoutEventSubscriber implements EventSubscriberInterface
             $data = new CheckoutData();
 
             $data->assign([
-                'template' => '@Storefront/betterpayment/sepa-direct-debit.html.twig',
+                'template' => '@Storefront/betterpayment/sepa-direct-debit-b2b.html.twig',
                 'creditorID' => $this->configReader->getString(ConfigReader::SEPA_DIRECT_DEBIT_B2B_CREDITOR_ID),
                 'companyName' => $this->configReader->getString(ConfigReader::SEPA_DIRECT_DEBIT_B2B_COMPANY_NAME),
                 'mandateReference' => Uuid::randomHex(),
