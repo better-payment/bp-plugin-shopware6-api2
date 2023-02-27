@@ -5,7 +5,6 @@
     <br>
     <label><b>{{ 'betterpayment.invoice-instructions.bic' | trans }}</b></label> {{ page.extensions.betterpayment.bic }}
     <br>
-{#    TODO fetch order number to show as reference #}
-    <label><b>{{ 'betterpayment.invoice-instructions.reference' | trans }}</b></label> {{ page.extensions.betterpayment.orderID }}
+    <label><b>{{ 'betterpayment.invoice-instructions.reference' | trans }}</b></label> {{ page.order.orderNumber }}
     <p>{{ 'betterpayment.invoice-instructions.description' | trans }}</p>
 </div>
