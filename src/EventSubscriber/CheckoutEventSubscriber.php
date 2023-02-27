@@ -2,8 +2,6 @@
 
 namespace BetterPayment\EventSubscriber;
 
-use BetterPayment\PaymentHandler\InvoiceB2BHandler;
-use BetterPayment\PaymentHandler\InvoiceHandler;
 use BetterPayment\PaymentHandler\SEPADirectDebitB2BHandler;
 use BetterPayment\PaymentHandler\SEPADirectDebitHandler;
 use BetterPayment\Storefront\Struct\CheckoutData;
@@ -59,30 +57,6 @@ class CheckoutEventSubscriber implements EventSubscriberInterface
                 'creditorID' => $this->configReader->getString(ConfigReader::SEPA_DIRECT_DEBIT_B2B_CREDITOR_ID),
                 'companyName' => $this->configReader->getString(ConfigReader::SEPA_DIRECT_DEBIT_B2B_COMPANY_NAME),
                 'mandateReference' => Uuid::randomHex(),
-            ]);
-
-            $page->addExtension(CheckoutData::EXTENSION_NAME, $data);
-        }
-        elseif ($paymentMethod->getHandlerIdentifier() == InvoiceHandler::class && $this->configReader->getBool(ConfigReader::INVOICE_DISPLAY_INSTRUCTION)) {
-            $data = new CheckoutData();
-
-            $data->assign([
-                'template' => '@Storefront/betterpayment/invoice-instructions.html.twig',
-                'iban' => $this->configReader->getString(ConfigReader::INVOICE_IBAN),
-                'bic' => $this->configReader->getString(ConfigReader::INVOICE_BIC),
-                'orderID' => Uuid::randomHex(),
-            ]);
-
-            $page->addExtension(CheckoutData::EXTENSION_NAME, $data);
-        }
-        elseif ($paymentMethod->getHandlerIdentifier() == InvoiceB2BHandler::class && $this->configReader->getBool(ConfigReader::INVOICE_B2B_DISPLAY_INSTRUCTION)) {
-            $data = new CheckoutData();
-
-            $data->assign([
-                'template' => '@Storefront/betterpayment/invoice-instructions.html.twig',
-                'iban' => $this->configReader->getString(ConfigReader::INVOICE_B2B_IBAN),
-                'bic' => $this->configReader->getString(ConfigReader::INVOICE_B2B_BIC),
-                'orderID' => Uuid::randomHex(),
             ]);
 
             $page->addExtension(CheckoutData::EXTENSION_NAME, $data);
