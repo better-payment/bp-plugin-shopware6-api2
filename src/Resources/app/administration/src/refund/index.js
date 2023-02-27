@@ -1,6 +1,7 @@
 import template from './refund-card.html.twig';
+import whiteLabels from '../../../../data/whitelabels.json';
 
-const {Component, Mixin} = Shopware;
+const {Component, Mixin, ApiService} = Shopware;
 
 Component.override('sw-order-detail-base', {
     template,
@@ -24,20 +25,19 @@ Component.override('sw-order-detail-base', {
             refunds: [],
             processSuccess: false,
             buttonDisabled: false,
+
+            apiUrl: null,
+            apiAuth: null,
+            betterPaymentTransaction: null
         };
     },
 
+    created() {
+        this.setAPIUrl();
+        this.setAPIAuth();
+    },
+
     computed: {
-        apiUrl() {
-            // TODO: get api base url based on config
-            return 'https://devapi.betterpayment.de';
-        },
-
-        apiAuth() {
-            // TODO: get keys from config and generate authorisation
-            return 'NzBhYmQ1OTQwODQ3ODdhMzkyZTg6NGE2NmI5MWU5YjVjOTBjYTQ3YjA=';
-        },
-
         isBetterPaymentTransaction() {
             return this.transaction.customFields !== null
                 && this.transaction.customFields.hasOwnProperty('better_payment_transaction_id');
@@ -47,48 +47,18 @@ Component.override('sw-order-detail-base', {
             return this.isBetterPaymentTransaction ? this.transaction.customFields.better_payment_transaction_id : null;
         },
 
-        // TODO: resolve following error
-        // Cross-Origin Request Blocked: The Same Origin Policy disallows reading the remote resource at https://devapi.betterpayment.de/rest/transactions/039c4158-6ba5-407d-8bce-96b254e8e140.
-        // (Reason: CORS header ‘Access-Control-Allow-Origin’ missing). Status code: 200.
-        betterPaymentTransaction() {
-            console.log('hmmm');
-            const url = this.apiUrl + '/rest/transactions/' + this.betterPaymentTransactionId;
-
-            const headers = new Headers();
-            headers.append('Authorization', 'Basic ' + this.apiAuth);
-
-            const requestOptions = {
-                method: 'GET',
-                headers: headers,
-            };
-
-            fetch(url, requestOptions)
-                .then(response => response.json())
-                .then(result => {
-                    if (!result.hasOwnProperty('error_code')) {
-                        return result;
-                    } else {
-                        this.createNotificationError({
-                            message: result.error_message
-                        });
-                    }
-                })
-                .catch(exception => {
-                    this.createNotificationError({
-                        message: exception
-                    });
-                });
-        },
-
         cardIsVisible() {
-            const visibleStates = ['paid', 'paid_partially', 'refunded', 'refunded_partially'];
-
-            return this.isBetterPaymentTransaction
-                && visibleStates.includes(this.transaction.stateMachineState.technicalName);
+            return this.isBetterPaymentTransaction;
         },
 
         isRefundable() {
-            return this.transaction.stateMachineState.technicalName !== 'refunded';
+            const visibleStates = ['paid', 'paid_partially', 'refunded_partially'];
+
+            return visibleStates.includes(this.transaction.stateMachineState.technicalName);
+        },
+
+        isFullyRefunded() {
+            return this.transaction.stateMachineState.technicalName === 'refunded';
         },
 
         canCreateRefund() {
@@ -108,6 +78,34 @@ Component.override('sw-order-detail-base', {
     },
 
     methods: {
+        setAPIUrl() {
+            const pluginConfig = ApiService.getByName('systemConfigApiService')
+            pluginConfig.getValues('BetterPayment').then(config => {
+                const environment = config['BetterPayment.config.environment'];
+                const whiteLabel = config['BetterPayment.config.whiteLabel'];
+
+                this.apiUrl = whiteLabels[whiteLabel][environment].api_hostname;
+            });
+        },
+
+        setAPIAuth() {
+            const pluginConfig = ApiService.getByName('systemConfigApiService')
+            pluginConfig.getValues('BetterPayment').then(config => {
+                const environment = config['BetterPayment.config.environment'];
+
+                const testAPIKey = config['BetterPayment.config.testAPIKey'];
+                const productionAPIKey = config['BetterPayment.config.productionAPIKey'];
+                const apiKey = environment === 'test' ? testAPIKey : productionAPIKey;
+
+                const testOutgoingKey = config['BetterPayment.config.testOutgoingKey'];
+                const productionOutgoingKey = config['BetterPayment.config.productionOutgoingKey'];
+                const outgoingKey = environment === 'test' ? testOutgoingKey : productionOutgoingKey;
+
+                // base64 encoding
+                this.apiAuth = btoa(apiKey + ':' + outgoingKey);
+            });
+        },
+
         getRefunds() {
             const url = this.apiUrl + '/rest/transactions/' + this.betterPaymentTransactionId + '/log';
 
@@ -138,7 +136,7 @@ Component.override('sw-order-detail-base', {
                 });
         },
 
-        storeRefund() {
+        createRefund() {
             this.buttonDisabled = true;
             const url = this.apiUrl + '/rest/refund';
 
@@ -198,7 +196,7 @@ Component.override('sw-order-detail-base', {
                 });
         },
 
-        storeRefundFinished() {
+        createRefundFinished() {
             this.refund.amount = null;
             this.refund.comment = null;
             this.refund.execution_date = null;
@@ -206,21 +204,45 @@ Component.override('sw-order-detail-base', {
         },
 
         updateTransactionState() {
-            const actionName = this.betterPaymentTransaction.amount === this.betterPaymentTransaction.refunded_amount
-                ? 'refund' : 'refund_partially';
-            const docIds = [];
-            const sendMail = true;
+            const url = this.apiUrl + '/rest/transactions/' + this.betterPaymentTransactionId;
 
+            const headers = new Headers();
+            headers.append('Authorization', 'Basic ' + this.apiAuth);
 
-            this.orderStateMachineService.transitionOrderTransactionState(
-                this.transaction.id,
-                actionName,
-                {documentIds: docIds, sendMail},
-            ).then(() => {
-                this.$emit('order-state-change');
-            }).catch((error) => {
-                this.createNotificationError(error);
-            });
+            const requestOptions = {
+                method: 'GET',
+                headers: headers,
+            };
+
+            fetch(url, requestOptions)
+                .then(response => response.json())
+                .then(result => {
+                    if (!result.hasOwnProperty('error_code')) {
+                        const actionName = result.amount === result.refunded_amount
+                            ? 'refund' : 'refund_partially';
+                        const docIds = [];
+                        const sendMail = true;
+
+                        this.orderStateMachineService.transitionOrderTransactionState(
+                            this.transaction.id,
+                            actionName,
+                            {documentIds: docIds, sendMail},
+                        ).then(() => {
+                            this.$emit('order-state-change');
+                        }).catch((error) => {
+                            this.createNotificationError(error);
+                        });
+                    } else {
+                        this.createNotificationError({
+                            message: result.error_message
+                        });
+                    }
+                })
+                .catch(exception => {
+                    this.createNotificationError({
+                        message: exception
+                    });
+                });
         }
     },
 });

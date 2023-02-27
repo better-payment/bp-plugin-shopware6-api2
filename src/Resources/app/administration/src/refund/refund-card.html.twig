@@ -5,7 +5,7 @@
             :title="$tc('betterpayment.refund.cardTitle')">
         <template #grid>
             <sw-card-section divider="bottom" :slim="true">
-                <sw-container v-if="!isRefundable">
+                <sw-container v-if="isFullyRefunded">
                     <sw-label variant="success">
                         {{ $tc('betterpayment.refund.labels.noMoreRefunds') }}
                     </sw-label>
@@ -14,13 +14,13 @@
                     <sw-container rows="1fr 1fr 1fr" gap="10px 0px">
                         <sw-number-field
                                 required numberType="float" :digits="2" :allowEmpty="false" size="small"
-                                :disabled="!canCreateRefund"
+                                :disabled="!canCreateRefund || isFullyRefunded"
                                 :label="$tc('betterpayment.refund.labels.amount')"
                                 v-model="refund.amount">
                         </sw-number-field>
                         <sw-datepicker
                                 size="small" :label="$tc('betterpayment.refund.labels.date')"
-                                :disabled="!canCreateRefund"
+                                :disabled="!canCreateRefund || isFullyRefunded"
                                 v-model="refund.execution_date">
                         </sw-datepicker>
                         <sw-text-field
@@ -31,7 +31,7 @@
                     </sw-container>
                     <sw-textarea-field
                             type="textarea" size="small"
-                            :disabled="!canCreateRefund"
+                            :disabled="!canCreateRefund || isFullyRefunded"
                             :label="$tc('betterpayment.refund.labels.comment')"
                             v-model="refund.comment">
                     </sw-textarea-field>
@@ -39,11 +39,11 @@
                 <sw-button-process
                         style="float: right"
                         :processSuccess="processSuccess"
-                        :disabled="buttonDisabled || !canCreateRefund"
-                        @click="storeRefund"
+                        :disabled="buttonDisabled || !canCreateRefund || isFullyRefunded"
+                        @click="createRefund"
                         variant="ghost"
                         size="small"
-                        @process-finish="storeRefundFinished">
+                        @process-finish="createRefundFinished">
                     {{ $tc('betterpayment.refund.actions.createNew') }}
                 </sw-button-process>
             </sw-card-section>
