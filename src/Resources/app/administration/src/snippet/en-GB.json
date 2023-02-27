@@ -8,7 +8,7 @@
         "comment": "Comment",
         "transactionId": "Transaction ID",
         "date": "Date",
-        "noMoreRefunds": "Transaction is refunded completely. You cannot create anymore refunds."
+        "noMoreRefunds": "Transaction is fully refunded. You can not issue more refunds through payment gateway."
       },
 
       "actions": {
@@ -17,7 +17,7 @@
 
       "messages": {
         "successfulRefundRequest": "Refunded successfully",
-        "invalidRefundRequest": "Invalid refund request"
+        "invalidRefundRequest": "Refund failed. Please check your data and try again."
       }
     }
   }
