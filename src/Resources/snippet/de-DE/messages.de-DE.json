@@ -5,7 +5,7 @@
       "iban": "IBAN: ",
       "bic": "BIC: ",
       "reference": "Referenz: ",
-      "description": "Bitte überweisen Sie den vollen Rechnungsbetrag auf das auf dieser Seite angegebene Bankkonto. Ihre Bestellung bleibt so lange offen, bis die Zahlung eingegangen ist."
+      "description": "Bitte überweisen Sie den vollen Rechnungsbetrag auf das auf dieser Seite angegebene Bankkonto. Fügen Sie Ihrer Überweisung die oben genannte Referenz bei. Ihre Bestellung bleibt so lange offen, bis die Zahlung eingegangen ist."
     },
 
     "sepa-direct-debit": {

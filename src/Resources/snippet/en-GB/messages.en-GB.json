@@ -1,11 +1,11 @@
 {
   "betterpayment": {
     "invoice-instructions": {
-      "title": "Invoice instructions",
+      "title": "Invoice payment instructions",
       "iban": "IBAN: ",
       "bic": "BIC: ",
       "reference": "Reference: ",
-      "description": "Please, transfer the full invoice amount to the bank account displayed in this page. Your order will stay pending until the payment has been cleared."
+      "description": "Please, transfer the full invoice amount to the bank account displayed in this page. Include reference mentioned above, in your transfer. Your order will stay pending until the payment has been cleared."
     },
 
     "sepa-direct-debit": {
