@@ -70,7 +70,7 @@
         <input-field type="single-select">
             <name>environment</name>
             <label>Environment</label>
-            <label lang="de-DE">Umwelt</label>
+            <label lang="de-DE">Umgebung</label>
             <helpText>Select test for testing purposes. Use production only for your live shops.</helpText>
             <helpText lang="de-DE">Wählen Sie Test für Testzwecke. Verwenden Sie Produktion nur für Ihre Live-Shops.</helpText>
             <defaultValue>test</defaultValue>
