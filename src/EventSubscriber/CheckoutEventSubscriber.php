@@ -55,7 +55,7 @@ class CheckoutEventSubscriber implements EventSubscriberInterface
             $data = new CheckoutData();
 
             $data->assign([
-                'template' => '@Storefront/betterpayment/sepa-direct-debit.html.twig',
+                'template' => '@Storefront/betterpayment/sepa-direct-debit-b2b.html.twig',
                 'creditorID' => $this->configReader->getString(ConfigReader::SEPA_DIRECT_DEBIT_B2B_CREDITOR_ID),
                 'companyName' => $this->configReader->getString(ConfigReader::SEPA_DIRECT_DEBIT_B2B_COMPANY_NAME),
                 'mandateReference' => Uuid::randomHex(),
