@@ -1,0 +1,24 @@
+{
+  "betterpayment": {
+    "refund": {
+      "cardTitle": "Better-Payment Rückerstattungen",
+
+      "labels": {
+        "amount": "Betrag",
+        "comment": "Kommentar",
+        "transactionId": "Transaktions-ID",
+        "date": "Datum",
+        "noMoreRefunds": "Die Transaktion wurde in voller Höhe rückerstattet. Sie können keine weiteren Rückerstattungen über das Zahlungsgateway ausstellen."
+      },
+
+      "actions": {
+        "createNew": "Neue Rückerstattung erstellen"
+      },
+
+      "messages": {
+        "successfulRefundRequest": "Rückerstattung erfolgreich",
+        "invalidRefundRequest": "Rückerstattung fehlgeschlagen. Bitte überprüfen Sie Ihre Daten und versuchen Sie es erneut."
+      }
+    }
+  }
+}

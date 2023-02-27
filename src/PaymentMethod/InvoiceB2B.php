@@ -10,16 +10,16 @@ class InvoiceB2B extends PaymentMethod
 
     protected string $handler = InvoiceB2BHandler::class;
     protected string $name = 'Invoice (B2B)';
-    protected string $description = 'Invoice (B2B) description';
+    protected string $description = '';
     protected string $icon = '';
     protected array $translations = [
         'de-DE' => [
-            'name' => 'Invoice (B2B) (DE)',
-            'description' => 'Invoice (B2B) description (DE)',
+            'name' => 'Kauf auf Rechnung B2B',
+            'description' => '',
         ],
         'en-GB' => [
-            'name' => 'Invoice (B2B)',
-            'description' => 'Invoice (B2B) description',
+            'name' => 'Invoice B2B',
+            'description' => '',
         ],
     ];
 }

@@ -1,0 +1,24 @@
+{
+  "betterpayment": {
+    "refund": {
+      "cardTitle": "Better Payment Refunds",
+
+      "labels": {
+        "amount": "Amount",
+        "comment": "Comment",
+        "transactionId": "Transaction ID",
+        "date": "Date",
+        "noMoreRefunds": "Transaction is fully refunded. You can not issue more refunds through payment gateway."
+      },
+
+      "actions": {
+        "createNew": "Create new refund"
+      },
+
+      "messages": {
+        "successfulRefundRequest": "Refunded successfully",
+        "invalidRefundRequest": "Refund failed. Please check your data and try again."
+      }
+    }
+  }
+}
