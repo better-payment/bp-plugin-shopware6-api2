@@ -1,13 +1,10 @@
-<h3>Invoice instructions</h3>
+<h3>{{ 'betterpayment.invoice-instructions.title' | trans }}</h3>
 
 <div>
-    <label><b>IBAN: </b></label> {{ page.extensions.betterpayment.iban }}
+    <label><b>{{ 'betterpayment.invoice-instructions.iban' | trans }}</b></label> {{ page.extensions.betterpayment.iban }}
     <br>
-    <label><b>BIC: </b></label> {{ page.extensions.betterpayment.bic }}
+    <label><b>{{ 'betterpayment.invoice-instructions.bic' | trans }}</b></label> {{ page.extensions.betterpayment.bic }}
     <br>
-{#    TODO fetch order number to show as reference #}
-    <label><b>Reference: </b></label> {{ page.extensions.betterpayment.orderID }}
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed in dapibus elit, eget laoreet ipsum. Ut et quam in odio blandit congue eu non tellus.</p>
-    <p>Nam commodo varius enim, non laoreet velit. Quisque vitae libero quis mauris rutrum bibendum vel vel libero.</p>
-    <p>Suspendisse potenti. Nam laoreet, mauris vel bibendum tristique, enim odio viverra metus, vel euismod velit odio a nibh.</p>
+    <label><b>{{ 'betterpayment.invoice-instructions.reference' | trans }}</b></label> {{ page.order.orderNumber }}
+    <p>{{ 'betterpayment.invoice-instructions.description' | trans }}</p>
 </div>
