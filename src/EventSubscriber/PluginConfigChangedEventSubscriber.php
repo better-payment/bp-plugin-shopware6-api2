@@ -2,6 +2,7 @@
 
 namespace BetterPayment\EventSubscriber;
 
+use BetterPayment\Installer\CustomFieldInstaller;
 use BetterPayment\Util\ConfigReader;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
@@ -44,7 +45,7 @@ class PluginConfigChangedEventSubscriber implements EventSubscriberInterface
         if ($this->anyCollectGenderConfigChanged($event)) {
             $context = Context::createDefaultContext();
             $criteria = new Criteria();
-            $criteria->addFilter(new EqualsFilter('name', 'better_payment_gender'));
+            $criteria->addFilter(new EqualsFilter('name', CustomFieldInstaller::CUSTOMER_GENDER));
 
             /** @var CustomFieldEntity $customField */
             $customField = $this->customFieldRepository->search($criteria, $context)->first();
