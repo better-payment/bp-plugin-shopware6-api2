@@ -176,14 +176,14 @@
         <input-field type="bool">
             <name>sepaDirectDebitRiskCheckAgreement</name>
             <label>Require customers to agree to risk check processing</label>
-            <label lang="de-DE">Require customers to agree to risk check processing (DE)</label>
+            <label lang="de-DE">Die Kunden müssen der Bearbeitung von Risikoprüfungen zustimmen</label>
             <helpText>
-                If you turn this flag on, we will require customer to agree to the risk check processing in the checkout page.
-                Without agreement, payments will not go through. You can turn this field off, in case you provide the agreement as part of your terms and conditions agreement.
+                If you turn this flag on, we will require the customer to agree to the risk check processing in the checkout page.
+                Without agreement, payments will not go through. You can turn this field off, in case you provide it as part of your terms and conditions.
             </helpText>
             <helpText lang="de-DE">
-                If you turn this flag on, we will require customer to agree to the risk check processing in the checkout page.
-                Without agreement, payments will not go through. You can turn this field off, in case you provide the agreement as part of your terms and conditions agreement. (DE)
+                Wenn Sie diese Option aktivieren, muss der Kunde der Risikoprüfung auf der Kassenseite zustimmen.
+                Ohne diese Zustimmung werden die Zahlungen nicht ausgeführt. Sie können dieses Feld deaktivieren, falls Sie es als Teil Ihrer Allgemeinen Geschäftsbedingungen vorsehen.
             </helpText>
         </input-field>
     </card>
@@ -223,14 +223,14 @@
         <input-field type="bool">
             <name>sepaDirectDebitB2BRiskCheckAgreement</name>
             <label>Require customers to agree to risk check processing</label>
-            <label lang="de-DE">Require customers to agree to risk check processing (DE)</label>
+            <label lang="de-DE">Die Kunden müssen der Bearbeitung von Risikoprüfungen zustimmen</label>
             <helpText>
-                If you turn this flag on, we will require customer to agree to the risk check processing in the checkout page.
-                Without agreement, payments will not go through. You can turn this field off, in case you provide the agreement as part of your terms and conditions agreement.
+                If you turn this flag on, we will require the customer to agree to the risk check processing in the checkout page.
+                Without agreement, payments will not go through. You can turn this field off, in case you provide it as part of your terms and conditions.
             </helpText>
             <helpText lang="de-DE">
-                If you turn this flag on, we will require customer to agree to the risk check processing in the checkout page.
-                Without agreement, payments will not go through. You can turn this field off, in case you provide the agreement as part of your terms and conditions agreement. (DE)
+                Wenn Sie diese Option aktivieren, muss der Kunde der Risikoprüfung auf der Kassenseite zustimmen.
+                Ohne diese Zustimmung werden die Zahlungen nicht ausgeführt. Sie können dieses Feld deaktivieren, falls Sie es als Teil Ihrer Allgemeinen Geschäftsbedingungen vorsehen.
             </helpText>
         </input-field>
     </card>
@@ -277,14 +277,14 @@
         <input-field type="bool">
             <name>invoiceRiskCheckAgreement</name>
             <label>Require customers to agree to risk check processing</label>
-            <label lang="de-DE">Require customers to agree to risk check processing (DE)</label>
+            <label lang="de-DE">Die Kunden müssen der Bearbeitung von Risikoprüfungen zustimmen</label>
             <helpText>
-                If you turn this flag on, we will require customer to agree to the risk check processing in the checkout page.
-                Without agreement, payments will not go through. You can turn this field off, in case you provide the agreement as part of your terms and conditions agreement.
+                If you turn this flag on, we will require the customer to agree to the risk check processing in the checkout page.
+                Without agreement, payments will not go through. You can turn this field off, in case you provide it as part of your terms and conditions.
             </helpText>
             <helpText lang="de-DE">
-                If you turn this flag on, we will require customer to agree to the risk check processing in the checkout page.
-                Without agreement, payments will not go through. You can turn this field off, in case you provide the agreement as part of your terms and conditions agreement. (DE)
+                Wenn Sie diese Option aktivieren, muss der Kunde der Risikoprüfung auf der Kassenseite zustimmen.
+                Ohne diese Zustimmung werden die Zahlungen nicht ausgeführt. Sie können dieses Feld deaktivieren, falls Sie es als Teil Ihrer Allgemeinen Geschäftsbedingungen vorsehen.
             </helpText>
         </input-field>
     </card>
@@ -331,14 +331,14 @@
         <input-field type="bool">
             <name>invoiceB2BRiskCheckAgreement</name>
             <label>Require customers to agree to risk check processing</label>
-            <label lang="de-DE">Require customers to agree to risk check processing (DE)</label>
+            <label lang="de-DE">Die Kunden müssen der Bearbeitung von Risikoprüfungen zustimmen</label>
             <helpText>
-                If you turn this flag on, we will require customer to agree to the risk check processing in the checkout page.
-                Without agreement, payments will not go through. You can turn this field off, in case you provide the agreement as part of your terms and conditions agreement.
+                If you turn this flag on, we will require the customer to agree to the risk check processing in the checkout page.
+                Without agreement, payments will not go through. You can turn this field off, in case you provide it as part of your terms and conditions.
             </helpText>
             <helpText lang="de-DE">
-                If you turn this flag on, we will require customer to agree to the risk check processing in the checkout page.
-                Without agreement, payments will not go through. You can turn this field off, in case you provide the agreement as part of your terms and conditions agreement. (DE)
+                Wenn Sie diese Option aktivieren, muss der Kunde der Risikoprüfung auf der Kassenseite zustimmen.
+                Ohne diese Zustimmung werden die Zahlungen nicht ausgeführt. Sie können dieses Feld deaktivieren, falls Sie es als Teil Ihrer Allgemeinen Geschäftsbedingungen vorsehen.
             </helpText>
         </input-field>
     </card>

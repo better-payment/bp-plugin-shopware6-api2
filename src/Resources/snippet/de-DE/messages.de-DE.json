@@ -2,7 +2,7 @@
   "betterpayment": {
     "general": {
       "requiredLabel": "Erforderliche Felder sind gekennzeichnet mit ",
-      "riskCheckAgreementLabel": "I agree risk check processing on my details"
+      "riskCheckAgreementLabel": "Ich bin damit einverstanden, dass meine Daten an die für die Risikoüberprüfung zuständigen Stellen weitergeleitet werden."
     },
 
     "invoice-instructions": {
