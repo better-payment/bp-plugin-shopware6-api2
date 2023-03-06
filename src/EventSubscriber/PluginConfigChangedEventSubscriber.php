@@ -50,6 +50,7 @@ class PluginConfigChangedEventSubscriber implements EventSubscriberInterface
             /** @var CustomFieldEntity $customField */
             $customField = $this->customFieldRepository->search($criteria, $context)->first();
 
+            // TODO: remove required flag when config is false
             if ($customField) {
                 $config = $customField->getConfig() + ['validation' => 'required'];
 

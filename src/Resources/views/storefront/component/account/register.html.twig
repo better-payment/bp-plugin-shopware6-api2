@@ -1,0 +1,17 @@
+{% sw_extends '@Storefront/storefront/component/account/register.html.twig' %}
+
+{% block component_account_register_personal_address_fields %}
+    {{ parent() }}
+
+    <div class="form-row">
+        <div class="form-group col-md-3 col-sm-6">
+            <label for="better_payment_customer_gender">Gender</label>
+            <select name="better_payment_customer_gender" id="better_payment_customer_gender" class="custom-select" required>
+                <option disabled selected value="">Select gender...</option>
+                <option value="m">Male</option>
+                <option value="f">Female</option>
+                <option value="d">Diverse</option>
+            </select>
+        </div>
+    </div>
+{% endblock %}
