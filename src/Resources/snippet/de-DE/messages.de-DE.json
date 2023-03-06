@@ -23,13 +23,12 @@
       "agreementLabel": "Ich erkläre mich mit dem folgenden Sepa-Mandat einverstanden ",
       "requiredLabel": "Erforderliche Felder sind gekennzeichnet mit "
     },
-
     "register": {
-      "labelGender": "Gender",
-      "selectGender": "Select gender...",
-      "male": "Male",
-      "female": "Female",
-      "diverse": "Diverse"
+      "labelGender": "Geschlecht",
+      "selectGender": "Geschlecht auswählen...",
+      "male": "Männlich",
+      "female": "Weiblich",
+      "diverse": "Vielfältig"
     }
   }
 }

@@ -20,7 +20,7 @@ class CustomFieldInstaller
             'config' => [
                 'label' => [
                     'en-GB' => 'Better Payment Customer',
-                    'de-DE' => 'Better Payment Customer (DE)',
+                    'de-DE' => 'Better Payment Kunde',
                 ],
             ],
             'relations' => [
@@ -48,31 +48,31 @@ class CustomFieldInstaller
                 'componentName' => 'sw-single-select',
                 'label' => [
                     'en-GB' => 'Gender',
-                    'de-DE' => 'Gender (DE)',
+                    'de-DE' => 'Geschlecht',
                 ],
                 'helpText' => [
-                    'en-GB' => 'This data is collected to be used for risk checks when enabled in PLugin config',
-                    'de-DE' => 'This data is collected to be used for risk checks when enabled in PLugin config (DE)',
+                    'en-GB' => 'This data is collected to be used for risk checks when enabled in the plugin configurations.',
+                    'de-DE' => 'Diese Daten werden gesammelt, um für Risikoprüfungen verwendet zu werden, wenn sie in Plugin-Konfigurationen aktiviert sind.',
                 ],
                 'options' => [
                     [
                         'label' => [
                             'en-GB' => 'Male',
-                            'de-DE' => 'Male (DE)',
+                            'de-DE' => 'Männlich',
                         ],
                         'value' => 'm'
                     ],
                     [
                         'label' => [
                             'en-GB' => 'Female',
-                            'de-DE' => 'Female (DE)',
+                            'de-DE' => 'Weiblich',
                         ],
                         'value' => 'f'
                     ],
                     [
                         'label' => [
                             'en-GB' => 'Diverse',
-                            'de-DE' => 'Diverse (DE)',
+                            'de-DE' => 'Vielfältig',
                         ],
                         'value' => 'd'
                     ],
