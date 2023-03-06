@@ -1,5 +1,10 @@
 {
   "betterpayment": {
+    "general": {
+      "requiredLabel": "Required fields are indicated with ",
+      "riskCheckAgreementLabel": "I agree risk check processing on my details"
+    },
+
     "invoice-instructions": {
       "title": "Invoice payment instructions",
       "iban": "IBAN: ",
@@ -20,8 +25,7 @@
       "mandateReference": "Mandate reference: ",
       "description": "By signing this mandate form, you authorise (A) %companyName% to send instructions to your bank to debit your account and (B) your bank to debit your account in accordance with the instructions from %companyName%. As part of your rights, you are entitled to a refund from your bank under the terms and conditions of your agreement with your bank. A refund must be claimed within eight weeks starting from the date on which your account was debited.",
       "descriptionB2B": "By signing this mandate form, you authorise (A) %companyName% to send instructions to your bank to debit your account and (B) your bank to debit your account in accordance with the instructions from %companyName%. This mandate is only intended for business-to-business transactions. You are not entitled to a refund from your bank after your account has been debited, but you are entitled to request your bank not to debit your account up until the day on which the payment is due.",
-      "agreementLabel": "I agree to the following mandate ",
-      "requiredLabel": "Required fields are indicated with "
+      "agreementLabel": "I agree to the following mandate "
     },
 
     "register": {

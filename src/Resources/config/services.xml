@@ -55,9 +55,8 @@
             <tag name="shopware.payment.method.sync" />
         </service>
 
-        <service id="BetterPayment\EventSubscriber\CheckoutEventSubscriber">
+        <service id="BetterPayment\EventSubscriber\CheckoutConfirmEventSubscriber">
             <argument type="service" id="BetterPayment\Util\ConfigReader"/>
-
             <tag name="kernel.event_subscriber"/>
         </service>
 

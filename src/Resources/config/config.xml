@@ -173,6 +173,19 @@
             <helpText>If you have configured risk checks with the payment provider, it may require gender from your customers.</helpText>
             <helpText lang="de-DE">Wenn Sie beim Zahlungsanbieter Risikoprüfungen konfiguriert haben, kann es sein, dass er von Ihren Kunden ein Geschlecht verlangt.</helpText>
         </input-field>
+        <input-field type="bool">
+            <name>sepaDirectDebitRiskCheckAgreement</name>
+            <label>Require customers to agree to risk check processing</label>
+            <label lang="de-DE">Require customers to agree to risk check processing (DE)</label>
+            <helpText>
+                If you turn this flag on, we will require customer to agree to the risk check processing in the checkout page.
+                Without agreement, payments will not go through. You can turn this field off, in case you provide the agreement as part of your terms and conditions agreement.
+            </helpText>
+            <helpText lang="de-DE">
+                If you turn this flag on, we will require customer to agree to the risk check processing in the checkout page.
+                Without agreement, payments will not go through. You can turn this field off, in case you provide the agreement as part of your terms and conditions agreement. (DE)
+            </helpText>
+        </input-field>
     </card>
 
     <card>
@@ -206,6 +219,19 @@
             <label lang="de-DE">Sammeln Sie geschlechtsspezifische Informationen</label>
             <helpText>If you have configured risk checks with the payment provider, it may require gender from your customers.</helpText>
             <helpText lang="de-DE">Wenn Sie beim Zahlungsanbieter Risikoprüfungen konfiguriert haben, kann es sein, dass er von Ihren Kunden ein Geschlecht verlangt.</helpText>
+        </input-field>
+        <input-field type="bool">
+            <name>sepaDirectDebitB2BRiskCheckAgreement</name>
+            <label>Require customers to agree to risk check processing</label>
+            <label lang="de-DE">Require customers to agree to risk check processing (DE)</label>
+            <helpText>
+                If you turn this flag on, we will require customer to agree to the risk check processing in the checkout page.
+                Without agreement, payments will not go through. You can turn this field off, in case you provide the agreement as part of your terms and conditions agreement.
+            </helpText>
+            <helpText lang="de-DE">
+                If you turn this flag on, we will require customer to agree to the risk check processing in the checkout page.
+                Without agreement, payments will not go through. You can turn this field off, in case you provide the agreement as part of your terms and conditions agreement. (DE)
+            </helpText>
         </input-field>
     </card>
 
@@ -248,6 +274,19 @@
             <helpText>If you have configured risk checks with the payment provider, it may require gender from your customers.</helpText>
             <helpText lang="de-DE">Wenn Sie beim Zahlungsanbieter Risikoprüfungen konfiguriert haben, kann es sein, dass er von Ihren Kunden ein Geschlecht verlangt.</helpText>
         </input-field>
+        <input-field type="bool">
+            <name>invoiceRiskCheckAgreement</name>
+            <label>Require customers to agree to risk check processing</label>
+            <label lang="de-DE">Require customers to agree to risk check processing (DE)</label>
+            <helpText>
+                If you turn this flag on, we will require customer to agree to the risk check processing in the checkout page.
+                Without agreement, payments will not go through. You can turn this field off, in case you provide the agreement as part of your terms and conditions agreement.
+            </helpText>
+            <helpText lang="de-DE">
+                If you turn this flag on, we will require customer to agree to the risk check processing in the checkout page.
+                Without agreement, payments will not go through. You can turn this field off, in case you provide the agreement as part of your terms and conditions agreement. (DE)
+            </helpText>
+        </input-field>
     </card>
 
     <card>
@@ -288,6 +327,19 @@
             <label lang="de-DE">Sammeln Sie geschlechtsspezifische Informationen</label>
             <helpText>If you have configured risk checks with the payment provider, it may require gender from your customers.</helpText>
             <helpText lang="de-DE">Wenn Sie beim Zahlungsanbieter Risikoprüfungen konfiguriert haben, kann es sein, dass er von Ihren Kunden ein Geschlecht verlangt.</helpText>
+        </input-field>
+        <input-field type="bool">
+            <name>invoiceB2BRiskCheckAgreement</name>
+            <label>Require customers to agree to risk check processing</label>
+            <label lang="de-DE">Require customers to agree to risk check processing (DE)</label>
+            <helpText>
+                If you turn this flag on, we will require customer to agree to the risk check processing in the checkout page.
+                Without agreement, payments will not go through. You can turn this field off, in case you provide the agreement as part of your terms and conditions agreement.
+            </helpText>
+            <helpText lang="de-DE">
+                If you turn this flag on, we will require customer to agree to the risk check processing in the checkout page.
+                Without agreement, payments will not go through. You can turn this field off, in case you provide the agreement as part of your terms and conditions agreement. (DE)
+            </helpText>
         </input-field>
     </card>
 </config>

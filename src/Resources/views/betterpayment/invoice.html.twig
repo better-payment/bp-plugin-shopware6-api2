@@ -1,0 +1,9 @@
+{% if config('BetterPayment.config.invoiceRiskCheckAgreement') %}
+<div>
+    <input type="checkbox" id="riskCheckAgreement" form="confirmOrderForm" required>
+    <label for="riskCheckAgreement">{{ 'betterpayment.general.riskCheckAgreementLabel' | trans }}<span class="text-danger"> *</span></label>
+</div>
+{% endif %}
+
+<br>
+<p class="text-muted">{{ 'betterpayment.general.requiredLabel' | trans }}<span class="text-danger">*</span></p>
