@@ -3,6 +3,7 @@
 namespace BetterPayment;
 
 use BetterPayment\Installer\PaymentMethodInstaller;
+use BetterPayment\Installer\CustomFieldInstaller;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\Plugin;
 use Shopware\Core\Framework\Plugin\Context\ActivateContext;
@@ -17,6 +18,7 @@ class BetterPayment extends Plugin
     public function install(InstallContext $installContext): void
     {
         $this->getPaymentMethodInstaller()->install($installContext);
+        $this->getCustomFieldInstaller()->install($installContext);
     }
 
     public function update(UpdateContext $updateContext): void
@@ -47,5 +49,13 @@ class BetterPayment extends Plugin
         $paymentMethodRepository = $this->container->get('payment_method.repository');
 
         return new PaymentMethodInstaller($pluginIdProvider, $paymentMethodRepository);
+    }
+
+    private function getCustomFieldInstaller(): CustomFieldInstaller
+    {
+        /** @var EntityRepositoryInterface $customFieldSetRepository */
+        $customFieldSetRepository = $this->container->get('custom_field_set.repository');
+
+        return new CustomFieldInstaller($customFieldSetRepository);
     }
 }
