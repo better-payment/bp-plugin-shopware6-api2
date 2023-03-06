@@ -5,12 +5,12 @@
 
     <div class="form-row">
         <div class="form-group col-md-3 col-sm-6">
-            <label for="better_payment_customer_gender">Gender</label>
+            <label for="better_payment_customer_gender">{{ 'betterpayment.register.labelGender' | trans }}</label>
             <select name="better_payment_customer_gender" id="better_payment_customer_gender" class="custom-select" required>
-                <option disabled selected value="">Select gender...</option>
-                <option value="m">Male</option>
-                <option value="f">Female</option>
-                <option value="d">Diverse</option>
+                <option disabled selected value="">{{ 'betterpayment.register.selectGender' | trans }}</option>
+                <option value="m">{{ 'betterpayment.register.male' | trans }}</option>
+                <option value="f">{{ 'betterpayment.register.female' | trans }}</option>
+                <option value="d">{{ 'betterpayment.register.diverse' | trans }}</option>
             </select>
         </div>
     </div>

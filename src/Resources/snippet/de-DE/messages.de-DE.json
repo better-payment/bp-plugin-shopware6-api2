@@ -22,6 +22,14 @@
       "descriptionB2B": "Mit Ihrer Unterschrift auf diesem Mandatsformular ermächtigen (A) Sie %companyName%, Ihrer Bank Anweisungen zur Belastung Ihres Kontos zu erteilen, und (B) Ihre Bank, Ihr Konto gemäß den Anweisungen von %companyName% zu belasten. Dieses Mandat ist nur für Business-to-Business-Transaktionen bestimmt. Sie haben keinen Anspruch auf eine Erstattung durch Ihre Bank, nachdem Ihr Konto belastet wurde, aber Sie sind berechtigt, Ihre Bank aufzufordern, Ihr Konto bis zu dem Tag, an dem die Zahlung fällig ist, nicht zu belasten.",
       "agreementLabel": "Ich erkläre mich mit dem folgenden Sepa-Mandat einverstanden ",
       "requiredLabel": "Erforderliche Felder sind gekennzeichnet mit "
+    },
+
+    "register": {
+      "labelGender": "Gender",
+      "selectGender": "Select gender...",
+      "male": "Male",
+      "female": "Female",
+      "diverse": "Diverse"
     }
   }
 }

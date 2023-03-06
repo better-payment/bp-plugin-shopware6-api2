@@ -22,6 +22,14 @@
       "descriptionB2B": "By signing this mandate form, you authorise (A) %companyName% to send instructions to your bank to debit your account and (B) your bank to debit your account in accordance with the instructions from %companyName%. This mandate is only intended for business-to-business transactions. You are not entitled to a refund from your bank after your account has been debited, but you are entitled to request your bank not to debit your account up until the day on which the payment is due.",
       "agreementLabel": "I agree to the following mandate ",
       "requiredLabel": "Required fields are indicated with "
+    },
+
+    "register": {
+      "labelGender": "Gender",
+      "selectGender": "Select gender...",
+      "male": "Male",
+      "female": "Female",
+      "diverse": "Diverse"
     }
   }
 }
