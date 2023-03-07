@@ -23,23 +23,27 @@ class ConfigReader
     public const SEPA_DIRECT_DEBIT_COMPANY_NAME = 'sepaDirectDebitCompanyName';
     public const SEPA_DIRECT_DEBIT_COLLECT_DATE_OF_BIRTH = 'sepaDirectDebitCollectDateOfBirth';
     public const SEPA_DIRECT_DEBIT_COLLECT_GENDER = 'sepaDirectDebitCollectGender';
+    public const SEPA_DIRECT_DEBIT_RISK_CHECK_AGREEMENT = 'sepaDirectDebitRiskCheckAgreement';
 
     public const SEPA_DIRECT_DEBIT_B2B_CREDITOR_ID = 'sepaDirectDebitB2BCreditorID';
     public const SEPA_DIRECT_DEBIT_B2B_COMPANY_NAME = 'sepaDirectDebitB2BCompanyName';
     public const SEPA_DIRECT_DEBIT_B2B_COLLECT_DATE_OF_BIRTH = 'sepaDirectDebitB2BCollectDateOfBirth';
     public const SEPA_DIRECT_DEBIT_B2B_COLLECT_GENDER = 'sepaDirectDebitB2BCollectGender';
+    public const SEPA_DIRECT_DEBIT_B2B_RISK_CHECK_AGREEMENT = 'sepaDirectDebitB2BRiskCheckAgreement';
 
     public const INVOICE_DISPLAY_INSTRUCTION = 'invoiceDisplayInstruction';
     public const INVOICE_IBAN = 'invoiceIBAN';
     public const INVOICE_BIC = 'invoiceBIC';
     public const INVOICE_COLLECT_DATE_OF_BIRTH = 'invoiceCollectDateOfBirth';
     public const INVOICE_COLLECT_GENDER = 'invoiceCollectGender';
+    public const INVOICE_RISK_CHECK_AGREEMENT = 'invoiceRiskCheckAgreement';
 
     public const INVOICE_B2B_DISPLAY_INSTRUCTION = 'invoiceB2BDisplayInstruction';
     public const INVOICE_B2B_IBAN = 'invoiceB2BIBAN';
     public const INVOICE_B2B_BIC = 'invoiceB2BBIC';
     public const INVOICE_B2B_COLLECT_DATE_OF_BIRTH = 'invoiceB2BCollectDateOfBirth';
     public const INVOICE_B2B_COLLECT_GENDER = 'invoiceB2BCollectGender';
+    public const INVOICE_B2B_RISK_CHECK_AGREEMENT = 'invoiceB2BRiskCheckAgreement';
     
 
     public function __construct(SystemConfigService $systemConfigService)
