@@ -5,6 +5,7 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
+        <!-- Payment Handlers -->
         <service id="BetterPayment\PaymentHandler\CreditCardHandler">
             <argument type="service" id="Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler" />
             <argument type="service" id="Shopware\Core\Checkout\Order\Aggregate\OrderTransactionCaptureRefund\OrderTransactionCaptureRefundStateHandler" />
@@ -54,8 +55,15 @@
 
             <tag name="shopware.payment.method.sync" />
         </service>
+        <!-- End Payment Handlers -->
 
+        <!-- Event Subscribers -->
         <service id="BetterPayment\EventSubscriber\CheckoutConfirmEventSubscriber">
+            <argument type="service" id="BetterPayment\Util\ConfigReader"/>
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
+        <service id="BetterPayment\EventSubscriber\CheckoutFinishEventSubscriber">
             <argument type="service" id="BetterPayment\Util\ConfigReader"/>
             <tag name="kernel.event_subscriber"/>
         </service>
@@ -66,17 +74,13 @@
             <argument type="service" id="custom_field.repository" />
             <tag name="kernel.event_subscriber"/>
         </service>
-        
-        <service id="BetterPayment\EventSubscriber\CheckoutFinishEventSubscriber">
-            <argument type="service" id="BetterPayment\Util\ConfigReader"/>
-            <tag name="kernel.event_subscriber"/>
-        </service>
 
         <service id="BetterPayment\EventSubscriber\MappingRegisterCustomer">
-
             <tag name="kernel.event_subscriber"/>
         </service>
+        <!-- End Event Subscribers -->
 
+        <!-- Util Classes -->
         <service id="BetterPayment\Util\BetterPaymentClient">
             <argument type="service" id="BetterPayment\Util\ConfigReader" />
             <argument type="service" id="BetterPayment\Util\OrderParametersReader" />
@@ -96,7 +100,9 @@
         <service id="BetterPayment\Util\PaymentStatusMapper">
             <argument type="service" id="Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler" />
         </service>
+        <!-- End Util Classes -->
 
+        <!-- Controllers -->
         <service id="BetterPayment\Controller\WebhookController" public="true">
             <argument type="service" id="BetterPayment\Util\PaymentStatusMapper" />
             <argument type="service" id="order_transaction.repository" />
@@ -104,5 +110,6 @@
                 <argument type="service" id="service_container"/>
             </call>
         </service>
+        <!-- End Controllers -->
     </services>
 </container>
