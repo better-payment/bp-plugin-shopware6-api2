@@ -6,6 +6,7 @@ use BetterPayment\PaymentHandler\SEPADirectDebitHandler;
 
 class SEPADirectDebit extends PaymentMethod
 {
+    public const UUID = '72b81c938115438cb76a409c60a9d20a';
     public const SHORTNAME = 'dd';
 
     protected string $handler = SEPADirectDebitHandler::class;

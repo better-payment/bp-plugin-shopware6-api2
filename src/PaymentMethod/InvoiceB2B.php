@@ -6,19 +6,20 @@ use BetterPayment\PaymentHandler\InvoiceB2BHandler;
 
 class InvoiceB2B extends PaymentMethod
 {
+    public const UUID = '6f6d23fad4fd46529b042338f81f2dd8';
     public const SHORTNAME = 'kar_b2b';
 
     protected string $handler = InvoiceB2BHandler::class;
-    protected string $name = 'Invoice (B2B)';
+    protected string $name = 'Invoice';
     protected string $description = '';
     protected string $icon = '';
     protected array $translations = [
         'de-DE' => [
-            'name' => 'Kauf auf Rechnung B2B',
+            'name' => 'Kauf auf Rechnung',
             'description' => '',
         ],
         'en-GB' => [
-            'name' => 'Invoice B2B',
+            'name' => 'Invoice',
             'description' => '',
         ],
     ];

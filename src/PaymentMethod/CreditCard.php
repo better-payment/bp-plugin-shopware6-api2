@@ -6,6 +6,7 @@ use BetterPayment\PaymentHandler\CreditCardHandler;
 
 class CreditCard extends PaymentMethod
 {
+    public const UUID = '818126dcd4e14c3ca658e935d032f73b';
     public const SHORTNAME = 'cc';
 
     protected string $handler = CreditCardHandler::class;
