@@ -4,6 +4,7 @@ namespace BetterPayment\PaymentMethod;
 
 abstract class PaymentMethod
 {
+    protected string $id;
     protected string $handler;
     protected string $name;
     protected string $shortname;
@@ -11,6 +12,11 @@ abstract class PaymentMethod
     protected string $icon;
     protected array $translations;
 
+
+    public function getId(): string
+    {
+        return $this->id;
+    }
 
     public function getHandler(): string
     {

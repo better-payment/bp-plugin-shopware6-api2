@@ -13,8 +13,6 @@ use BetterPayment\PaymentMethod\SEPADirectDebitB2B;
 use BetterPayment\PaymentMethod\Sofort;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\Plugin\Context\ActivateContext;
 use Shopware\Core\Framework\Plugin\Context\DeactivateContext;
 use Shopware\Core\Framework\Plugin\Context\InstallContext;
@@ -50,13 +48,15 @@ class PaymentMethodInstaller
     public function install(InstallContext $installContext): void
     {
         foreach ($this->getPaymentMethods() as $paymentMethod) {
-            $this->addPaymentMethod($paymentMethod, $installContext->getContext());
+            $this->upsertPaymentMethod($paymentMethod, $installContext->getContext());
         }
     }
 
-    public function update(UpdateContext $context): void
+    public function update(UpdateContext $updateContext): void
     {
-        // TODO implement update scenario of Payment Method
+        foreach ($this->getPaymentMethods() as $paymentMethod) {
+            $this->upsertPaymentMethod($paymentMethod, $updateContext->getContext());
+        }
     }
 
     // Only set the payment method to inactive when uninstalling. Removing the payment method would
@@ -96,26 +96,12 @@ class PaymentMethodInstaller
         return $paymentMethods;
     }
 
-    // Get Payment Method ID by handler identifier
-    private function getPaymentMethodId(PaymentMethod $paymentMethod): ?string
+    private function upsertPaymentMethod(PaymentMethod $paymentMethod, Context $context): void
     {
-        $paymentCriteria = (new Criteria())->addFilter(new EqualsFilter('handlerIdentifier', $paymentMethod->getHandler()));
-        return $this->paymentMethodRepository->searchIds($paymentCriteria, Context::createDefaultContext())->firstId();
-    }
-
-    private function addPaymentMethod(PaymentMethod $paymentMethod, Context $context): void
-    {
-        $paymentMethodExists = $this->getPaymentMethodId($paymentMethod);
-
-        // Payment method exists already, no need to continue here
-        if ($paymentMethodExists) {
-            return;
-        }
-
         $pluginId = $this->pluginIdProvider->getPluginIdByBaseClass(BetterPayment::class, $context);
 
         $paymentMethodData = [
-            // Payment handler will be selected by the identifier
+            'id' => $paymentMethod->getId(),
             'pluginId' => $pluginId,
             'handlerIdentifier' => $paymentMethod->getHandler(),
             'name' => $paymentMethod->getName(),
@@ -124,20 +110,13 @@ class PaymentMethodInstaller
             'afterOrderEnabled' => true
         ];
 
-        $this->paymentMethodRepository->create([$paymentMethodData], $context);
+        $this->paymentMethodRepository->upsert([$paymentMethodData], $context);
     }
 
     private function setPaymentMethodIsActive(PaymentMethod $paymentMethod, bool $active, Context $context): void
     {
-        $paymentMethodId = $this->getPaymentMethodId($paymentMethod);
-
-        // Payment does not even exist, so nothing to (de-)activate here
-        if (!$paymentMethodId) {
-            return;
-        }
-
         $paymentMethodData = [
-            'id' => $paymentMethodId,
+            'id' => $paymentMethod->getId(),
             'active' => $active,
         ];
 
