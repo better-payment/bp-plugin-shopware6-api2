@@ -27,7 +27,14 @@
         <input type="checkbox" id="agreement" form="confirmOrderForm" required>
         <label for="agreement">{{ 'betterpayment.sepa-direct-debit.agreementLabel' | trans }}<span class="text-danger">*</span></label>
     </div>
+
+    {% if config('BetterPayment.config.sepaDirectDebitB2BRiskCheckAgreement') %}
+        <div>
+            <input type="checkbox" id="riskCheckAgreement" form="confirmOrderForm" required>
+            <label for="riskCheckAgreement">{{ 'betterpayment.general.riskCheckAgreementLabel' | trans }}<span class="text-danger"> *</span></label>
+        </div>
+    {% endif %}
 </div>
 
 <br>
-<p class="text-muted">{{ 'betterpayment.sepa-direct-debit.requiredLabel' | trans }}<span class="text-danger">*</span></p>
+<p class="text-muted">{{ 'betterpayment.general.requiredLabel' | trans }}<span class="text-danger">*</span></p>
