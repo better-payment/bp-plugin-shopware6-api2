@@ -17,11 +17,11 @@ class InvoiceB2B extends PaymentMethod
     protected string $icon = '';
     protected array $translations = [
         'de-DE' => [
-            'name' => 'Kauf auf Rechnung',
+            'name' => 'Kauf auf Rechnung B2B',
             'description' => '',
         ],
         'en-GB' => [
-            'name' => 'Invoice',
+            'name' => 'Invoice B2B',
             'description' => '',
         ],
     ];

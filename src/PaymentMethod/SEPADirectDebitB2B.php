@@ -17,11 +17,11 @@ class SEPADirectDebitB2B extends PaymentMethod
     protected string $icon = '';
     protected array $translations = [
         'de-DE' => [
-            'name' => 'SEPA-Lastschrift',
+            'name' => 'SEPA-Lastschrift B2B',
             'description' => '',
         ],
         'en-GB' => [
-            'name' => 'SEPA Direct Debit',
+            'name' => 'SEPA Direct Debit B2B',
             'description' => '',
         ],
     ];
