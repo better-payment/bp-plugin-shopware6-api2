@@ -7,7 +7,6 @@ use BetterPayment\Util\ConfigReader;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\System\CustomField\CustomFieldEntity;
 use Shopware\Core\System\SystemConfig\Event\SystemConfigChangedEvent;
 use Shopware\Core\System\SystemConfig\SystemConfigService;
@@ -72,25 +71,40 @@ class PluginConfigChangedEventSubscriber implements EventSubscriberInterface
     private function setGenderRequired(bool $genderIsCollected): void
     {
         $context = Context::createDefaultContext();
-        $criteria = new Criteria();
-        $criteria->addFilter(new EqualsFilter('name', CustomFieldInstaller::CUSTOMER_GENDER));
+        $criteria = new Criteria([CustomFieldInstaller::CUSTOMER_GENDER_ID]);
 
         /** @var CustomFieldEntity $customField */
         $customField = $this->customFieldRepository->search($criteria, $context)->first();
 
-        // TODO: remove required flag when config is false
         // Admin can delete that custom field, so check whether it exists first
         if ($customField) {
-            $config = $customField->getConfig() + ['validation' => 'required'];
+            $config = $customField->getConfig();
 
-            $data = [
-                [
-                    'id' => $customField->getId(),
-                    'active' => true,
-                    'allowCustomerWrite' => true,
-                    'config' => $config
-                ]
-            ];
+            // depending on flag change setting of gender custom field
+            if ($genderIsCollected) {
+                $config['validation'] = 'required';
+
+                $data = [
+                    [
+                        'id' => $customField->getId(),
+                        'active' => true,
+                        'allowCustomerWrite' => true,
+                        'config' => $config
+                    ]
+                ];
+            }
+            else {
+                unset($config['validation']);
+
+                $data = [
+                    [
+                        'id' => $customField->getId(),
+                        'active' => false,
+                        'allowCustomerWrite' => false,
+                        'config' => $config
+                    ]
+                ];
+            }
 
             $this->customFieldRepository->update($data, $context);
         }
