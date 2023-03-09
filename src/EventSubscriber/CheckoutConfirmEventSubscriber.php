@@ -36,37 +36,50 @@ class CheckoutConfirmEventSubscriber implements EventSubscriberInterface
         $page = $event->getPage();
         $paymentMethod = $event->getSalesChannelContext()->getPaymentMethod();
 
-        $data = new CheckoutData();
 
         if ($paymentMethod->getHandlerIdentifier() == SEPADirectDebitHandler::class) {
+            $data = new CheckoutData();
+
             $data->assign([
                 'template' => '@Storefront/betterpayment/sepa-direct-debit.html.twig',
                 'creditorID' => $this->configReader->getString(ConfigReader::SEPA_DIRECT_DEBIT_CREDITOR_ID),
                 'companyName' => $this->configReader->getString(ConfigReader::SEPA_DIRECT_DEBIT_COMPANY_NAME),
                 'mandateReference' => Uuid::randomHex(),
             ]);
+
+            $page->addExtension(CheckoutData::EXTENSION_NAME, $data);
         }
         elseif ($paymentMethod->getHandlerIdentifier() == SEPADirectDebitB2BHandler::class) {
+            $data = new CheckoutData();
+
             $data->assign([
                 'template' => '@Storefront/betterpayment/sepa-direct-debit-b2b.html.twig',
                 'creditorID' => $this->configReader->getString(ConfigReader::SEPA_DIRECT_DEBIT_B2B_CREDITOR_ID),
                 'companyName' => $this->configReader->getString(ConfigReader::SEPA_DIRECT_DEBIT_B2B_COMPANY_NAME),
                 'mandateReference' => Uuid::randomHex(),
             ]);
+
+            $page->addExtension(CheckoutData::EXTENSION_NAME, $data);
         }
         // in invoice payment methods (b2c|b2b) only risk check agreement checkbox is added as form field when corresponding config is enabled
         // that's why it also needs to check in if condition whether config is enabled before assigning related template view
         elseif ($paymentMethod->getHandlerIdentifier() == InvoiceHandler::class && $this->configReader->getBool(ConfigReader::INVOICE_RISK_CHECK_AGREEMENT)) {
+            $data = new CheckoutData();
+
             $data->assign([
                 'template' => '@Storefront/betterpayment/invoice.html.twig',
             ]);
+
+            $page->addExtension(CheckoutData::EXTENSION_NAME, $data);
         }
         elseif ($paymentMethod->getHandlerIdentifier() == InvoiceB2BHandler::class && $this->configReader->getBool(ConfigReader::INVOICE_B2B_RISK_CHECK_AGREEMENT)) {
+            $data = new CheckoutData();
+
             $data->assign([
                 'template' => '@Storefront/betterpayment/invoice-b2b.html.twig',
             ]);
-        }
 
-        $page->addExtension(CheckoutData::EXTENSION_NAME, $data);
+            $page->addExtension(CheckoutData::EXTENSION_NAME, $data);
+        }
     }
 }
