@@ -207,20 +207,6 @@
             <helpText lang="de-DE">Sie müssen den Firmennamen angeben, der in der Mandatsreferenzvereinbarung auf der Kassenseite angezeigt werden soll.</helpText>
         </input-field>
         <input-field type="bool">
-            <name>sepaDirectDebitB2BCollectDateOfBirth</name>
-            <label>Collect date of birth</label>
-            <label lang="de-DE">Geburtsdatum sammeln</label>
-            <helpText>If you have configured risk checks with the payment provider, it may require date of birth from your customers.</helpText>
-            <helpText lang="de-DE">Wenn Sie beim Zahlungsanbieter Risikoprüfungen konfiguriert haben, kann er von Ihren Kunden das Geburtsdatum verlangen.</helpText>
-        </input-field>
-        <input-field type="bool">
-            <name>sepaDirectDebitB2BCollectGender</name>
-            <label>Collect gender information</label>
-            <label lang="de-DE">Sammeln Sie geschlechtsspezifische Informationen</label>
-            <helpText>If you have configured risk checks with the payment provider, it may require gender from your customers.</helpText>
-            <helpText lang="de-DE">Wenn Sie beim Zahlungsanbieter Risikoprüfungen konfiguriert haben, kann es sein, dass er von Ihren Kunden ein Geschlecht verlangt.</helpText>
-        </input-field>
-        <input-field type="bool">
             <name>sepaDirectDebitB2BRiskCheckAgreement</name>
             <label>Require customers to agree to risk check processing</label>
             <label lang="de-DE">Die Kunden müssen der Bearbeitung von Risikoprüfungen zustimmen</label>
@@ -313,20 +299,6 @@
             <label lang="de-DE">BIC (fakultativ)</label>
             <helpText>Your company's BIC.</helpText>
             <helpText lang="de-DE">Der BIC Ihres Unternehmens.</helpText>
-        </input-field>
-        <input-field type="bool">
-            <name>invoiceB2BCollectDateOfBirth</name>
-            <label>Collect date of birth</label>
-            <label lang="de-DE">Geburtsdatum sammeln</label>
-            <helpText>If you have configured risk checks with the payment provider, it may require date of birth from your customers.</helpText>
-            <helpText lang="de-DE">Wenn Sie beim Zahlungsanbieter Risikoprüfungen konfiguriert haben, kann er von Ihren Kunden das Geburtsdatum verlangen.</helpText>
-        </input-field>
-        <input-field type="bool">
-            <name>invoiceB2BCollectGender</name>
-            <label>Collect gender information</label>
-            <label lang="de-DE">Sammeln Sie geschlechtsspezifische Informationen</label>
-            <helpText>If you have configured risk checks with the payment provider, it may require gender from your customers.</helpText>
-            <helpText lang="de-DE">Wenn Sie beim Zahlungsanbieter Risikoprüfungen konfiguriert haben, kann es sein, dass er von Ihren Kunden ein Geschlecht verlangt.</helpText>
         </input-field>
         <input-field type="bool">
             <name>invoiceB2BRiskCheckAgreement</name>

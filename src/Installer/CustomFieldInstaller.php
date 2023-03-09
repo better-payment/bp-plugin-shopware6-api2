@@ -36,7 +36,7 @@ class CustomFieldInstaller
 
 
     public const CUSTOMER_GENDER = 'better_payment_customer_gender';
-    private const CUSTOMER_GENDER_ID = '082dce514dc84f3ea630f1fb0e8e112d';
+    public const CUSTOMER_GENDER_ID = '082dce514dc84f3ea630f1fb0e8e112d';
     private const CUSTOMER_FIELDS = [
         [
             'id' => self::CUSTOMER_GENDER_ID,
