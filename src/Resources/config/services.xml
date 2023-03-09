@@ -75,6 +75,11 @@
             <tag name="kernel.event_subscriber"/>
         </service>
 
+        <service id="BetterPayment\EventSubscriber\PluginPostActivateEventSubscriber">
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
         <service id="BetterPayment\EventSubscriber\MappingRegisterCustomer">
             <tag name="kernel.event_subscriber"/>
         </service>
