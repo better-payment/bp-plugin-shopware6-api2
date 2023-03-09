@@ -38,65 +38,61 @@ class PluginConfigChangedEventSubscriber implements EventSubscriberInterface
         if ($this->anyCollectBirthdayConfigChanged($event))
         {
             $this->systemConfigService->set('core.loginRegistration.showBirthdayField', $this->birthdayIsCollected());
-            $this->systemConfigService->set('core.loginRegistration.birthdayFieldRequired', $this->birthdayIsCollected());
         }
 
-        // Admin can delete that custom field, so check whether it exists first
         if ($this->anyCollectGenderConfigChanged($event)) {
-            $context = Context::createDefaultContext();
-            $criteria = new Criteria();
-            $criteria->addFilter(new EqualsFilter('name', CustomFieldInstaller::CUSTOMER_GENDER));
-
-            /** @var CustomFieldEntity $customField */
-            $customField = $this->customFieldRepository->search($criteria, $context)->first();
-
-            // TODO: remove required flag when config is false
-            if ($customField) {
-                $config = $customField->getConfig() + ['validation' => 'required'];
-
-                $data = [
-                    [
-                        'id' => $customField->getId(),
-                        'active' => true,
-                        'allowCustomerWrite' => true,
-                        'config' => $config
-                    ]
-                ];
-
-                $this->customFieldRepository->update($data, $context);
-            }
+            $this->setGenderRequired($this->genderIsCollected());
         }
     }
 
     private function anyCollectBirthdayConfigChanged(SystemConfigChangedEvent $event): bool
     {
         return $event->getKey() == ConfigReader::CONFIG_DOMAIN . ConfigReader::SEPA_DIRECT_DEBIT_COLLECT_DATE_OF_BIRTH
-            || $event->getKey() == ConfigReader::CONFIG_DOMAIN . ConfigReader::SEPA_DIRECT_DEBIT_B2B_COLLECT_DATE_OF_BIRTH
-            || $event->getKey() == ConfigReader::CONFIG_DOMAIN . ConfigReader::INVOICE_COLLECT_DATE_OF_BIRTH
-            || $event->getKey() == ConfigReader::CONFIG_DOMAIN . ConfigReader::INVOICE_B2B_COLLECT_DATE_OF_BIRTH;
+            || $event->getKey() == ConfigReader::CONFIG_DOMAIN . ConfigReader::INVOICE_COLLECT_DATE_OF_BIRTH;
     }
 
     private function birthdayIsCollected(): bool
     {
         return $this->configReader->getBool(ConfigReader::SEPA_DIRECT_DEBIT_COLLECT_DATE_OF_BIRTH)
-            || $this->configReader->getBool(ConfigReader::SEPA_DIRECT_DEBIT_B2B_COLLECT_DATE_OF_BIRTH)
-            || $this->configReader->getBool(ConfigReader::INVOICE_COLLECT_DATE_OF_BIRTH)
-            || $this->configReader->getBool(ConfigReader::INVOICE_B2B_COLLECT_DATE_OF_BIRTH);
+            || $this->configReader->getBool(ConfigReader::INVOICE_COLLECT_DATE_OF_BIRTH);
     }
 
     private function anyCollectGenderConfigChanged(SystemConfigChangedEvent $event): bool
     {
         return $event->getKey() == ConfigReader::CONFIG_DOMAIN . ConfigReader::SEPA_DIRECT_DEBIT_COLLECT_GENDER
-            || $event->getKey() == ConfigReader::CONFIG_DOMAIN . ConfigReader::SEPA_DIRECT_DEBIT_B2B_COLLECT_GENDER
-            || $event->getKey() == ConfigReader::CONFIG_DOMAIN . ConfigReader::INVOICE_COLLECT_GENDER
-            || $event->getKey() == ConfigReader::CONFIG_DOMAIN . ConfigReader::INVOICE_B2B_COLLECT_GENDER;
+            || $event->getKey() == ConfigReader::CONFIG_DOMAIN . ConfigReader::INVOICE_COLLECT_GENDER;
     }
 
     private function genderIsCollected(): bool
     {
         return $this->configReader->getBool(ConfigReader::SEPA_DIRECT_DEBIT_COLLECT_GENDER)
-            || $this->configReader->getBool(ConfigReader::SEPA_DIRECT_DEBIT_B2B_COLLECT_GENDER)
-            || $this->configReader->getBool(ConfigReader::INVOICE_COLLECT_GENDER)
-            || $this->configReader->getBool(ConfigReader::INVOICE_B2B_COLLECT_GENDER);
+            || $this->configReader->getBool(ConfigReader::INVOICE_COLLECT_GENDER);
+    }
+
+    private function setGenderRequired(bool $genderIsCollected): void
+    {
+        $context = Context::createDefaultContext();
+        $criteria = new Criteria();
+        $criteria->addFilter(new EqualsFilter('name', CustomFieldInstaller::CUSTOMER_GENDER));
+
+        /** @var CustomFieldEntity $customField */
+        $customField = $this->customFieldRepository->search($criteria, $context)->first();
+
+        // TODO: remove required flag when config is false
+        // Admin can delete that custom field, so check whether it exists first
+        if ($customField) {
+            $config = $customField->getConfig() + ['validation' => 'required'];
+
+            $data = [
+                [
+                    'id' => $customField->getId(),
+                    'active' => true,
+                    'allowCustomerWrite' => true,
+                    'config' => $config
+                ]
+            ];
+
+            $this->customFieldRepository->update($data, $context);
+        }
     }
 }

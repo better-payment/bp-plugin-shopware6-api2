@@ -27,8 +27,6 @@ class ConfigReader
 
     public const SEPA_DIRECT_DEBIT_B2B_CREDITOR_ID = 'sepaDirectDebitB2BCreditorID';
     public const SEPA_DIRECT_DEBIT_B2B_COMPANY_NAME = 'sepaDirectDebitB2BCompanyName';
-    public const SEPA_DIRECT_DEBIT_B2B_COLLECT_DATE_OF_BIRTH = 'sepaDirectDebitB2BCollectDateOfBirth';
-    public const SEPA_DIRECT_DEBIT_B2B_COLLECT_GENDER = 'sepaDirectDebitB2BCollectGender';
     public const SEPA_DIRECT_DEBIT_B2B_RISK_CHECK_AGREEMENT = 'sepaDirectDebitB2BRiskCheckAgreement';
 
     public const INVOICE_DISPLAY_INSTRUCTION = 'invoiceDisplayInstruction';
@@ -41,8 +39,6 @@ class ConfigReader
     public const INVOICE_B2B_DISPLAY_INSTRUCTION = 'invoiceB2BDisplayInstruction';
     public const INVOICE_B2B_IBAN = 'invoiceB2BIBAN';
     public const INVOICE_B2B_BIC = 'invoiceB2BBIC';
-    public const INVOICE_B2B_COLLECT_DATE_OF_BIRTH = 'invoiceB2BCollectDateOfBirth';
-    public const INVOICE_B2B_COLLECT_GENDER = 'invoiceB2BCollectGender';
     public const INVOICE_B2B_RISK_CHECK_AGREEMENT = 'invoiceB2BRiskCheckAgreement';
     
 

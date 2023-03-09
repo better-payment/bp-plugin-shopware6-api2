@@ -169,9 +169,7 @@ class BetterPaymentClient
 
         // depending on payment method(type) and config option retrieve birthdate
         if (($paymentType == SEPADirectDebit::SHORTNAME && $this->configReader->getBool(ConfigReader::SEPA_DIRECT_DEBIT_COLLECT_DATE_OF_BIRTH))
-            || ($paymentType == SEPADirectDebitB2B::SHORTNAME && $this->configReader->getBool(ConfigReader::SEPA_DIRECT_DEBIT_B2B_COLLECT_DATE_OF_BIRTH))
-            || ($paymentType == Invoice::SHORTNAME && $this->configReader->getBool(ConfigReader::INVOICE_COLLECT_DATE_OF_BIRTH))
-            || ($paymentType == InvoiceB2B::SHORTNAME && $this->configReader->getBool(ConfigReader::INVOICE_B2B_COLLECT_DATE_OF_BIRTH)))
+            || ($paymentType == Invoice::SHORTNAME && $this->configReader->getBool(ConfigReader::INVOICE_COLLECT_DATE_OF_BIRTH)))
         {
             $params += [
                 'date_of_birth' => $this->getBirthday($customer)
@@ -180,9 +178,7 @@ class BetterPaymentClient
 
         // depending on payment method(type) and config option retrieve gender
         if (($paymentType == SEPADirectDebit::SHORTNAME && $this->configReader->getBool(ConfigReader::SEPA_DIRECT_DEBIT_COLLECT_GENDER))
-            || ($paymentType == SEPADirectDebitB2B::SHORTNAME && $this->configReader->getBool(ConfigReader::SEPA_DIRECT_DEBIT_B2B_COLLECT_GENDER))
-            || ($paymentType == Invoice::SHORTNAME && $this->configReader->getBool(ConfigReader::INVOICE_COLLECT_GENDER))
-            || ($paymentType == InvoiceB2B::SHORTNAME && $this->configReader->getBool(ConfigReader::INVOICE_B2B_COLLECT_GENDER)))
+            || ($paymentType == Invoice::SHORTNAME && $this->configReader->getBool(ConfigReader::INVOICE_COLLECT_GENDER)))
         {
             $params += [
                 'gender' => $this->getGender($customer)
