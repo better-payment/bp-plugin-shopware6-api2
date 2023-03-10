@@ -12,7 +12,7 @@ use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-class CreditCardHandler implements AsynchronousPaymentHandlerInterface
+class PaypalHandler implements AsynchronousPaymentHandlerInterface
 {
     private OrderTransactionStateHandler $orderTransactionStateHandler;
     private BetterPaymentClient $betterPaymentClient;

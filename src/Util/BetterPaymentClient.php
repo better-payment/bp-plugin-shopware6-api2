@@ -2,9 +2,9 @@
 
 namespace BetterPayment\Util;
 
+use BetterPayment\Installer\CustomFieldInstaller;
 use BetterPayment\Installer\PaymentMethodInstaller;
 use BetterPayment\PaymentMethod\Invoice;
-use BetterPayment\PaymentMethod\InvoiceB2B;
 use BetterPayment\PaymentMethod\PaymentMethod;
 use BetterPayment\PaymentMethod\SEPADirectDebit;
 use BetterPayment\PaymentMethod\SEPADirectDebitB2B;
@@ -37,9 +37,24 @@ class BetterPaymentClient
         $this->orderTransactionRepository = $orderTransactionRepository;
     }
 
-    public function request(SyncPaymentTransactionStruct $transaction, string $paymentType, RequestDataBag $dataBag = null)
+    private function getClient(): Client
     {
-        $requestParameters = $this->getRequestParameters($transaction, $paymentType, $dataBag);
+        return new Client([
+            'base_uri' => $this->configReader->getAPIHostName()
+        ]);
+    }
+
+    private function getHeaders(): array
+    {
+        return [
+            'Authorization' => 'Basic '.base64_encode($this->configReader->getAPIKey().':'.$this->configReader->getOutgoingKey()),
+            'Content-Type' => 'application/json'
+        ];
+    }
+
+    public function request(SyncPaymentTransactionStruct $transaction, RequestDataBag $dataBag = null)
+    {
+        $requestParameters = $this->getRequestParameters($transaction, $dataBag);
         $body = json_encode($requestParameters);
         $request = new Request('POST', 'rest/payment', $this->getHeaders(), $body);
         try {
@@ -57,48 +72,20 @@ class BetterPaymentClient
         }
     }
 
-    private function getClient(): Client
+    private function getRequestParameters(SyncPaymentTransactionStruct $transaction, RequestDataBag $dataBag = null): array
     {
-        return new Client([
-            'base_uri' => $this->configReader->getAPIHostName()
-        ]);
-    }
-
-    private function getHeaders(): array
-    {
-        return [
-            'Authorization' => 'Basic '.base64_encode($this->configReader->getAPIKey().':'.$this->configReader->getOutgoingKey()),
-            'Content-Type' => 'application/json'
-        ];
-    }
-
-    // TODO refactor this method
-    private function getRequestParameters(SyncPaymentTransactionStruct $transaction, string $paymentType, RequestDataBag $dataBag = null): array
-    {
-        // this is common for almost all payment methods
+        // Get common order parameters
         $requestParameters = $this->orderParametersReader->getAllParameters($transaction);
 
-        // this is specific to Direct Debit payment methods
-        if ($paymentType == SEPADirectDebit::SHORTNAME || $paymentType == SEPADirectDebitB2B::SHORTNAME) {
-            $requestParameters += [
-                'account_holder' => $dataBag->get('betterpayment_account_holder'),
-                'iban' => $dataBag->get('betterpayment_iban'),
-                'bic' => $dataBag->get('betterpayment_bic'),
-                'sepa_mandate' => $dataBag->get('betterpayment_sepa_mandate')
-            ];
-        }
+        // Get payment method specific parameters
+        $requestParameters += $this->getPaymentMethodSpecificParameters($transaction, $dataBag);
 
-        // this is specific to following payment methods
-        if ($paymentType == Invoice::SHORTNAME || $paymentType == InvoiceB2B::SHORTNAME
-            || $paymentType == SEPADirectDebit::SHORTNAME || $paymentType == SEPADirectDebitB2B::SHORTNAME)
-        {
-            $customer = $transaction->getOrder()->getOrderCustomer()->getCustomer();
-            $requestParameters += $this->riskCheckParameters($paymentType, $customer);
-        }
+        // Get risk check parameters
+        $requestParameters += $this->getRiskCheckParameters($transaction);
 
         // this is common for all payment methods
         $requestParameters += [
-            'payment_type' => $paymentType,
+            'payment_type' => $this->getPaymentMethodClassByTransaction($transaction)->getShortname(),
             'risk_check_approval' => '1',
             'postback_url' => EnvironmentHelper::getVariable('APP_URL').'/api/betterpayment/webhook',
         ];
@@ -117,9 +104,6 @@ class BetterPaymentClient
     // store better payment transaction_id in order transaction custom fields
     private function storeBetterPaymentTransactionID(OrderTransactionEntity $orderTransactionEntity, string $betterPaymentTransactionID): void
     {
-        // TODO once again make sure below line is not working
-//        $orderTransactionEntity->setCustomFields();
-
         $this->orderTransactionRepository->update([
             [
                 'id' => $orderTransactionEntity->getId(),
@@ -130,28 +114,28 @@ class BetterPaymentClient
         ], Context::createDefaultContext());
     }
 
-    // TODO this can be used to remove $paymentType parameter dependency from request() method
-    private function getPaymentMethodByTransaction(SyncPaymentTransactionStruct $transaction): ?PaymentMethod
+    // Get Plugin Payment Method Class by transaction ID
+    private function getPaymentMethodClassByTransaction(SyncPaymentTransactionStruct $transaction): ?PaymentMethod
     {
-        $handler = $transaction->getOrderTransaction()->getPaymentMethod()->getHandlerIdentifier();
+        $paymentMethodId = $transaction->getOrderTransaction()->getPaymentMethodId();
         foreach (PaymentMethodInstaller::PAYMENT_METHODS as $PAYMENT_METHOD) {
             /** @var PaymentMethod $paymentMethod */
             $paymentMethod = new $PAYMENT_METHOD();
-            if ($paymentMethod->getHandler() == $handler)
+            if ($paymentMethod->getId() == $paymentMethodId)
                 return $paymentMethod;
         }
 
         return null;
     }
 
-    // TODO this can be used to generalise preparing payment method specific request parameters
-    private function paymentMethodParameters(PaymentMethod $paymentMethod): array
+    // Payment Method specific parameters
+    private function getPaymentMethodSpecificParameters(SyncPaymentTransactionStruct $transaction, RequestDataBag $dataBag = null): array
     {
-        // TODO make dataBag class variable to fetch it here as $this->dataBag
-        $dataBag = new RequestDataBag();
-        switch ($paymentMethod) {
-            case SEPADirectDebit::class:
-            case SEPADirectDebitB2B::class:
+        $paymentMethodId = $transaction->getOrderTransaction()->getPaymentMethodId();
+
+        switch ($paymentMethodId) {
+            case SEPADirectDebit::UUID:
+            case SEPADirectDebitB2B::UUID:
                 return [
                     'account_holder' => $dataBag->get('betterpayment_account_holder'),
                     'iban' => $dataBag->get('betterpayment_iban'),
@@ -163,26 +147,39 @@ class BetterPaymentClient
         }
     }
 
-    private function riskCheckParameters(string $paymentType, CustomerEntity $customer): array
+    // Risk check parameters
+    private function getRiskCheckParameters(SyncPaymentTransactionStruct $transaction): array
     {
         $params = [];
 
-        // depending on payment method(type) and config option retrieve birthdate
-        if (($paymentType == SEPADirectDebit::SHORTNAME && $this->configReader->getBool(ConfigReader::SEPA_DIRECT_DEBIT_COLLECT_DATE_OF_BIRTH))
-            || ($paymentType == Invoice::SHORTNAME && $this->configReader->getBool(ConfigReader::INVOICE_COLLECT_DATE_OF_BIRTH)))
-        {
-            $params += [
-                'date_of_birth' => $this->getBirthday($customer)
-            ];
-        }
+        $paymentMethodId = $transaction->getOrderTransaction()->getPaymentMethodId();
+        $customer = $transaction->getOrder()->getOrderCustomer()->getCustomer();
 
-        // depending on payment method(type) and config option retrieve gender
-        if (($paymentType == SEPADirectDebit::SHORTNAME && $this->configReader->getBool(ConfigReader::SEPA_DIRECT_DEBIT_COLLECT_GENDER))
-            || ($paymentType == Invoice::SHORTNAME && $this->configReader->getBool(ConfigReader::INVOICE_COLLECT_GENDER)))
-        {
-            $params += [
-                'gender' => $this->getGender($customer)
-            ];
+        switch ($paymentMethodId) {
+            case SEPADirectDebit::UUID:
+                if ($this->configReader->getBool(ConfigReader::SEPA_DIRECT_DEBIT_COLLECT_DATE_OF_BIRTH)) {
+                    $params += [
+                        'date_of_birth' => $this->getBirthday($customer)
+                    ];
+                }
+                if ($this->configReader->getBool(ConfigReader::SEPA_DIRECT_DEBIT_COLLECT_GENDER)) {
+                    $params += [
+                        'gender' => $this->getGender($customer)
+                    ];
+                }
+                break;
+            case Invoice::UUID:
+                if ($this->configReader->getBool(ConfigReader::INVOICE_COLLECT_DATE_OF_BIRTH)) {
+                    $params += [
+                        'date_of_birth' => $this->getBirthday($customer)
+                    ];
+                }
+                if ($this->configReader->getBool(ConfigReader::INVOICE_COLLECT_GENDER)) {
+                    $params += [
+                        'gender' => $this->getGender($customer)
+                    ];
+                }
+                break;
         }
 
         return $params;
@@ -198,6 +195,6 @@ class BetterPaymentClient
     private function getGender(CustomerEntity $customer): ?string
     {
         // returns m|f|d|null as required by API and as custom field setup (null if not set yet)
-        return $customer->getCustomFields()['better_payment_gender'];
+        return $customer->getCustomFields()[CustomFieldInstaller::CUSTOMER_GENDER];
     }
 }
