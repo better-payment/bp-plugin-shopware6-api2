@@ -2,6 +2,7 @@
 
 namespace BetterPayment\Util;
 
+use BetterPayment\Installer\CustomFieldInstaller;
 use BetterPayment\Installer\PaymentMethodInstaller;
 use BetterPayment\PaymentMethod\Invoice;
 use BetterPayment\PaymentMethod\InvoiceB2B;
@@ -198,6 +199,6 @@ class BetterPaymentClient
     private function getGender(CustomerEntity $customer): ?string
     {
         // returns m|f|d|null as required by API and as custom field setup (null if not set yet)
-        return $customer->getCustomFields()['better_payment_gender'];
+        return $customer->getCustomFields()[CustomFieldInstaller::CUSTOMER_GENDER];
     }
 }
