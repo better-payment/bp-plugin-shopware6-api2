@@ -2,25 +2,25 @@
 
 namespace BetterPayment\PaymentMethod;
 
-use BetterPayment\PaymentHandler\SofortHandler;
+use BetterPayment\PaymentHandler\PaypalHandler;
 
-class Sofort extends PaymentMethod
+class Paypal extends PaymentMethod
 {
-    public const UUID = 'd3fe50176f7b49cbbdaf8c3182f27890';
+    public const UUID = '713fed1249a342ea93e8a50aa3ca38ed';
 
     protected string $id = self::UUID;
-    protected string $handler = SofortHandler::class;
-    protected string $name = 'Sofort';
-    protected string $shortname = 'sofort';
+    protected string $handler = PaypalHandler::class;
+    protected string $name = 'PayPal';
+    protected string $shortname = 'paypal';
     protected string $description = '';
     protected string $icon = '';
     protected array $translations = [
         'de-DE' => [
-            'name' => 'Sofortuberweisung',
+            'name' => 'PayPal',
             'description' => '',
         ],
         'en-GB' => [
-            'name' => 'Sofort',
+            'name' => 'PayPal',
             'description' => '',
         ],
     ];

@@ -2,7 +2,6 @@
 
 namespace BetterPayment\PaymentHandler;
 
-use BetterPayment\PaymentMethod\InvoiceB2B;
 use BetterPayment\Util\BetterPaymentClient;
 use BetterPayment\Util\PaymentStatusMapper;
 use Shopware\Core\Checkout\Payment\Cart\PaymentHandler\SynchronousPaymentHandlerInterface;
@@ -27,7 +26,7 @@ class InvoiceB2BHandler implements SynchronousPaymentHandlerInterface
     public function pay(SyncPaymentTransactionStruct $transaction, RequestDataBag $dataBag, SalesChannelContext $salesChannelContext): void
     {
         try {
-            $status = $this->betterPaymentClient->request($transaction, InvoiceB2B::SHORTNAME)->status;
+            $status = $this->betterPaymentClient->request($transaction)->status;
             $context = $salesChannelContext->getContext();
 
             $this->paymentStatusMapper->updateOrderTransactionState($transaction->getOrderTransaction()->getId(), $status, $context);

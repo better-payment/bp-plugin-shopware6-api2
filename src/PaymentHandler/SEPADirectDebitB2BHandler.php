@@ -2,7 +2,6 @@
 
 namespace BetterPayment\PaymentHandler;
 
-use BetterPayment\PaymentMethod\SEPADirectDebitB2B;
 use BetterPayment\Util\BetterPaymentClient;
 use BetterPayment\Util\PaymentStatusMapper;
 use Shopware\Core\Checkout\Payment\Cart\PaymentHandler\SynchronousPaymentHandlerInterface;
@@ -27,7 +26,7 @@ class SEPADirectDebitB2BHandler implements SynchronousPaymentHandlerInterface
     public function pay(SyncPaymentTransactionStruct $transaction, RequestDataBag $dataBag, SalesChannelContext $salesChannelContext): void
     {
         try {
-            $status = $this->betterPaymentClient->request($transaction, SEPADirectDebitB2B::SHORTNAME, $dataBag)->status;
+            $status = $this->betterPaymentClient->request($transaction, $dataBag)->status;
             $context = $salesChannelContext->getContext();
 
             $this->paymentStatusMapper->updateOrderTransactionState($transaction->getOrderTransaction()->getId(), $status, $context);
