@@ -2,33 +2,26 @@
 
 namespace BetterPayment\PaymentHandler;
 
-use BetterPayment\PaymentMethod\CreditCard;
 use BetterPayment\Util\BetterPaymentClient;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler;
-use Shopware\Core\Checkout\Order\Aggregate\OrderTransactionCaptureRefund\OrderTransactionCaptureRefundStateHandler;
 use Shopware\Core\Checkout\Payment\Cart\AsyncPaymentTransactionStruct;
 use Shopware\Core\Checkout\Payment\Cart\PaymentHandler\AsynchronousPaymentHandlerInterface;
-use Shopware\Core\Checkout\Payment\Cart\PaymentHandler\RefundPaymentHandlerInterface;
 use Shopware\Core\Checkout\Payment\Exception\AsyncPaymentProcessException;
-use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\Validation\DataBag\RequestDataBag;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-class CreditCardHandler implements AsynchronousPaymentHandlerInterface/*, RefundPaymentHandlerInterface*/
+class CreditCardHandler implements AsynchronousPaymentHandlerInterface
 {
     private OrderTransactionStateHandler $orderTransactionStateHandler;
-//    private OrderTransactionCaptureRefundStateHandler $refundStateHandler;
     private BetterPaymentClient $betterPaymentClient;
 
     public function __construct(
         OrderTransactionStateHandler $orderTransactionStateHandler,
-        OrderTransactionCaptureRefundStateHandler $refundStateHandler,
         BetterPaymentClient $betterPaymentClient
     ){
         $this->orderTransactionStateHandler = $orderTransactionStateHandler;
-//        $this->refundStateHandler = $refundStateHandler;
         $this->betterPaymentClient = $betterPaymentClient;
     }
 
@@ -39,7 +32,7 @@ class CreditCardHandler implements AsynchronousPaymentHandlerInterface/*, Refund
     {
         // Method that sends the return URL to the external gateway and gets a redirect URL back
         try {
-            $redirectUrl = $this->betterPaymentClient->request($transaction, CreditCard::SHORTNAME)->action_data->url;
+            $redirectUrl = $this->betterPaymentClient->request($transaction)->action_data->url;
         } catch (\Exception $e) {
             throw new AsyncPaymentProcessException(
                 $transaction->getOrderTransaction()->getId(),
@@ -61,9 +54,4 @@ class CreditCardHandler implements AsynchronousPaymentHandlerInterface/*, Refund
         // Payment completed, set transaction status to "paid"
         $this->orderTransactionStateHandler->paid($transaction->getOrderTransaction()->getId(), $context);
     }
-
-//    public function refund(string $refundId, Context $context): void
-//    {
-//        $this->refundStateHandler->complete($refundId, $context);
-//    }
 }

@@ -2,7 +2,6 @@
 
 namespace BetterPayment\PaymentHandler;
 
-use BetterPayment\PaymentMethod\Paydirekt;
 use BetterPayment\Util\BetterPaymentClient;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler;
 use Shopware\Core\Checkout\Payment\Cart\AsyncPaymentTransactionStruct;
@@ -33,7 +32,7 @@ class PaydirektHandler implements AsynchronousPaymentHandlerInterface
     {
         // Method that sends the return URL to the external gateway and gets a redirect URL back
         try {
-            $redirectUrl = $this->betterPaymentClient->request($transaction, Paydirekt::SHORTNAME)->action_data->url;
+            $redirectUrl = $this->betterPaymentClient->request($transaction)->action_data->url;
         } catch (\Exception $e) {
             throw new AsyncPaymentProcessException(
                 $transaction->getOrderTransaction()->getId(),
