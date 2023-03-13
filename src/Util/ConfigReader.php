@@ -62,14 +62,14 @@ class ConfigReader
         return $this->systemConfigService->getBool(self::CONFIG_DOMAIN . $key);
     }
 
-    public function getAPIHostName(): string
+    public function getAPIUrl(): string
     {
         $whiteLabel = $this->get(self::WHITE_LABEL);
         $environment = $this->get(self::ENVIRONMENT);
 
         $data = json_decode(file_get_contents(__DIR__.'/../Resources/data/whitelabels.json'), true);
 
-        return $data[$whiteLabel][$environment]['api_hostname'];
+        return $data[$whiteLabel][$environment]['api_url'];
     }
 
     public function getAPIKey(): string
