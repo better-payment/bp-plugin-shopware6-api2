@@ -2,6 +2,7 @@
 
 namespace BetterPayment\Controller;
 
+use BetterPayment\Util\ConfigReader;
 use BetterPayment\Util\PaymentStatusMapper;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionEntity;
 use Shopware\Core\Framework\Context;
@@ -12,18 +13,22 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\param;
 
 class WebhookController extends AbstractController
 {
     private PaymentStatusMapper $paymentStatusMapper;
     private EntityRepositoryInterface $orderTransactionRepository;
+    private ConfigReader $configReader;
 
     public function __construct(
         PaymentStatusMapper $paymentStatusMapper,
-        EntityRepositoryInterface $orderTransactionRepository
+        EntityRepositoryInterface $orderTransactionRepository,
+        ConfigReader $configReader
     ){
         $this->paymentStatusMapper = $paymentStatusMapper;
         $this->orderTransactionRepository = $orderTransactionRepository;
+        $this->configReader = $configReader;
     }
 
     /**
@@ -31,8 +36,7 @@ class WebhookController extends AbstractController
      */
     public function handle(Request $request, Context $context): Response
     {
-        // TODO verify by $request->get('checksum')
-        if (true) {
+        if ($this->checksumIsValidated($request)) {
             $betterPaymentTransactionID = $request->get('transaction_id');
             $betterPaymentTransactionState = $request->get('status');
             $orderTransactionID = $this->getOrderTransactionByBetterPaymentTransactionID($betterPaymentTransactionID, $context)->getId();
@@ -47,7 +51,7 @@ class WebhookController extends AbstractController
             }
         }
         else {
-            return new Response('checksum verification failed', 401);
+            return new Response('Checksum verification failed', 401);
         }
     }
 
@@ -57,5 +61,18 @@ class WebhookController extends AbstractController
         $criteria->addFilter(new EqualsFilter('customFields.better_payment_transaction_id', $betterPaymentTransactionID));
 
         return $this->orderTransactionRepository->search($criteria, $context)->first();
+    }
+
+    private function checksumIsValidated(Request $request): bool
+    {
+        // Calculate checksum without checksum parameter itself, and sign it with INCOMING_KEY
+        // NOTE: "content-type": "application/x-www-form-urlencoded" for this request
+        // that's why $request->request is used to fetch parameters
+        $params = $request->request->all();
+        unset($params['checksum']);
+        $query = http_build_query($params, '', '&', PHP_QUERY_RFC1738);
+        $checksum = sha1($query . $this->configReader->getIncomingKey());
+
+        return $checksum == $request->get('checksum');
     }
 }
