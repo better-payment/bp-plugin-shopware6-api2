@@ -1,0 +1,7 @@
+{% sw_extends '@Storefront/storefront/page/account/profile/index.html.twig' %}
+
+{% block page_account_profile_personal_fields %}
+    {{ parent() }}
+
+    {% sw_include '@Storefront/betterpayment/birthday-gender-fields.html.twig' %}
+{% endblock %}
