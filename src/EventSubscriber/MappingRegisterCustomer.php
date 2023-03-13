@@ -23,10 +23,8 @@ class MappingRegisterCustomer implements EventSubscriberInterface
         $input = $event->getInput();
         $output = $event->getOutput();
 
-        // get gender from form
         $gender = $input->get(CustomFieldInstaller::CUSTOMER_GENDER);
 
-        // set gender as custom field
         $output['customFields'] = [CustomFieldInstaller::CUSTOMER_GENDER => $gender];
         $event->setOutput($output);
 

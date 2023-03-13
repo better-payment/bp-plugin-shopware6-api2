@@ -43,7 +43,6 @@ class OrderParametersReader
         );
     }
 
-    // The following parameters are used with all payment methods
     public function getCommonParameters(OrderEntity $order, OrderTransactionEntity $orderTransaction): array
     {
         return [
@@ -61,8 +60,6 @@ class OrderParametersReader
             'currency' => $order->getCurrency()->getIsoCode(),
             // If the order includes a risk check, this field can be set to prevent customers from making multiple order attempts with different personal information.
             'customer_ip' => $order->getOrderCustomer()->getRemoteAddress(),
-            // https://testdashboard.betterpayment.de/docs/#original-transaction-id
-//            'original_transaction_id' => '',
             // The language of payment forms in Credit Card and Paypal. Possible locale values - https://testdashboard.betterpayment.de/docs/#locales
             'locale' => $order->getLanguage()->getLocale() ? $order->getLanguage()->getLocale()->getCode() : null
         ];
@@ -145,11 +142,10 @@ class OrderParametersReader
     {
         return [
             // Company name
-            'company' => $order->getOrderCustomer()->getCompany(), // TODO get company name from billing address maybe ?
+            // TODO: get company name from billing address, and fallback to customer's company
+            'company' => $order->getOrderCustomer()->getCompany(),
             // Starts with ISO 3166-1 alpha2 followed by 2 to 11 characters. See more details about Vat - http://ec.europa.eu/taxation_customs/vies/
             'company_vat_id' => $order->getOrderCustomer()->getVatIds()[0], // TODO VAT_ID is available from billingAddress too
-            // Company trade registry no
-            'company_trade_register' => ''
         ];
     }
 }

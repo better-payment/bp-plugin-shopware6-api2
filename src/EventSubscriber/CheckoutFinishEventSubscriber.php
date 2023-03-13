@@ -18,9 +18,6 @@ class CheckoutFinishEventSubscriber implements EventSubscriberInterface
         $this->configReader = $configReader;
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function getSubscribedEvents(): array
     {
         return [

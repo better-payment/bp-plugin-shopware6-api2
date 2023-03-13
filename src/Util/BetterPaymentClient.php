@@ -40,7 +40,7 @@ class BetterPaymentClient
     private function getClient(): Client
     {
         return new Client([
-            'base_uri' => $this->configReader->getAPIHostName()
+            'base_uri' => $this->configReader->getAPIUrl()
         ]);
     }
 
@@ -74,16 +74,13 @@ class BetterPaymentClient
 
     private function getRequestParameters(SyncPaymentTransactionStruct $transaction, RequestDataBag $dataBag = null): array
     {
-        // Get common order parameters
         $requestParameters = $this->orderParametersReader->getAllParameters($transaction);
 
-        // Get payment method specific parameters
         $requestParameters += $this->getPaymentMethodSpecificParameters($transaction, $dataBag);
 
-        // Get risk check parameters
         $requestParameters += $this->getRiskCheckParameters($transaction);
 
-        // this is common for all payment methods
+        // Common parameters for ALL requests.
         $requestParameters += [
             'payment_type' => $this->getPaymentMethodClassByTransaction($transaction)->getShortname(),
             'risk_check_approval' => '1',
@@ -101,7 +98,6 @@ class BetterPaymentClient
         return $requestParameters;
     }
 
-    // store better payment transaction_id in order transaction custom fields
     private function storeBetterPaymentTransactionID(OrderTransactionEntity $orderTransactionEntity, string $betterPaymentTransactionID): void
     {
         $this->orderTransactionRepository->update([
@@ -128,7 +124,6 @@ class BetterPaymentClient
         return null;
     }
 
-    // Payment Method specific parameters
     private function getPaymentMethodSpecificParameters(SyncPaymentTransactionStruct $transaction, RequestDataBag $dataBag = null): array
     {
         $paymentMethodId = $transaction->getOrderTransaction()->getPaymentMethodId();
@@ -147,7 +142,6 @@ class BetterPaymentClient
         }
     }
 
-    // Risk check parameters
     private function getRiskCheckParameters(SyncPaymentTransactionStruct $transaction): array
     {
         $params = [];
@@ -185,16 +179,15 @@ class BetterPaymentClient
         return $params;
     }
 
-    // birthdate field must be activated in shopware
     private function getBirthday(CustomerEntity $customer): ?string
     {
         return $customer->getBirthday() ? $customer->getBirthday()->format('Y-m-d') : null;
     }
-
-    // custom field is used to determine customer gender
+    
+    // returns m|f|d|null as required by API and as custom field setup (null if not set yet)
     private function getGender(CustomerEntity $customer): ?string
     {
-        // returns m|f|d|null as required by API and as custom field setup (null if not set yet)
+        
         return $customer->getCustomFields()[CustomFieldInstaller::CUSTOMER_GENDER];
     }
 }

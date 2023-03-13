@@ -33,8 +33,7 @@ Component.override('sw-order-detail-base', {
     },
 
     created() {
-        this.setAPIUrl();
-        this.setAPIAuth();
+        this.setAPIProperties();
     },
 
     computed: {
@@ -78,20 +77,11 @@ Component.override('sw-order-detail-base', {
     },
 
     methods: {
-        setAPIUrl() {
-            const pluginConfig = ApiService.getByName('systemConfigApiService')
+        setAPIProperties() {
+            const pluginConfig = ApiService.getByName('systemConfigApiService');
             pluginConfig.getValues('BetterPayment').then(config => {
                 const environment = config['BetterPayment.config.environment'];
                 const whiteLabel = config['BetterPayment.config.whiteLabel'];
-
-                this.apiUrl = whiteLabels[whiteLabel][environment].api_hostname;
-            });
-        },
-
-        setAPIAuth() {
-            const pluginConfig = ApiService.getByName('systemConfigApiService')
-            pluginConfig.getValues('BetterPayment').then(config => {
-                const environment = config['BetterPayment.config.environment'];
 
                 const testAPIKey = config['BetterPayment.config.testAPIKey'];
                 const productionAPIKey = config['BetterPayment.config.productionAPIKey'];
@@ -101,8 +91,10 @@ Component.override('sw-order-detail-base', {
                 const productionOutgoingKey = config['BetterPayment.config.productionOutgoingKey'];
                 const outgoingKey = environment === 'test' ? testOutgoingKey : productionOutgoingKey;
 
-                // base64 encoding
+                this.apiUrl = whiteLabels[whiteLabel][environment].api_url;
                 this.apiAuth = btoa(apiKey + ':' + outgoingKey);
+
+                return Promise.resolve();
             });
         },
 
@@ -218,20 +210,28 @@ Component.override('sw-order-detail-base', {
                 .then(response => response.json())
                 .then(result => {
                     if (!result.hasOwnProperty('error_code')) {
-                        const actionName = result.amount === result.refunded_amount
-                            ? 'refund' : 'refund_partially';
-                        const docIds = [];
-                        const sendMail = true;
+                        if (result.refunded_amount > 0) {
+                            let actionName;
+                            
+                            if (result.refunded_amount >= result.amount) {
+                                actionName = 'refund';
+                            } else {
+                                actionName = 'refund_partially';
+                            }
 
-                        this.orderStateMachineService.transitionOrderTransactionState(
-                            this.transaction.id,
-                            actionName,
-                            {documentIds: docIds, sendMail},
-                        ).then(() => {
-                            this.$emit('order-state-change');
-                        }).catch((error) => {
-                            this.createNotificationError(error);
-                        });
+                            const docIds = [];
+                            const sendMail = true;
+
+                            this.orderStateMachineService.transitionOrderTransactionState(
+                                this.transaction.id,
+                                actionName,
+                                {documentIds: docIds, sendMail},
+                            ).then(() => {
+                                this.$emit('order-state-change');
+                            }).catch((error) => {
+                                this.createNotificationError(error);
+                            });
+                        }
                     } else {
                         this.createNotificationError({
                             message: result.error_message
