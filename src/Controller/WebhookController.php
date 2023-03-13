@@ -13,7 +13,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\param;
 
 class WebhookController extends AbstractController
 {
@@ -63,11 +62,11 @@ class WebhookController extends AbstractController
         return $this->orderTransactionRepository->search($criteria, $context)->first();
     }
 
+    // Calculate checksum without checksum parameter itself, and sign it with INCOMING_KEY
+    // NOTE: "content-type": "application/x-www-form-urlencoded" for this request
+    // that's why $request->request is used to fetch parameters
     private function checksumIsValidated(Request $request): bool
     {
-        // Calculate checksum without checksum parameter itself, and sign it with INCOMING_KEY
-        // NOTE: "content-type": "application/x-www-form-urlencoded" for this request
-        // that's why $request->request is used to fetch parameters
         $params = $request->request->all();
         unset($params['checksum']);
         $query = http_build_query($params, '', '&', PHP_QUERY_RFC1738);

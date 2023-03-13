@@ -70,7 +70,8 @@ class RuleInstaller
                 'name' => 'Commercial Customer',
                 'description' => 'This rule is to decide whether customer is company',
                 'priority' => 1,
-                // conditions are formulated as OR(AND(IsCompany, *), *) means any other conditions can be added instead of * later on from administration
+                // conditions are formulated as OR(AND(IsCompany, *), *) means any 
+                // other conditions can be added instead of * later on from administration
                 'conditions' => [
                     [
                         'id' => 'd16ab13da17745feb736d5de805c4424',

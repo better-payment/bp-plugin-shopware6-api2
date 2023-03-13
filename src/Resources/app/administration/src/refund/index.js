@@ -32,9 +32,13 @@ Component.override('sw-order-detail-base', {
         };
     },
 
-    created() {
+    beforeMount() {
         this.setAPIUrl();
         this.setAPIAuth();
+
+        if (this.cardIsVisible) {
+            this.getRefunds();
+        }
     },
 
     computed: {
@@ -67,15 +71,15 @@ Component.override('sw-order-detail-base', {
         },
     },
 
-    watch: {
-        // when order is set get its transaction refunds
-        // order is not directly set in created() lifecycle hook
-        order() {
-            if (this.cardIsVisible) {
-                this.getRefunds();
-            }
-        }
-    },
+    // watch: {
+    //     // when order is set get its transaction refunds
+    //     // order is not directly set in created() lifecycle hook
+    //     order() {
+    //         if (this.cardIsVisible) {
+    //             this.getRefunds();
+    //         }
+    //     }
+    // },
 
     methods: {
         setAPIUrl() {
@@ -84,7 +88,7 @@ Component.override('sw-order-detail-base', {
                 const environment = config['BetterPayment.config.environment'];
                 const whiteLabel = config['BetterPayment.config.whiteLabel'];
 
-                this.apiUrl = whiteLabels[whiteLabel][environment].api_hostname;
+                this.apiUrl = whiteLabels[whiteLabel][environment].api_url;
             });
         },
 
@@ -101,7 +105,6 @@ Component.override('sw-order-detail-base', {
                 const productionOutgoingKey = config['BetterPayment.config.productionOutgoingKey'];
                 const outgoingKey = environment === 'test' ? testOutgoingKey : productionOutgoingKey;
 
-                // base64 encoding
                 this.apiAuth = btoa(apiKey + ':' + outgoingKey);
             });
         },
