@@ -4,10 +4,7 @@ namespace BetterPayment\EventSubscriber;
 
 use BetterPayment\Installer\CustomFieldInstaller;
 use Shopware\Core\Checkout\Customer\CustomerEvents;
-use Shopware\Core\Checkout\Customer\Event\CustomerRegisterEvent;
 use Shopware\Core\Framework\Event\DataMappingEvent;
-use Shopware\Storefront\Page\Account\Profile\AccountProfilePage;
-use Shopware\Storefront\Page\Account\Profile\AccountProfilePageLoadedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class MappingRegisterCustomer implements EventSubscriberInterface
@@ -16,7 +13,8 @@ class MappingRegisterCustomer implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            CustomerEvents::MAPPING_REGISTER_CUSTOMER => 'addCustomField'
+            CustomerEvents::MAPPING_REGISTER_CUSTOMER => 'addCustomField',
+            CustomerEvents::MAPPING_CUSTOMER_PROFILE_SAVE => 'addCustomField'
         ];
     }
 
