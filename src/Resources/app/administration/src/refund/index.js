@@ -28,7 +28,6 @@ Component.override('sw-order-detail-base', {
 
             apiUrl: null,
             apiAuth: null,
-            betterPaymentTransaction: null
         };
     },
 
@@ -51,9 +50,9 @@ Component.override('sw-order-detail-base', {
         },
 
         isRefundable() {
-            const visibleStates = ['paid', 'paid_partially', 'refunded_partially'];
+            const refundableStates = ['paid', 'paid_partially', 'refunded_partially'];
 
-            return visibleStates.includes(this.transaction.stateMachineState.technicalName);
+            return refundableStates.includes(this.transaction.stateMachineState.technicalName);
         },
 
         isFullyRefunded() {
@@ -64,6 +63,10 @@ Component.override('sw-order-detail-base', {
             // TODO: add permission check here with AND
             return this.isRefundable;
         },
+
+        paymentMethod() {
+            return this.transaction.paymentMethod.customFields.shortname;
+        }
     },
 
     watch: {

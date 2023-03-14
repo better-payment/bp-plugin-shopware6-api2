@@ -7,21 +7,28 @@ use BetterPayment\PaymentHandler\InvoiceHandler;
 class Invoice extends PaymentMethod
 {
     public const UUID = '52226680b1574d13a64c8139af95bcfc';
+    public const SHORTNAME = 'kar';
 
     protected string $id = self::UUID;
     protected string $handler = InvoiceHandler::class;
     protected string $name = 'Invoice';
-    protected string $shortname = 'kar';
+    protected string $shortname = self::SHORTNAME;
     protected string $description = '';
     protected string $icon = '';
     protected array $translations = [
         'de-DE' => [
             'name' => 'Kauf auf Rechnung',
             'description' => '',
+            'customFields' => [
+                'shortname' => self::SHORTNAME
+            ]
         ],
         'en-GB' => [
             'name' => 'Invoice',
             'description' => '',
+            'customFields' => [
+                'shortname' => self::SHORTNAME
+            ]
         ],
     ];
 }
