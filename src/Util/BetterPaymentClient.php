@@ -82,7 +82,7 @@ class BetterPaymentClient
 
         // Common parameters for ALL requests.
         $requestParameters += [
-            'payment_type' => $this->getPaymentMethodClassByTransaction($transaction)->getShortname(),
+            'payment_type' => $transaction->getOrderTransaction()->getPaymentMethod()->getCustomFields()['shortname'],
             'risk_check_approval' => '1',
             'postback_url' => EnvironmentHelper::getVariable('APP_URL').'/api/betterpayment/webhook',
         ];
@@ -108,20 +108,6 @@ class BetterPaymentClient
                 ]
             ]
         ], Context::createDefaultContext());
-    }
-
-    // Get Plugin Payment Method Class by transaction ID
-    private function getPaymentMethodClassByTransaction(SyncPaymentTransactionStruct $transaction): ?PaymentMethod
-    {
-        $paymentMethodId = $transaction->getOrderTransaction()->getPaymentMethodId();
-        foreach (PaymentMethodInstaller::PAYMENT_METHODS as $PAYMENT_METHOD) {
-            /** @var PaymentMethod $paymentMethod */
-            $paymentMethod = new $PAYMENT_METHOD();
-            if ($paymentMethod->getId() == $paymentMethodId)
-                return $paymentMethod;
-        }
-
-        return null;
     }
 
     private function getPaymentMethodSpecificParameters(SyncPaymentTransactionStruct $transaction, RequestDataBag $dataBag = null): array
