@@ -10,6 +10,36 @@
                         {{ $tc('betterpayment.refund.labels.noMoreRefunds') }}
                     </sw-label>
                 </sw-container>
+                <sw-container>
+                    <sw-label variant="info" style="height: auto">
+                        <div style="white-space: normal;">
+                            <span v-if="paymentMethod == 'cc'">
+                                {{ $tc('betterpayment.refund.labels.paymentMethodsInfo.creditCard') }}
+                            </span>
+                            <span v-else-if="paymentMethod == 'sofort'">
+                                {{ $tc('betterpayment.refund.labels.paymentMethodsInfo.sofort') }}
+                            </span>
+                            <span v-else-if="paymentMethod == 'paydirekt'">
+                                {{ $tc('betterpayment.refund.labels.paymentMethodsInfo.paydirekt') }}
+                            </span>
+                            <span v-else-if="paymentMethod == 'paypal'">
+                                {{ $tc('betterpayment.refund.labels.paymentMethodsInfo.paypal') }}
+                            </span>
+                            <span v-else-if="paymentMethod == 'dd'">
+                                {{ $tc('betterpayment.refund.labels.paymentMethodsInfo.sepaDirectDebit') }}
+                            </span>
+                            <span v-else-if="paymentMethod == 'dd_b2b'">
+                                {{ $tc('betterpayment.refund.labels.paymentMethodsInfo.sepaDirectDebitB2B') }}
+                            </span>
+                            <span v-else-if="paymentMethod == 'kar'">
+                                {{ $tc('betterpayment.refund.labels.paymentMethodsInfo.invoice') }}
+                            </span>
+                            <span v-else-if="paymentMethod == 'kar_b2b'">
+                                {{ $tc('betterpayment.refund.labels.paymentMethodsInfo.invoiceB2B') }}
+                            </span>
+                        </div>
+                    </sw-label>
+                </sw-container>
                 <sw-container columns="1fr 1fr" gap="0px 14px">
                     <sw-container rows="1fr 1fr 1fr" gap="10px 0px">
                         <sw-number-field

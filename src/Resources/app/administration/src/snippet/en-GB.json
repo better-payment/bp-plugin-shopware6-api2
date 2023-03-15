@@ -8,7 +8,17 @@
         "comment": "Comment",
         "transactionId": "Transaction ID",
         "date": "Date",
-        "noMoreRefunds": "Transaction is fully refunded. You can not issue more refunds through payment gateway."
+        "noMoreRefunds": "Transaction is fully refunded. You can not issue more refunds through payment gateway.",
+        "paymentMethodsInfo": {
+          "creditCard": "You can issue refunds up to maximum amount of the transaction. Partial and multiple refunds may or may not be supported, depending on configured acquirer for your account. Refunds are executed instantly.",
+          "sofort": "You can issue multiple refunds, up to the total transaction amount. SOFORT refunds can only be halfway automated. They can be started over the Plugin but must be finalized in SOFORT's dashboard by downloading a transaction file and uploading it to the merchant's bank.",
+          "paydirekt": "You can issue multiple refunds up to the total transaction amount for the transaction.",
+          "paypal": "You can issue multiple refunds up to the total transaction amount for the transaction.",
+          "sepaDirectDebit": "SEPA Direct Debit refunds are processed within 1 business day. Please, do not create multiple refunds until the ones you have created has been processed. Your order transaction state, will change to refunded within 1 business day automatically.",
+          "sepaDirectDebitB2B": "SEPA Direct Debit refunds are processed within 1 business day. Please, do not create multiple refunds until the ones you have created has been processed. Your order transaction state, will change to refunded within 1 business day automatically.",
+          "invoice": "You can issue multiple refunds up to the total transaction amount for the transaction.",
+          "invoiceB2B": "You can issue multiple refunds up to the total transaction amount for the transaction."
+        }
       },
 
       "actions": {
