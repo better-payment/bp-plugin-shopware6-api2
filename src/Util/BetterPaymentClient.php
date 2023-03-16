@@ -176,4 +176,21 @@ class BetterPaymentClient
         
         return $customer->getCustomFields()[CustomFieldInstaller::CUSTOMER_GENDER];
     }
+
+    public function getBetterPaymentTransaction(string $id): array
+    {
+        $request = new Request('GET', 'rest/transactions/'.$id, $this->getHeaders());
+        try {
+            $response = $this->getClient()->send($request);
+            $responseBody = json_decode((string) $response->getBody());
+            if (!$responseBody->error_code) {
+                return $responseBody;
+            }
+            else {
+                throw new RuntimeException('Better Payment Client ERROR: ' . $response->getBody());
+            }
+        } catch (GuzzleException $exception) {
+            throw new RuntimeException('Better Payment Client ERROR: ' . $exception->getMessage());
+        }
+    }
 }

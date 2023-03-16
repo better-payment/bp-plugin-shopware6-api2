@@ -110,13 +110,14 @@
 
         <service id="BetterPayment\Util\PaymentStatusMapper">
             <argument type="service" id="Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler" />
+            <argument type="service" id="BetterPayment\Util\BetterPaymentClient"/>
+            <argument type="service" id="order_transaction.repository" />
         </service>
         <!-- End Util Classes -->
 
         <!-- Controllers -->
         <service id="BetterPayment\Controller\WebhookController" public="true">
             <argument type="service" id="BetterPayment\Util\PaymentStatusMapper" />
-            <argument type="service" id="order_transaction.repository" />
             <argument type="service" id="BetterPayment\Util\ConfigReader" />
             <call method="setContainer">
                 <argument type="service" id="service_container"/>
