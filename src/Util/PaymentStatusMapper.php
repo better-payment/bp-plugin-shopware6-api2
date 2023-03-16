@@ -35,9 +35,9 @@ class PaymentStatusMapper
         $betterPaymentTransactionID = $request->get('transaction_id');
         $betterPaymentTransactionState = $request->get('status');
         $orderTransaction = $this->getOrderTransactionByBetterPaymentTransactionID($betterPaymentTransactionID, $context);
-        $orderTransactionId = $orderTransaction->getId();
 
-        if ($orderTransactionId) {
+        if ($orderTransaction) {
+            $orderTransactionId = $orderTransaction->getId();
             $successResponse = new Response($request->get('message'), 200);
             switch ($betterPaymentTransactionState) {
                 case 'started':
@@ -103,7 +103,7 @@ class PaymentStatusMapper
         }
     }
 
-    private function getOrderTransactionByBetterPaymentTransactionID(string $betterPaymentTransactionID, Context $context): OrderTransactionEntity
+    private function getOrderTransactionByBetterPaymentTransactionID(string $betterPaymentTransactionID, Context $context): ?OrderTransactionEntity
     {
         $criteria = new Criteria();
         $criteria->addFilter(new EqualsFilter('customFields.better_payment_transaction_id', $betterPaymentTransactionID));

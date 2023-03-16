@@ -177,8 +177,7 @@ class BetterPaymentClient
         return $customer->getCustomFields()[CustomFieldInstaller::CUSTOMER_GENDER];
     }
 
-    public function getBetterPaymentTransaction(string $id): array
-    {
+    public function getBetterPaymentTransaction(string $id) {
         $request = new Request('GET', 'rest/transactions/'.$id, $this->getHeaders());
         try {
             $response = $this->getClient()->send($request);
