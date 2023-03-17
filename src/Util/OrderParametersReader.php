@@ -11,6 +11,7 @@ use Shopware\Core\Checkout\Payment\Cart\SyncPaymentTransactionStruct;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
+use Shopware\Core\System\Language\LanguageEntity;
 use Shopware\Core\System\SystemConfig\SystemConfigService;
 
 class OrderParametersReader
@@ -18,15 +19,18 @@ class OrderParametersReader
     private EntityRepositoryInterface $orderAddressRepository;
     private EntityRepositoryInterface $customerAddressRepository;
     private SystemConfigService $systemConfigService;
+    private EntityRepositoryInterface $languageRepository;
 
     public function __construct(
+        SystemConfigService $systemConfigService,
         EntityRepositoryInterface $orderAddressRepository,
         EntityRepositoryInterface $customerAddressRepository,
-        SystemConfigService $systemConfigService
+        EntityRepositoryInterface $languageRepository
     ){
+        $this->systemConfigService = $systemConfigService;
         $this->orderAddressRepository = $orderAddressRepository;
         $this->customerAddressRepository = $customerAddressRepository;
-        $this->systemConfigService = $systemConfigService;
+        $this->languageRepository = $languageRepository;
     }
 
     public function getAllParameters(SyncPaymentTransactionStruct $transaction): array
@@ -34,7 +38,6 @@ class OrderParametersReader
         $orderTransaction = $transaction->getOrderTransaction();
         $order = $transaction->getOrder();
 
-        // TODO in all below methods check whether parent object is not null before accessing child object
         return array_merge(
             $this->getCommonParameters($order, $orderTransaction),
             $this->getBillingAddressParameters($order),
@@ -45,6 +48,17 @@ class OrderParametersReader
 
     public function getCommonParameters(OrderEntity $order, OrderTransactionEntity $orderTransaction): array
     {
+        // this custom query made for getting language
+        // because it cannot fetch language directly by $order->getOrderCustomer()->getCustomer()->getLanguage()
+        $criteria = new Criteria([$order->getOrderCustomer()->getCustomer()->getLanguageId()]);
+        $criteria->addAssociation('locale');
+
+        /** @var LanguageEntity $language */
+        $language = $this->languageRepository->search(
+            $criteria,
+            Context::createDefaultContext()
+        )->first();
+
         return [
             // Any alphanumeric string to identify the Merchant’s order.
             'order_id' => $order->getOrderNumber(),
@@ -61,7 +75,8 @@ class OrderParametersReader
             // If the order includes a risk check, this field can be set to prevent customers from making multiple order attempts with different personal information.
             'customer_ip' => $order->getOrderCustomer()->getRemoteAddress(),
             // The language of payment forms in Credit Card and Paypal. Possible locale values - https://testdashboard.betterpayment.de/docs/#locales
-            'locale' => $order->getLanguage()->getLocale() ? $order->getLanguage()->getLocale()->getCode() : null
+            // use substr to convert en-GB to en
+            'locale' => substr($language->getLocale()->getCode(), 0, 2)
         ];
     }
 
@@ -140,12 +155,23 @@ class OrderParametersReader
     // Company details are required in B2B Invoice and B2B SEPA Direct Debit orders.
     public function getCompanyDetailParameters(OrderEntity $order): array
     {
+        // Get company name from billing address, and fallback to customer's company
+        $company = $order->getBillingAddress()->getCompany();
+        if (!$company) {
+            $company = $order->getOrderCustomer()->getCompany();
+        }
+
+        // Get VAT ID from billing address, and fallback to customer's VAT ID
+        $vatId = $order->getBillingAddress()->getVatId();
+        if (!$vatId) {
+            $vatId = $order->getOrderCustomer()->getVatIds()[0];
+        }
+
         return [
             // Company name
-            // TODO: get company name from billing address, and fallback to customer's company
-            'company' => $order->getOrderCustomer()->getCompany(),
+            'company' => $company,
             // Starts with ISO 3166-1 alpha2 followed by 2 to 11 characters. See more details about Vat - http://ec.europa.eu/taxation_customs/vies/
-            'company_vat_id' => $order->getOrderCustomer()->getVatIds()[0], // TODO VAT_ID is available from billingAddress too
+            'company_vat_id' => $vatId,
         ];
     }
 }

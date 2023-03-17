@@ -29,7 +29,7 @@ class SEPADirectDebitB2BHandler implements SynchronousPaymentHandlerInterface
             $status = $this->betterPaymentClient->request($transaction, $dataBag)->status;
             $context = $salesChannelContext->getContext();
 
-            $this->paymentStatusMapper->updateOrderTransactionState($transaction->getOrderTransaction()->getId(), $status, $context);
+            $this->paymentStatusMapper->updateOrderTransactionStateFromPaymentHandler($transaction->getOrderTransaction()->getId(), $status, $context);
         } catch (\Exception $e) {
             throw new SyncPaymentProcessException(
                 $transaction->getOrderTransaction()->getId(),

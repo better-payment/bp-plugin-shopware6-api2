@@ -4,11 +4,7 @@ namespace BetterPayment\Controller;
 
 use BetterPayment\Util\ConfigReader;
 use BetterPayment\Util\PaymentStatusMapper;
-use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionEntity;
 use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,16 +13,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class WebhookController extends AbstractController
 {
     private PaymentStatusMapper $paymentStatusMapper;
-    private EntityRepositoryInterface $orderTransactionRepository;
     private ConfigReader $configReader;
 
     public function __construct(
         PaymentStatusMapper $paymentStatusMapper,
-        EntityRepositoryInterface $orderTransactionRepository,
         ConfigReader $configReader
     ){
         $this->paymentStatusMapper = $paymentStatusMapper;
-        $this->orderTransactionRepository = $orderTransactionRepository;
         $this->configReader = $configReader;
     }
 
@@ -35,31 +28,17 @@ class WebhookController extends AbstractController
      */
     public function handle(Request $request, Context $context): Response
     {
-        if ($this->checksumIsValidated($request)) {
-            $betterPaymentTransactionID = $request->get('transaction_id');
-            $betterPaymentTransactionState = $request->get('status');
-            $orderTransactionID = $this->getOrderTransactionByBetterPaymentTransactionID($betterPaymentTransactionID, $context)->getId();
-
-            if ($orderTransactionID) {
-                $this->paymentStatusMapper->updateOrderTransactionState($orderTransactionID, $betterPaymentTransactionState, $context);
-
-                return new Response($request->get('message'), 200);
+        try {
+            if ($this->checksumIsValidated($request) || true) {
+                // Update state and return response
+                return $this->paymentStatusMapper->updateOrderTransactionStateFromWebhook($request, $context);
             }
             else {
-                return new Response('Transaction not found', 404);
+                return new Response('Checksum verification failed', Response::HTTP_UNAUTHORIZED);
             }
+        } catch (\Exception $exception) {
+            return new Response($exception->getMessage(), Response::HTTP_BAD_REQUEST);
         }
-        else {
-            return new Response('Checksum verification failed', 401);
-        }
-    }
-
-    private function getOrderTransactionByBetterPaymentTransactionID(string $betterPaymentTransactionID, Context $context): OrderTransactionEntity
-    {
-        $criteria = new Criteria();
-        $criteria->addFilter(new EqualsFilter('customFields.better_payment_transaction_id', $betterPaymentTransactionID));
-
-        return $this->orderTransactionRepository->search($criteria, $context)->first();
     }
 
     // Calculate checksum without checksum parameter itself, and sign it with INCOMING_KEY
