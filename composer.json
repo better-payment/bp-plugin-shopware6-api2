@@ -1,12 +1,12 @@
 {
-  "name": "lightfulweb/bp-plugin-shopware6",
+  "name": "better-payment/bp-plugin-shopware6-api2",
   "description": "Better Payment plugin to implement payment methods using API2",
   "version": "1.0.0",
   "type": "shopware-platform-plugin",
-  "license": "MIT",
+  "license": "proprietary",
   "authors": [
     {
-      "name": "lightfulweb"
+      "name": "betterpayment"
     }
   ],
   "require": {
