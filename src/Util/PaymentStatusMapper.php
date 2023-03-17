@@ -38,7 +38,7 @@ class PaymentStatusMapper
 
         if ($orderTransaction) {
             $orderTransactionId = $orderTransaction->getId();
-            $successResponse = new Response($request->get('message'), 200);
+            $successResponse = new Response($request->get('message'), Response::HTTP_OK);
             switch ($betterPaymentTransactionState) {
                 case 'started':
                     $this->orderTransactionStateHandler->reopen($orderTransactionId, $context);
@@ -95,11 +95,11 @@ class PaymentStatusMapper
                     // In case an unidentified status is received, we should raise an exception, so the BP
                     // receives 400 error in the response. This way, BP will see that something is wrong
                     // in sending certain postbacks to shopware.
-                    return new Response('Unidentified status is received', 400);
+                    return new Response('Unidentified status is received', Response::HTTP_BAD_REQUEST);
             }
         }
         else {
-            return new Response('Transaction not found', 404);
+            return new Response('Transaction not found', Response::HTTP_NOT_FOUND);
         }
     }
 
@@ -107,6 +107,7 @@ class PaymentStatusMapper
     {
         $criteria = new Criteria();
         $criteria->addFilter(new EqualsFilter('customFields.better_payment_transaction_id', $betterPaymentTransactionID));
+        $criteria->addAssociation('paymentMethod');
 
         return $this->orderTransactionRepository->search($criteria, $context)->first();
     }

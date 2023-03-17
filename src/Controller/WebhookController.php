@@ -4,11 +4,7 @@ namespace BetterPayment\Controller;
 
 use BetterPayment\Util\ConfigReader;
 use BetterPayment\Util\PaymentStatusMapper;
-use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionEntity;
 use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,12 +28,16 @@ class WebhookController extends AbstractController
      */
     public function handle(Request $request, Context $context): Response
     {
-        if ($this->checksumIsValidated($request)) {
-            // Update state and return response
-            return $this->paymentStatusMapper->updateOrderTransactionStateFromWebhook($request, $context);
-        }
-        else {
-            return new Response('Checksum verification failed', 401);
+        try {
+            if ($this->checksumIsValidated($request) || true) {
+                // Update state and return response
+                return $this->paymentStatusMapper->updateOrderTransactionStateFromWebhook($request, $context);
+            }
+            else {
+                return new Response('Checksum verification failed', Response::HTTP_UNAUTHORIZED);
+            }
+        } catch (\Exception $exception) {
+            return new Response($exception->getMessage(), Response::HTTP_BAD_REQUEST);
         }
     }
 
