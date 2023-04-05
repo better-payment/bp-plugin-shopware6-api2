@@ -20,18 +20,21 @@ class OrderParametersReader
     private EntityRepositoryInterface $customerAddressRepository;
     private SystemConfigService $systemConfigService;
     private EntityRepositoryInterface $languageRepository;
+	private EntityRepositoryInterface $currencyRepository;
 
-    public function __construct(
+	public function __construct(
         SystemConfigService $systemConfigService,
         EntityRepositoryInterface $orderAddressRepository,
         EntityRepositoryInterface $customerAddressRepository,
-        EntityRepositoryInterface $languageRepository
+        EntityRepositoryInterface $languageRepository,
+	    EntityRepositoryInterface $currencyRepository
     ){
         $this->systemConfigService = $systemConfigService;
         $this->orderAddressRepository = $orderAddressRepository;
         $this->customerAddressRepository = $customerAddressRepository;
         $this->languageRepository = $languageRepository;
-    }
+		$this->currencyRepository = $currencyRepository;
+	}
 
     public function getAllParameters(SyncPaymentTransactionStruct $transaction): array
     {
@@ -58,6 +61,8 @@ class OrderParametersReader
             $criteria,
             Context::createDefaultContext()
         )->first();
+
+		dd($order);
 
         return [
             // Any alphanumeric string to identify the Merchant’s order.
