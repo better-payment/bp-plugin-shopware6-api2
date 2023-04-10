@@ -1,4 +1,4 @@
-{% if config('BetterPayment.config.sepaDirectDebitCollectGender') || config('BetterPayment.config.invoiceCollectGender') %}
+{% if config('BetterPayment.config.sepaDirectDebitCollectGender') or config('BetterPayment.config.invoiceCollectGender') %}
     <div class="form-row">
         <div class="form-group col-md-3 col-sm-6">
             <label for="better_payment_customer_gender">{{ 'betterpayment.register.labelGender' | trans }}*</label>
@@ -64,7 +64,7 @@
         const accountType = document.getElementById('accountType');
 
         // get config values to see whether we need to collect birthday or gender
-        const birthdayIsCollected = {{ (config('BetterPayment.config.sepaDirectDebitCollectDateOfBirth') || config('BetterPayment.config.invoiceCollectDateOfBirth')) | json_encode }};
+        const birthdayIsCollected = {{ (config('BetterPayment.config.sepaDirectDebitCollectDateOfBirth') or config('BetterPayment.config.invoiceCollectDateOfBirth')) | json_encode }};
 
         // show or hide birthday field if config is set
         if (birthdayIsCollected) {
@@ -97,7 +97,9 @@
                 birthdayYear.required = true;
 
                 // add asterisk to label to indicate as required
-                birthdayLabel.innerText += '*';
+                if (!birthdayLabel.innerText.includes('*')) {
+                    birthdayLabel.innerText += '*';
+                }
 
                 birthdayField.style.display = 'flex';
                 birthdayLabel.style.display = 'block';

@@ -11,27 +11,31 @@ use Shopware\Core\Checkout\Payment\Cart\SyncPaymentTransactionStruct;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
+use Shopware\Core\System\Currency\CurrencyEntity;
 use Shopware\Core\System\Language\LanguageEntity;
 use Shopware\Core\System\SystemConfig\SystemConfigService;
 
 class OrderParametersReader
 {
-    private EntityRepositoryInterface $orderAddressRepository;
-    private EntityRepositoryInterface $customerAddressRepository;
-    private SystemConfigService $systemConfigService;
+	private SystemConfigService $systemConfigService;
+	private EntityRepositoryInterface $orderAddressRepository;
+	private EntityRepositoryInterface $customerAddressRepository;
     private EntityRepositoryInterface $languageRepository;
+	private EntityRepositoryInterface $currencyRepository;
 
-    public function __construct(
+	public function __construct(
         SystemConfigService $systemConfigService,
         EntityRepositoryInterface $orderAddressRepository,
         EntityRepositoryInterface $customerAddressRepository,
-        EntityRepositoryInterface $languageRepository
+        EntityRepositoryInterface $languageRepository,
+	    EntityRepositoryInterface $currencyRepository
     ){
         $this->systemConfigService = $systemConfigService;
         $this->orderAddressRepository = $orderAddressRepository;
         $this->customerAddressRepository = $customerAddressRepository;
         $this->languageRepository = $languageRepository;
-    }
+		$this->currencyRepository = $currencyRepository;
+	}
 
     public function getAllParameters(SyncPaymentTransactionStruct $transaction): array
     {
@@ -48,8 +52,6 @@ class OrderParametersReader
 
     public function getCommonParameters(OrderEntity $order, OrderTransactionEntity $orderTransaction): array
     {
-        // this custom query made for getting language
-        // because it cannot fetch language directly by $order->getOrderCustomer()->getCustomer()->getLanguage()
         $criteria = new Criteria([$order->getOrderCustomer()->getCustomer()->getLanguageId()]);
         $criteria->addAssociation('locale');
 
@@ -58,6 +60,14 @@ class OrderParametersReader
             $criteria,
             Context::createDefaultContext()
         )->first();
+
+	    $criteria = new Criteria([$order->getCurrencyId()]);
+
+	    /** @var CurrencyEntity $currency */
+	    $currency = $this->currencyRepository->search(
+		    $criteria,
+		    Context::createDefaultContext()
+	    )->first();
 
         return [
             // Any alphanumeric string to identify the Merchant’s order.
@@ -71,7 +81,7 @@ class OrderParametersReader
             // VAT amount (float number) if known
             'vat' => $orderTransaction->getAmount()->getCalculatedTaxes()->getAmount(),
             // 3-letter currency code (ISO 4217). Defaults to ‘EUR’
-            'currency' => $order->getCurrency()->getIsoCode(),
+            'currency' => $currency->getIsoCode(),
             // If the order includes a risk check, this field can be set to prevent customers from making multiple order attempts with different personal information.
             'customer_ip' => $order->getOrderCustomer()->getRemoteAddress(),
             // The language of payment forms in Credit Card and Paypal. Possible locale values - https://testdashboard.betterpayment.de/docs/#locales
@@ -83,8 +93,6 @@ class OrderParametersReader
     // Billing information is required in all payment methods.
     public function getBillingAddressParameters(OrderEntity $order): array
     {
-        // this custom query for getting billing address made
-        // because it cannot fetch countryState name directly by $order->getBillingAddress()
         $criteria = new Criteria([$order->getBillingAddressId()]);
         $criteria->addAssociations(['country', 'countryState']);
 
@@ -155,14 +163,22 @@ class OrderParametersReader
     // Company details are required in B2B Invoice and B2B SEPA Direct Debit orders.
     public function getCompanyDetailParameters(OrderEntity $order): array
     {
+	    $criteria = new Criteria([$order->getBillingAddressId()]);
+
+	    /** @var OrderAddressEntity $billingAddress */
+	    $billingAddress = $this->orderAddressRepository->search(
+		    $criteria,
+		    Context::createDefaultContext()
+	    )->first();
+
         // Get company name from billing address, and fallback to customer's company
-        $company = $order->getBillingAddress()->getCompany();
+        $company = $billingAddress->getCompany();
         if (!$company) {
             $company = $order->getOrderCustomer()->getCompany();
         }
 
         // Get VAT ID from billing address, and fallback to customer's VAT ID
-        $vatId = $order->getBillingAddress()->getVatId();
+        $vatId = $billingAddress->getVatId();
         if (!$vatId) {
             $vatId = $order->getOrderCustomer()->getVatIds()[0];
         }
