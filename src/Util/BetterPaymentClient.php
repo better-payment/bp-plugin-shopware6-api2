@@ -14,7 +14,6 @@ use Shopware\Core\Checkout\Customer\CustomerEntity;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionEntity;
 use Shopware\Core\Checkout\Payment\Cart\AsyncPaymentTransactionStruct;
 use Shopware\Core\Checkout\Payment\Cart\SyncPaymentTransactionStruct;
-use Shopware\Core\DevOps\Environment\EnvironmentHelper;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\Validation\DataBag\RequestDataBag;
@@ -82,13 +81,13 @@ class BetterPaymentClient
         $requestParameters += [
             'payment_type' => $transaction->getOrderTransaction()->getPaymentMethod()->getCustomFields()['shortname'],
             'risk_check_approval' => '1',
-            'postback_url' => EnvironmentHelper::getVariable('APP_URL').'/api/betterpayment/webhook',
+            'postback_url' => getenv('APP_URL').'/api/betterpayment/webhook',
         ];
 
         if (get_class($transaction) == AsyncPaymentTransactionStruct::class) {
             $requestParameters += [
                 'success_url' => $transaction->getReturnUrl(),
-                'error_url' => EnvironmentHelper::getVariable('APP_URL').'/account/order/edit/' .$transaction->getOrder()->getId()
+                'error_url' => getenv('APP_URL').'/account/order/edit/' .$transaction->getOrder()->getId()
                     .'?error-code=CHECKOUT__ASYNC_PAYMENT_PROCESS_INTERRUPTED',
             ];
         }

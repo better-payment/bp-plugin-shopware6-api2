@@ -107,6 +107,7 @@
             <argument type="service" id="order_address.repository" />
             <argument type="service" id="customer_address.repository" />
             <argument type="service" id="language.repository" />
+            <argument type="service" id="currency.repository" />
         </service>
 
         <service id="BetterPayment\Util\PaymentStatusMapper">
