@@ -96,6 +96,9 @@
             <argument type="service" id="BetterPayment\Util\ConfigReader" />
             <argument type="service" id="BetterPayment\Util\OrderParametersReader" />
             <argument type="service" id="order_transaction.repository" />
+
+            <argument type="service" id="Shopware\Core\Framework\Plugin\PluginService" />
+            <argument>%kernel.shopware_version%</argument>
         </service>
 
         <service id="BetterPayment\Util\ConfigReader">
