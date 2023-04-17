@@ -1,0 +1,103 @@
+
+SOFTWARE LICENSE AGREEMENT
+Please read this software license agreement carefully. By copying, purchasing, installing, or using the software in whole or in part, you agree to all the terms of this agreement, including, but not limited to, the following provisions: usage per Clause 3, transferability per Clause 5.4, warranty per Clause 6, and liability per Clause 6.3.
+
+This agreement is binding on the licensee and any other person who has received the software and is using it.
+
+Better Payment Germany GmbH owns all intellectual property rights to the software, and the software is licensed, not sold. Better Payment Germany GmbH grants you the right to copy, download, install, use, or otherwise benefit from the software's functionalities and intellectual property subject to the terms of this agreement. The software does not contain any GPL software components. This License Agreement applies to the software purchased, and it is an addition to the General Terms and Conditions accepted by the customer.
+
+1.0 Recital Clause
+The licensor distributes the computer programs mentioned in the annex of this software-license agreement, along with the corresponding user documentation in machine-readable object code form. The licensor is authorized to grant software use rights and user documentation rights.
+The licensee intends to use the software and purchase the use rights as set out in the agreement.
+Therefore, the licensor and the licensee (together the "parties") agree to the following:
+
+2.0 Definitions
+2.1 Better Payment Germany GmbH
+"Better Payment Germany GmbH" refers to Better Payment Germany GmbH   headquartered in Berlin,Germany, referred to as the licensor.
+
+2.2 Computer
+"Computer" means a device that records information in digital or similar form and can perform specific functions based on an instruction sequence.
+
+2.3 Permitted Number
+"Permitted Number" means one (1) live installation and one (1) staging installation, unless otherwise expressly agreed.
+
+2.4 Software
+"Software" refers to all the information delivered that can be downloaded from the shop after a successful order and payment.
+Software Licenses
+Provided that you have obtained the software from Better Payment Germany GmbH or one of its authorized resellers and that you comply with the terms of this agreement, Better Payment Germany GmbH grants you a non-exclusive, unlimited license for the use of the software in accordance with the documentation and the following provisions.
+The rights to use are specified and substantiated in Clause 5.
+
+3.0 Software Use
+You may install and use a copy of the software on compatible computers up to the Permitted Number (one installation, see Clause 2.3).
+3.1 General Use
+You may use the software as specified in the documentation on compatible computers.
+
+3.2 Backup
+You may create a backup of the software provided that you do not install or use the backup on any computer. You may not transfer the right to create a backup, except when transferring all rights to the software per Clause 5.4 of this agreement, and you are no longer using the software.
+
+3.3 Test System
+You may operate a copy of the software on a test system for a limited time for testing purposes.
+
+3.4 License Violation
+The licensor may terminate this license agreement without prior notice in the case of serious license violation.
+
+4.0 Intellectual Property Rights
+The software and all authorized copies that you make are intellectual property and belong to Better Payment Germany GmbH. The software's structure, organization, and code represent valuable trade secrets and confidential information of the manufacturer. The software is protected by copyright laws in Germany and international agreements. This agreement does not grant the licensee any intellectual ownership of the software, except as specified. All rights not explicitly granted are reserved for the manufacturer.
+
+5.0 Restrictions
+5.1 Copyright Notice
+Each permitted copy of the software you make must contain the same copyright and other proprietary notices that appear on or in the original software.
+
+5.2 No Modifications
+You may not modify, adapt, translate, or create derivative works based on the software. You may not decompile, disassemble, reverse engineer, or attempt to determine the source code of the software, except as expressly permitted under applicable law for establishing software interoperability.
+
+5.3 No Unbundling
+The software may include various applications, utilities, and components that may support multiple platforms and languages and may be made available on various storage devices and in multiple copies. The software was developed as an individual product and is made available as such. It may be used solely as an individual product and in accordance with clause 3. You are not allowed to unbundle the software components for use on different computers. Repackaging or distributing the software is prohibited.
+
+5.4 Transfer
+You may not rent, lease, sublicense, assign, or transfer your rights to the software, or authorize any portion of the software to be copied onto another user's or entity's computer, except in expressly authorized cases.
+However, you may transfer all your usage rights to the software to another person or entity under the following conditions:
+You transfer the entire contract, licenses, and all copies, upgrades, updates, and previous versions.
+You do not retain any upgrades, updates, or copies, including backups and other copies saved on a computer.
+The recipient accepts the conditions of this contract and other conditions based on which you acquired the software license.
+
+5.5 Updates
+If the software is an upgrade or update of a previous version, you must have a valid license for the previous version to use the upgrade or update. All upgrades and updates will be provided based on a license change. By using the upgrade or update, you voluntarily renounce the right to use the previous version of the software, except in exceptional cases where you may use the previous version to facilitate the adjustment to the upgrade or update. In this case, the upgrade or update and the previous version must be installed on the same computer.
+
+6.0 Quality Warranty
+6.1 Scope
+Better Payment Germany GmbH offers a 90-day warranty to first-time licensees who use their software in accordance with the contract terms. During this period, the software is expected to perform the functions specified in the documentation when used with the recommended operating system and hardware configuration. 
+However, minor deviations from the documentation will not be considered for warranty claims. Any warranty claims must be made within 90 days of receipt of the software as per clause 6.2 of the contract. If the software fails to perform its specified functions, the licensee may return the product within the warranty period. The software's reported defects will be repaired or replaced, depending on the customer's preference, and bypassing or suppressing a defect is considered acceptable for repair.
+However, the right to return the software is subject to certain conditions. The licensee may return the product only if Better Payment Germany GmbH has had the opportunity to analyze the issue using remote-control software on the licensee's web server within five working days. Additionally, a refund will not be granted if the issue is caused by any non-standard third-party plugin that is not included in the original software package provided by the shopping cart developer.
+
+
+6.2 Complaint Obligations
+In case of a defect, the licensee must make their complaint to the licensor within 7 calendar days of its discovery in a sufficiently documented and written form.
+The licensee is obligated, in accordance with the terms of this contract, to take all necessary and adequate measures, including creating a backup of the software and computer data, to avoid or minimize any damage.
+
+6.3 Liability Limitations
+Better Payment Germany GmbH limits all liability claims as legally permitted (OR 99). In particular, Better Payment Germany GmbH assumes no liability for any loss, damage, claims, or costs of any kind, including consequential damage, indirect or accidental damage, lost profit or savings, damages resulting from an operation shutdown, personal injury or want of care, or claims of third parties. Any additional warranty claims from the licensee (including the right to a reduction of the license fee or compensation for damage) are expressly ruled out.
+
+6.4 Saving of the License Key and Product-Specific Data
+Every product is delivered with an individual license key, and a non-ambiguous serial number is recorded with the order and reported to us during installation. By concluding the order, the licensee expressly authorizes Better Payment Germany GmbH   to save this data.
+
+7.0Termination
+7.1 Termination by the Licensor in Extraordinary Circumstances
+
+The licensor has the right to terminate this agreement at any time in exceptional circumstances if the licensee fails to comply with any of the terms of this agreement. In the event of termination, the licensee must immediately destroy all originals and copies of the software and the software documentation. Examples of extraordinary circumstances include outstanding invoices for services rendered by the licensor and violations of the license terms (Section 3 of this contract).
+
+8.0 Final Clauses
+8.1 Severability Clause
+If any part of this contract is deemed invalid or unenforceable, it will not affect the validity and enforceability of the remaining contract.
+
+8.2 Written Form
+Any changes or additions to this contract must be made in writing.
+
+8.3 Assignment/Transfer
+This contract or individual rights and duties resulting from this contract can only be assigned or transferred to a third party with the written consent of the other party.
+
+8.4 Applicable Law
+These regulations are subject to German law, with the exception of the UN-Sales Convention (CISG, "Vienna Sales Convention").
+
+8.5 Place of Jurisdiction
+Berlin is the exclusive place of jurisdiction for all conflicts resulting from or in connection with this contract.
