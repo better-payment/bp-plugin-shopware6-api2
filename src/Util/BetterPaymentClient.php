@@ -2,6 +2,7 @@
 
 namespace BetterPayment\Util;
 
+use BetterPayment\BetterPayment;
 use BetterPayment\Installer\CustomFieldInstaller;
 use BetterPayment\PaymentMethod\Invoice;
 use BetterPayment\PaymentMethod\SEPADirectDebit;
@@ -16,25 +17,32 @@ use Shopware\Core\Checkout\Payment\Cart\AsyncPaymentTransactionStruct;
 use Shopware\Core\Checkout\Payment\Cart\SyncPaymentTransactionStruct;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
+use Shopware\Core\Framework\Plugin\PluginService;
 use Shopware\Core\Framework\Validation\DataBag\RequestDataBag;
 
 class BetterPaymentClient
 {
-    private ConfigReader $configReader;
-    private OrderParametersReader $orderParametersReader;
-    private EntityRepositoryInterface $orderTransactionRepository;
+	private ConfigReader $configReader;
+	private OrderParametersReader $orderParametersReader;
+	private EntityRepositoryInterface $orderTransactionRepository;
+	private PluginService $pluginService;
+	private string $shopwareVersion;
 
-    public function __construct(
+	public function __construct(
         ConfigReader $configReader,
-        OrderParametersReader $orderParametersReader,
-        EntityRepositoryInterface $orderTransactionRepository
+		OrderParametersReader $orderParametersReader,
+		EntityRepositoryInterface $orderTransactionRepository,
+		PluginService $pluginService,
+		string $shopwareVersion
     ){
-        $this->configReader = $configReader;
-        $this->orderParametersReader = $orderParametersReader;
-        $this->orderTransactionRepository = $orderTransactionRepository;
-    }
+		$this->configReader = $configReader;
+		$this->orderParametersReader = $orderParametersReader;
+		$this->orderTransactionRepository = $orderTransactionRepository;
+		$this->pluginService = $pluginService;
+		$this->shopwareVersion = $shopwareVersion;
+	}
 
-    private function getClient(): Client
+	private function getClient(): Client
     {
         return new Client([
             'base_uri' => $this->configReader->getAPIUrl()
@@ -82,6 +90,8 @@ class BetterPaymentClient
             'payment_type' => $transaction->getOrderTransaction()->getPaymentMethod()->getCustomFields()['shortname'],
             'risk_check_approval' => '1',
             'postback_url' => getenv('APP_URL').'/api/betterpayment/webhook',
+	        'app_name' => 'Shopware 6',
+	        'app_version' => 'SW ' . $this->shopwareVersion . ', Plugin ' . $this->pluginService->getPluginByName(BetterPayment::PLUGIN_NAME, Context::createDefaultContext())->getVersion(),
         ];
 
         if (get_class($transaction) == AsyncPaymentTransactionStruct::class) {
