@@ -16,6 +16,7 @@ use Shopware\Core\Framework\Plugin\Util\PluginIdProvider;
 
 class BetterPayment extends Plugin
 {
+	public const PLUGIN_NAME = 'BetterPayment';
     public function install(InstallContext $installContext): void
     {
         $this->getPaymentMethodInstaller()->install($installContext);
