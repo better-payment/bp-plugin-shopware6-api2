@@ -55,8 +55,8 @@
                         </sw-datepicker>
                         <sw-text-field
                                 :copyable="true" :copyableTooltip="true" disabled size="small"
+                                :label="$tc('betterpayment.refund.labels.transactionId')"
                                 v-model="betterPaymentTransactionId">
-                            <template v-slot:label>{{ $tc('betterpayment.refund.labels.transactionId') }}</template>
                         </sw-text-field>
                     </sw-container>
                     <sw-textarea-field

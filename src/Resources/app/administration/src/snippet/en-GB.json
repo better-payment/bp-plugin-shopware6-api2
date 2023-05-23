@@ -29,6 +29,35 @@
         "successfulRefundRequest": "Refunded successfully",
         "invalidRefundRequest": "Refund failed. Please check your data and try again."
       }
+    },
+
+    "capture": {
+      "cardTitle": "Better Payment Captures",
+
+      "labels": {
+        "amount": "Amount",
+        "comment": "Comment",
+        "date": "Date",
+        "transactionId": "Transaction ID",
+        "noMoreRefunds": "Transaction is fully captured. You can not issue more captures through Shopware.",
+        "paymentMethodsInfo": {
+          "invoice": "You can issue multiple captures up to the total transaction amount for the transaction.",
+          "invoiceB2B": "You can issue multiple captures up to the total transaction amount for the transaction."
+        }
+      },
+
+      "actions": {
+        "createNew": "Create new capture"
+      },
+
+      "messages": {
+        "successfulCaptureRequest": "Captured successfully",
+        "invalidCaptureRequest": "Capture failed. Please check your data and try again."
+      },
+
+      "defaults": {
+        "comment": "Captured using Shopware 6 plugin"
+      }
     }
   }
 }
