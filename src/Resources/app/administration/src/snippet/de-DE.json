@@ -29,6 +29,35 @@
         "successfulRefundRequest": "Rückerstattung erfolgreich",
         "invalidRefundRequest": "Rückerstattung fehlgeschlagen. Bitte überprüfen Sie Ihre Daten und versuchen Sie es erneut."
       }
+    },
+
+    "capture": {
+      "cardTitle": "Better-Payment Erfasst",
+
+      "labels": {
+        "amount": "Betrag",
+        "comment": "Kommentar",
+        "date": "Datum",
+        "transactionId": "Transaktions-ID",
+        "notCapturableState": "Der aktuelle Zahlungsstatus ist für die Erfassung nicht verfügbar.",
+        "paymentMethodsInfo": {
+          "invoice": "Erfassen Sie Informationen zum Zahlweg der Rechnung.",
+          "invoiceB2B": "Erfassen Sie Informationen für die Zahlungsmethode Rechnung b2b."
+        }
+      },
+
+      "actions": {
+        "createNew": "Erfassen"
+      },
+
+      "messages": {
+        "successfulCaptureRequest": "Erfolgreich eingefangen",
+        "invalidCaptureRequest": "Erfassung fehlgeschlagen. Bitte überprüfen Sie Ihre Daten und versuchen Sie es erneut."
+      },
+
+      "defaults": {
+        "comment": "Captured using Shopware 6 plugin"
+      }
     }
   }
 }
