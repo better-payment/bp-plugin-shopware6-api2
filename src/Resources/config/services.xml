@@ -89,6 +89,10 @@
         <service id="BetterPayment\EventSubscriber\MappingRegisterCustomer">
             <tag name="kernel.event_subscriber"/>
         </service>
+
+        <service id="BetterPayment\EventSubscriber\OrderInvoiceDocumentCreatedEventSubscriber">
+            <tag name="kernel.event_subscriber"/>
+        </service>
         <!-- End Event Subscribers -->
 
         <!-- Util Classes -->
