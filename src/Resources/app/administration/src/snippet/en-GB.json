@@ -39,15 +39,15 @@
         "comment": "Comment",
         "date": "Date",
         "transactionId": "Transaction ID",
-        "noMoreRefunds": "Transaction is fully captured. You can not issue more captures through Shopware.",
+        "notCapturableState": "Current payment status is not available for capture.",
         "paymentMethodsInfo": {
-          "invoice": "You can issue multiple captures up to the total transaction amount for the transaction.",
-          "invoiceB2B": "You can issue multiple captures up to the total transaction amount for the transaction."
+          "invoice": "Capture info for invoice payment method.",
+          "invoiceB2B": "Capture info for invoice b2b payment method."
         }
       },
 
       "actions": {
-        "createNew": "Create new capture"
+        "createNew": "Capture"
       },
 
       "messages": {

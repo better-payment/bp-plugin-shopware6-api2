@@ -45,7 +45,7 @@ Component.override('sw-order-detail-base', {
             return this.isBetterPaymentTransaction ? this.transaction.customFields.better_payment_transaction_id : null;
         },
 
-        cardIsVisible() {
+        refundCardIsVisible() {
             return this.isBetterPaymentTransaction;
         },
 
@@ -73,7 +73,7 @@ Component.override('sw-order-detail-base', {
         // when order is set get its transaction refunds
         // order is not directly set in created() lifecycle hook
         order() {
-            if (this.cardIsVisible) {
+            if (this.refundCardIsVisible) {
                 this.getRefunds();
             }
         }

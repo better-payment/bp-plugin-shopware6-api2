@@ -44,24 +44,25 @@ Component.override('sw-order-detail-base', {
             return this.isBetterPaymentTransaction ? this.transaction.customFields.better_payment_transaction_id : null;
         },
 
-        cardIsVisible() {
-            return this.isBetterPaymentTransaction && this.isCapturable;
+        isCapturablePaymentMethod() {
+            const capturablePaymentMethods = ['kar', 'kar_b2b'];
+
+            return capturablePaymentMethods.includes(this.paymentMethod);
         },
 
-        isCapturable() {
-            const capturableStates = ['paid', 'paid_partially', 'open'];
-
-            // return capturableStates.includes(this.transaction.stateMachineState.technicalName);
-            return true;
+        captureCardIsVisible() {
+            return this.isBetterPaymentTransaction && this.isCapturablePaymentMethod;
         },
 
-        isFullyCaptured() {
-            return this.transaction.stateMachineState.technicalName === 'refunded';
+        isCapturableState() {
+            const capturableStates = ['in_progress', 'paid_partially', 'paid'];
+
+            return capturableStates.includes(this.transaction.stateMachineState.technicalName);
         },
 
         canCreateCapture() {
             // TODO: add permission check here with AND
-            return this.isCapturable;
+            return this.isCapturableState;
         },
 
         paymentMethod() {
@@ -73,7 +74,7 @@ Component.override('sw-order-detail-base', {
         // when order is set get its transaction captures
         // order is not directly set in created() lifecycle hook
         order() {
-            if (this.cardIsVisible) {
+            if (this.captureCardIsVisible) {
                 this.getCaptures();
             }
         }
@@ -117,7 +118,7 @@ Component.override('sw-order-detail-base', {
                 .then(result => {
                     if (!result.hasOwnProperty('error_code')) {
                         this.captures = result.filter(log => log.type === 'capture')
-                            .filter(log => log.status === 3); // TODO which log status to be chosen
+                            .filter(log => [1,2,3].includes(log.status));
                     } else {
                         this.createNotificationError({
                             message: result.error_message
@@ -192,7 +193,7 @@ Component.override('sw-order-detail-base', {
 
         createCaptureFinished() {
             this.capture.amount = null;
-            this.capture.comment = null;
+            this.capture.comment = this.$tc('betterpayment.capture.defaults.comment'),
             this.processSuccess = false;
         },
 

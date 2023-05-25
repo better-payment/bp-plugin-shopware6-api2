@@ -1,15 +1,10 @@
 {% block sw_order_detail_base_line_items_card %}
     {% parent %}
     <sw-card
-            v-if="cardIsVisible"
+            v-if="captureCardIsVisible"
             :title="$tc('betterpayment.capture.cardTitle')">
         <template #grid>
             <sw-card-section divider="bottom" :slim="true">
-                <sw-container v-if="isFullyCaptured">
-                    <sw-label variant="success">
-                        {{ $tc('betterpayment.capture.labels.noMoreCaptures') }}
-                    </sw-label>
-                </sw-container>
                 <sw-container>
                     <sw-label variant="info" style="height: auto">
                         <div style="white-space: normal;">
@@ -22,11 +17,16 @@
                         </div>
                     </sw-label>
                 </sw-container>
+                <sw-container v-if="!isCapturableState">
+                    <sw-label variant="warning">
+                        {{ $tc('betterpayment.capture.labels.notCapturableState') }}
+                    </sw-label>
+                </sw-container>
                 <sw-container columns="1fr 1fr" gap="0px 14px">
                     <sw-container rows="1fr 1fr" gap="40px 0px">
                         <sw-number-field
                                 required numberType="float" :digits="2" :allowEmpty="false" size="small"
-                                :disabled="!canCreateCapture || isFullyCaptured"
+                                :disabled="!canCreateCapture"
                                 :label="$tc('betterpayment.capture.labels.amount')"
                                 v-model="capture.amount">
                         </sw-number-field>
@@ -38,7 +38,7 @@
                     </sw-container>
                     <sw-textarea-field
                             type="textarea" size="small"
-                            :disabled="!canCreateCapture || isFullyCaptured"
+                            :disabled="!canCreateCapture"
                             :label="$tc('betterpayment.capture.labels.comment')"
                             v-model="capture.comment">
                     </sw-textarea-field>
@@ -46,7 +46,7 @@
                 <sw-button-process
                         style="float: right; margin-top: 5px"
                         :processSuccess="processSuccess"
-                        :disabled="buttonDisabled || !canCreateCapture || isFullyCaptured"
+                        :disabled="buttonDisabled || !canCreateCapture"
                         @click="createCapture"
                         variant="ghost"
                         size="small"
