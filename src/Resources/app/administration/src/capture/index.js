@@ -19,6 +19,7 @@ Component.override('sw-order-detail-base', {
         return {
             capture: {
                 amount: null,
+                invoice_id: null,
                 comment: this.$tc('betterpayment.capture.defaults.comment'),
             },
             captures: [],
@@ -143,7 +144,8 @@ Component.override('sw-order-detail-base', {
             const body = JSON.stringify({
                 'transaction_id': this.betterPaymentTransactionId,
                 'amount': this.capture.amount,
-                'comment': this.capture.comment
+                'invoice_id': this.capture.invoice_id,
+                'comment': this.capture.comment,
             });
 
             const requestOptions = {
@@ -193,6 +195,7 @@ Component.override('sw-order-detail-base', {
 
         createCaptureFinished() {
             this.capture.amount = null;
+            this.capture.invoice_id = null;
             this.capture.comment = this.$tc('betterpayment.capture.defaults.comment'),
             this.processSuccess = false;
         },

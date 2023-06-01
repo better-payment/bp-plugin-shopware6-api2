@@ -7,6 +7,7 @@
         "amount": "Amount",
         "comment": "Comment",
         "transactionId": "Transaction ID",
+        "invoiceId": "Invoice ID",
         "date": "Date",
         "noMoreRefunds": "Transaction is fully refunded. You can not issue more refunds through payment gateway.",
         "paymentMethodsInfo": {

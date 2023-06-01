@@ -273,6 +273,19 @@
                 Ohne diese Zustimmung werden die Zahlungen nicht ausgeführt. Sie können dieses Feld deaktivieren, falls Sie es als Teil Ihrer Allgemeinen Geschäftsbedingungen vorsehen.
             </helpText>
         </input-field>
+        <input-field type="bool">
+            <name>invoiceAutomaticallyCaptureOnOrderInvoiceDocumentSent</name>
+            <label>Automatically capture transaction when order invoice document is sent</label>
+            <label lang="de-DE">Automatically capture transaction when order invoice document is sent (DE)</label>
+            <helpText>
+                When order's invoice document is sent, plugin will automatically capture the order's transaction in API.
+                You can also capture transactions manually, by turning this flag off.
+            </helpText>
+            <helpText lang="de-DE">
+                When order's invoice document is sent, plugin will automatically capture the order's transaction in API.
+                You can also capture transactions manually, by turning this flag off. (DE)
+            </helpText>
+        </input-field>
     </card>
 
     <card>
@@ -311,6 +324,19 @@
             <helpText lang="de-DE">
                 Wenn Sie diese Option aktivieren, muss der Kunde der Risikoprüfung auf der Kassenseite zustimmen.
                 Ohne diese Zustimmung werden die Zahlungen nicht ausgeführt. Sie können dieses Feld deaktivieren, falls Sie es als Teil Ihrer Allgemeinen Geschäftsbedingungen vorsehen.
+            </helpText>
+        </input-field>
+        <input-field type="bool">
+            <name>invoiceB2BAutomaticallyCaptureOnOrderInvoiceDocumentSent</name>
+            <label>Automatically capture transaction when order invoice document is sent</label>
+            <label lang="de-DE">Automatically capture transaction when order invoice document is sent (DE)</label>
+            <helpText>
+                When order's invoice document is sent, plugin will automatically capture the order's transaction in API.
+                You can also capture transactions manually, by turning this flag off.
+            </helpText>
+            <helpText lang="de-DE">
+                When order's invoice document is sent, plugin will automatically capture the order's transaction in API.
+                You can also capture transactions manually, by turning this flag off. (DE)
             </helpText>
         </input-field>
     </card>

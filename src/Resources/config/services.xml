@@ -91,6 +91,10 @@
         </service>
 
         <service id="BetterPayment\EventSubscriber\OrderInvoiceDocumentCreatedEventSubscriber">
+            <argument type="service" id="BetterPayment\Util\BetterPaymentClient"/>
+            <argument type="service" id="order.repository"/>
+            <argument type="service" id="BetterPayment\Util\ConfigReader"/>
+
             <tag name="kernel.event_subscriber"/>
         </service>
         <!-- End Event Subscribers -->
