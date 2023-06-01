@@ -56,16 +56,16 @@ class OrderInvoiceDocumentCreatedEventSubscriber implements EventSubscriberInter
 				if ($this->isCapturable($orderTransaction)) {
 					$invoiceId = $payload['config']['documentNumber'];
 
-                    // Create capture request parameters
-                    $parameters = [
-                        'transaction_id' => $orderTransaction->getCustomFields()['better_payment_transaction_id'],
-                        'invoice_id' => $invoiceId,
-                        'amount' => $order->getAmountTotal(),
-                        'comment' => 'Captured using Shopware 6 plugin',
-                    ];
+					// Create capture request parameters
+					$parameters = [
+	                    'transaction_id' => $orderTransaction->getCustomFields()['better_payment_transaction_id'],
+	                    'invoice_id' => $invoiceId,
+	                    'amount' => $order->getAmountTotal(),
+	                    'comment' => 'Captured using Shopware 6 plugin',
+	                ];
 
-                    // Send capture request
-                    $this->betterPaymentClient->capture($parameters);
+					// Send capture request
+					$this->betterPaymentClient->capture($parameters);
 				}
 			}
 		}
