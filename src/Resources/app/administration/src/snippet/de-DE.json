@@ -38,6 +38,7 @@
         "amount": "Betrag",
         "comment": "Kommentar",
         "date": "Datum",
+        "invoiceId": "Invoice ID",
         "transactionId": "Transaktions-ID",
         "notCapturableState": "Der aktuelle Zahlungsstatus ist für die Erfassung nicht verfügbar.",
         "paymentMethodsInfo": {

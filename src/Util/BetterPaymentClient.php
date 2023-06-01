@@ -199,7 +199,8 @@ class BetterPaymentClient
         }
     }
 
-    public function capture(array $body) {
+    public function capture(array $parameters) {
+		$body = json_encode($parameters);
         $request = new Request('POST', 'rest/capture', $this->getHeaders(), $body);
         try {
             $response = $this->getClient()->send($request);

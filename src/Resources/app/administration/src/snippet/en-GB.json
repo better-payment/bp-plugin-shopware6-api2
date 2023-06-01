@@ -7,7 +7,6 @@
         "amount": "Amount",
         "comment": "Comment",
         "transactionId": "Transaction ID",
-        "invoiceId": "Invoice ID",
         "date": "Date",
         "noMoreRefunds": "Transaction is fully refunded. You can not issue more refunds through payment gateway.",
         "paymentMethodsInfo": {
@@ -39,6 +38,7 @@
         "amount": "Amount",
         "comment": "Comment",
         "date": "Date",
+        "invoiceId": "Invoice ID",
         "transactionId": "Transaction ID",
         "notCapturableState": "Current payment status is not available for capture.",
         "paymentMethodsInfo": {

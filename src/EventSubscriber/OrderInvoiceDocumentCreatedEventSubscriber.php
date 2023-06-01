@@ -3,8 +3,11 @@
 namespace BetterPayment\EventSubscriber;
 
 
+use BetterPayment\PaymentMethod\Invoice;
+use BetterPayment\PaymentMethod\InvoiceB2B;
 use BetterPayment\Util\BetterPaymentClient;
 use BetterPayment\Util\ConfigReader;
+use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionEntity;
 use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
@@ -34,36 +37,44 @@ class OrderInvoiceDocumentCreatedEventSubscriber implements EventSubscriberInter
 
     public function onInvoiceDocumentCreated(EntityWrittenEvent $event): void
     {
-		// check if plugin config option is set to automatically capture on invoice document create
-        // TODO: check if payment method is invoice or invoiceB2B
-		if ((true && $this->configReader->getBool(ConfigReader::INVOICE_AUTOMATICALLY_CAPTURE_ON_ORDER_INVOICE_DOCUMENT_SENT))
-            || (true && $this->configReader->getBool(ConfigReader::INVOICE_B2B_AUTOMATICALLY_CAPTURE_ON_ORDER_INVOICE_DOCUMENT_SENT))) {
-			$payloads = $event->getPayloads();
-			foreach ($payloads as $payload) {
-				if (isset($payload['config']['name']) && $payload['config']['name'] == 'invoice') {
-					$orderId = $payload['orderId'];
+		$payloads = $event->getPayloads();
+		foreach ($payloads as $payload) {
+			if (isset($payload['config']['name']) && $payload['config']['name'] == 'invoice') {
+				// Get order by orderId
+				$orderId = $payload['orderId'];
+				$criteria = new Criteria([$orderId]);
+				$criteria->addAssociation('transactions.paymentMethod');
+
+				/** @var OrderEntity $order */
+				$order = $this->orderRepository->search(
+					$criteria,
+					Context::createDefaultContext()
+				)->first();
+
+				$orderTransaction = $order->getTransactions()->last();
+
+				if ($this->isCapturable($orderTransaction)) {
 					$invoiceId = $payload['config']['documentNumber'];
 
-                    // Get order by orderId
-                    $criteria = new Criteria([$orderId]);
-                    /** @var OrderEntity $order */
-                    $order = $this->orderRepository->search(
-                        $criteria,
-                        Context::createDefaultContext()
-                    )->first();
-
-                    // Make capture request parameters
-                    $requestBody = [
-                        'transaction_id' => 'add9343c-d372-4fec-9805-1de8107aad31', // TODO: fetch order transaction, then BP transaction id
+                    // Create capture request parameters
+                    $parameters = [
+                        'transaction_id' => $orderTransaction->getCustomFields()['better_payment_transaction_id'],
                         'invoice_id' => $invoiceId,
                         'amount' => $order->getAmountTotal(),
                         'comment' => 'Captured using Shopware 6 plugin',
                     ];
 
                     // Send capture request
-                    $this->betterPaymentClient->capture($requestBody);
+                    $this->betterPaymentClient->capture($parameters);
 				}
 			}
 		}
     }
+
+	public function isCapturable(OrderTransactionEntity $orderTransaction): bool
+	{
+		$paymentMethodShortname = $orderTransaction->getPaymentMethod()->getCustomFields()['shortname'];
+		return ($paymentMethodShortname == Invoice::SHORTNAME && $this->configReader->getBool(ConfigReader::INVOICE_AUTOMATICALLY_CAPTURE_ON_ORDER_INVOICE_DOCUMENT_SENT))
+		       || ($paymentMethodShortname == InvoiceB2B::SHORTNAME && $this->configReader->getBool(ConfigReader::INVOICE_B2B_AUTOMATICALLY_CAPTURE_ON_ORDER_INVOICE_DOCUMENT_SENT));
+	}
 }
