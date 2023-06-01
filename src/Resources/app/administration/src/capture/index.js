@@ -172,9 +172,6 @@ Component.override('sw-order-detail-base', {
                             this.createNotificationSuccess({
                                 message: this.$tc('betterpayment.capture.messages.successfulCaptureRequest')
                             });
-
-                            // TODO: do we need to update order transaction state
-                            // this.updateTransactionState();
                         } else {
                             this.createNotificationError({
                                 message: this.$tc('betterpayment.capture.messages.invalidCaptureRequest')
@@ -199,55 +196,5 @@ Component.override('sw-order-detail-base', {
             this.capture.comment = this.$tc('betterpayment.capture.defaults.comment'),
             this.processSuccess = false;
         },
-
-        // updateTransactionState() {
-        //     const url = this.apiUrl + '/rest/transactions/' + this.betterPaymentTransactionId;
-        //
-        //     const headers = new Headers();
-        //     headers.append('Authorization', 'Basic ' + this.apiAuth);
-        //
-        //     const requestOptions = {
-        //         method: 'GET',
-        //         headers: headers,
-        //     };
-        //
-        //     fetch(url, requestOptions)
-        //         .then(response => response.json())
-        //         .then(result => {
-        //             if (!result.hasOwnProperty('error_code')) {
-        //                 if (result.refunded_amount > 0) {
-        //                     let actionName;
-        //
-        //                     if (result.refunded_amount >= result.amount) {
-        //                         actionName = 'refund';
-        //                     } else {
-        //                         actionName = 'refund_partially';
-        //                     }
-        //
-        //                     const docIds = [];
-        //                     const sendMail = true;
-        //
-        //                     this.orderStateMachineService.transitionOrderTransactionState(
-        //                         this.transaction.id,
-        //                         actionName,
-        //                         {documentIds: docIds, sendMail},
-        //                     ).then(() => {
-        //                         this.$emit('order-state-change');
-        //                     }).catch((error) => {
-        //                         this.createNotificationError(error);
-        //                     });
-        //                 }
-        //             } else {
-        //                 this.createNotificationError({
-        //                     message: result.error_message
-        //                 });
-        //             }
-        //         })
-        //         .catch(exception => {
-        //             this.createNotificationError({
-        //                 message: exception
-        //             });
-        //         });
-        // }
     },
 });
