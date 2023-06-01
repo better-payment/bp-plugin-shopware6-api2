@@ -72,6 +72,8 @@ class OrderParametersReader
         return [
             // Any alphanumeric string to identify the Merchant’s order.
             'order_id' => $order->getOrderNumber(),
+	        // Any alphanumeric string to provide the customer number of a Merchant’s order (up to 40 characters) for factoring or debt collection
+	        'customer_id' => $order->getOrderCustomer()->getCustomerNumber(),
             // See details about merchant reference - https://testdashboard.betterpayment.de/docs/#merchant-reference
             'merchant_reference' => $order->getOrderNumber().' - '.$this->systemConfigService->getString('core.basicInformation.shopName', $order->getSalesChannelId()),
             // Including possible shipping costs and VAT (float number)
