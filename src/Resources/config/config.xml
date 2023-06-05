@@ -276,14 +276,14 @@
         <input-field type="bool">
             <name>invoiceAutomaticallyCaptureOnOrderInvoiceDocumentSent</name>
             <label>Automatically capture transaction when order invoice document is sent</label>
-            <label lang="de-DE">Automatically capture transaction when order invoice document is sent (DE)</label>
+            <label lang="de-DE">Automatisches Erfassen der Transaktion, wenn das Rechnungsdokument gesendet wird</label>
             <helpText>
                 When order's invoice document is sent, plugin will automatically capture the order's transaction in API.
                 You can also capture transactions manually, by turning this flag off.
             </helpText>
             <helpText lang="de-DE">
-                When order's invoice document is sent, plugin will automatically capture the order's transaction in API.
-                You can also capture transactions manually, by turning this flag off. (DE)
+                Wenn das Rechnungsdokument der Bestellung gesendet wird, erfasst das Plugin automatisch die Transaktion der Bestellung in der API.
+                Sie können Transaktionen auch manuell erfassen, indem Sie dieses Flag deaktivieren.
             </helpText>
         </input-field>
     </card>
@@ -329,14 +329,14 @@
         <input-field type="bool">
             <name>invoiceB2BAutomaticallyCaptureOnOrderInvoiceDocumentSent</name>
             <label>Automatically capture transaction when order invoice document is sent</label>
-            <label lang="de-DE">Automatically capture transaction when order invoice document is sent (DE)</label>
+            <label lang="de-DE">Automatisches Erfassen von Transaktionen beim Versand von Auftragsrechnungen</label>
             <helpText>
                 When order's invoice document is sent, plugin will automatically capture the order's transaction in API.
                 You can also capture transactions manually, by turning this flag off.
             </helpText>
             <helpText lang="de-DE">
-                When order's invoice document is sent, plugin will automatically capture the order's transaction in API.
-                You can also capture transactions manually, by turning this flag off. (DE)
+                Wenn das Rechnungsdokument der Bestellung gesendet wird, erfasst das Plugin automatisch die Transaktion der Bestellung in der API.
+                Sie können Transaktionen auch manuell erfassen, indem Sie dieses Flag deaktivieren.
             </helpText>
         </input-field>
     </card>

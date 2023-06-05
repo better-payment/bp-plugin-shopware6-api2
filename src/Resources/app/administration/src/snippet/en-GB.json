@@ -42,8 +42,8 @@
         "transactionId": "Transaction ID",
         "notCapturableState": "Current payment status is not available for capture.",
         "paymentMethodsInfo": {
-          "invoice": "Capture info for invoice payment method.",
-          "invoiceB2B": "Capture info for invoice b2b payment method."
+          "invoice": "Please, provide invoice ID when capturing manually. If you haven't generated an invoice, you can leave it empty.",
+          "invoiceB2B": "Please, provide invoice ID when capturing manually. If you haven't generated an invoice, you can leave it empty."
         }
       },
 

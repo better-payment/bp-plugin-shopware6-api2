@@ -42,8 +42,8 @@
         "transactionId": "Transaktions-ID",
         "notCapturableState": "Der aktuelle Zahlungsstatus ist für die Erfassung nicht verfügbar.",
         "paymentMethodsInfo": {
-          "invoice": "Erfassen Sie Informationen zum Zahlweg der Rechnung.",
-          "invoiceB2B": "Erfassen Sie Informationen für die Zahlungsmethode Rechnung b2b."
+          "invoice": "Bitte geben Sie die Rechnungs-ID an, wenn Sie die Daten manuell erfassen. Wenn Sie keine Rechnung erstellt haben, können Sie das Feld leer lassen.",
+          "invoiceB2B": "Bitte geben Sie die Rechnungs-ID an, wenn Sie die Daten manuell erfassen. Wenn Sie keine Rechnung erstellt haben, können Sie das Feld leer lassen."
         }
       },
 
