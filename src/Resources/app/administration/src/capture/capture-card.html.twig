@@ -23,7 +23,7 @@
                     </sw-label>
                 </sw-container>
                 <sw-container columns="1fr 1fr" gap="0px 14px">
-                    <sw-container rows="1fr 1fr 1fr" gap="10px 0px">
+                    <sw-container rows="1fr 1fr 1fr 1fr" gap="10px 0px">
                         <sw-number-field
                                 required numberType="float" :digits="2" :allowEmpty="false" size="small"
                                 :disabled="!canCreateCapture"
@@ -36,6 +36,11 @@
                                 :label="$tc('betterpayment.capture.labels.invoiceId')"
                                 v-model="capture.invoice_id">
                         </sw-text-field>
+                        <sw-datepicker
+                                required size="small" :label="$tc('betterpayment.capture.labels.date')"
+                                :disabled="!canCreateCapture"
+                                v-model="capture.execution_date">
+                        </sw-datepicker>
                         <sw-text-field
                                 :copyable="true" :copyableTooltip="true" disabled size="small"
                                 v-model="betterPaymentTransactionId"
@@ -50,7 +55,7 @@
                     </sw-textarea-field>
                 </sw-container>
                 <sw-button-process
-                        style="float: right; margin-top: 5px"
+                        style="float: right;"
                         :processSuccess="processSuccess"
                         :disabled="buttonDisabled || !canCreateCapture"
                         @click="createCapture"
