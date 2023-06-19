@@ -1,0 +1,81 @@
+{% block sw_order_detail_base_line_items_card %}
+    {% parent %}
+    <sw-card
+            v-if="captureCardIsVisible"
+            :title="$tc('betterpayment.capture.cardTitle')">
+        <template #grid>
+            <sw-card-section divider="bottom" :slim="true">
+                <sw-container>
+                    <sw-label variant="info" style="height: auto">
+                        <div style="white-space: normal;">
+                            <span v-if="paymentMethod == 'kar'">
+                                {{ $tc('betterpayment.capture.labels.paymentMethodsInfo.invoice') }}
+                            </span>
+                            <span v-else-if="paymentMethod == 'kar_b2b'">
+                                {{ $tc('betterpayment.capture.labels.paymentMethodsInfo.invoiceB2B') }}
+                            </span>
+                        </div>
+                    </sw-label>
+                </sw-container>
+                <sw-container v-if="!isCapturableState">
+                    <sw-label variant="warning">
+                        {{ $tc('betterpayment.capture.labels.notCapturableState') }}
+                    </sw-label>
+                </sw-container>
+                <sw-container columns="1fr 1fr" gap="0px 14px">
+                    <sw-container rows="1fr 1fr 1fr 1fr" gap="10px 0px">
+                        <sw-number-field
+                                required numberType="float" :digits="2" :allowEmpty="false" size="small"
+                                :disabled="!canCreateCapture"
+                                :label="$tc('betterpayment.capture.labels.amount')"
+                                v-model="capture.amount">
+                        </sw-number-field>
+                        <sw-text-field
+                                required size="small"
+                                :disabled="!canCreateCapture"
+                                :label="$tc('betterpayment.capture.labels.invoiceId')"
+                                v-model="capture.invoice_id">
+                        </sw-text-field>
+                        <sw-datepicker
+                                required size="small" :label="$tc('betterpayment.capture.labels.date')"
+                                :disabled="!canCreateCapture"
+                                v-model="capture.execution_date">
+                        </sw-datepicker>
+                        <sw-text-field
+                                :copyable="true" :copyableTooltip="true" disabled size="small"
+                                v-model="betterPaymentTransactionId"
+                                :label="$tc('betterpayment.capture.labels.transactionId')">
+                        </sw-text-field>
+                    </sw-container>
+                    <sw-textarea-field
+                            type="textarea" size="small"
+                            :disabled="!canCreateCapture"
+                            :label="$tc('betterpayment.capture.labels.comment')"
+                            v-model="capture.comment">
+                    </sw-textarea-field>
+                </sw-container>
+                <sw-button-process
+                        style="float: right;"
+                        :processSuccess="processSuccess"
+                        :disabled="buttonDisabled || !canCreateCapture"
+                        @click="createCapture"
+                        variant="ghost"
+                        size="small"
+                        @process-finish="createCaptureFinished">
+                    {{ $tc('betterpayment.capture.actions.createNew') }}
+                </sw-button-process>
+            </sw-card-section>
+            <sw-data-grid
+                    :isLoading="isLoading"
+                    :showSelection="false" :showActions="false"
+                    :dataSource="captures" v-if="captures.length !== 0"
+                    :columns="[
+                        { property: 'amount', label: $tc('betterpayment.capture.labels.amount') },
+                        { property: 'message', label: $tc('betterpayment.capture.labels.comment') },
+                        {# TODO: parse it according to shop setting for datetime #}
+                        { property: 'created_at', label: $tc('betterpayment.capture.labels.date') }
+                    ]">
+            </sw-data-grid>
+        </template>
+    </sw-card>
+{% endblock %}

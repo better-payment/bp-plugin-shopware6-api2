@@ -1,4 +1,4 @@
-import template from './refund-card.html.twig';
+import template from './capture-card.html.twig';
 import whiteLabels from '../../../../data/whitelabels.json';
 
 const {Component, Mixin, ApiService} = Shopware;
@@ -17,12 +17,13 @@ Component.override('sw-order-detail-base', {
 
     data() {
         return {
-            refund: {
+            capture: {
                 amount: null,
-                comment: null,
+                invoice_id: null,
+                comment: this.$tc('betterpayment.capture.defaults.comment'),
                 execution_date: null,
             },
-            refunds: [],
+            captures: [],
             processSuccess: false,
             buttonDisabled: false,
 
@@ -45,23 +46,25 @@ Component.override('sw-order-detail-base', {
             return this.isBetterPaymentTransaction ? this.transaction.customFields.better_payment_transaction_id : null;
         },
 
-        refundCardIsVisible() {
-            return this.isBetterPaymentTransaction;
+        isCapturablePaymentMethod() {
+            const capturablePaymentMethods = ['kar', 'kar_b2b'];
+
+            return capturablePaymentMethods.includes(this.paymentMethod);
         },
 
-        isRefundable() {
-            const refundableStates = ['paid', 'paid_partially', 'refunded_partially'];
-
-            return refundableStates.includes(this.transaction.stateMachineState.technicalName);
+        captureCardIsVisible() {
+            return this.isBetterPaymentTransaction && this.isCapturablePaymentMethod;
         },
 
-        isFullyRefunded() {
-            return this.transaction.stateMachineState.technicalName === 'refunded';
+        isCapturableState() {
+            const capturableStates = ['in_progress', 'paid_partially', 'paid'];
+
+            return capturableStates.includes(this.transaction.stateMachineState.technicalName);
         },
 
-        canCreateRefund() {
+        canCreateCapture() {
             // TODO: add permission check here with AND
-            return this.isRefundable;
+            return this.isCapturableState;
         },
 
         paymentMethod() {
@@ -70,11 +73,11 @@ Component.override('sw-order-detail-base', {
     },
 
     watch: {
-        // when order is set get its transaction refunds
+        // when order is set get its transaction captures
         // order is not directly set in created() lifecycle hook
         order() {
-            if (this.refundCardIsVisible) {
-                this.getRefunds();
+            if (this.captureCardIsVisible) {
+                this.getCaptures();
             }
         }
     },
@@ -101,7 +104,7 @@ Component.override('sw-order-detail-base', {
             });
         },
 
-        getRefunds() {
+        getCaptures() {
             const url = this.apiUrl + '/rest/transactions/' + this.betterPaymentTransactionId + '/log';
 
             const headers = new Headers();
@@ -116,8 +119,8 @@ Component.override('sw-order-detail-base', {
                 .then(response => response.json())
                 .then(result => {
                     if (!result.hasOwnProperty('error_code')) {
-                        this.refunds = result.filter(log => log.type === 'refund')
-                            .filter(log => log.status === 7); // status 7 means successful
+                        this.captures = result.filter(log => log.type === 'capture')
+                            .filter(log => [1,2,3].includes(log.status));
                     } else {
                         this.createNotificationError({
                             message: result.error_message
@@ -131,9 +134,9 @@ Component.override('sw-order-detail-base', {
                 });
         },
 
-        createRefund() {
+        createCapture() {
             this.buttonDisabled = true;
-            const url = this.apiUrl + '/rest/refund';
+            const url = this.apiUrl + '/rest/capture';
 
             const headers = new Headers();
             headers.append('Authorization', 'Basic ' + this.apiAuth);
@@ -141,9 +144,10 @@ Component.override('sw-order-detail-base', {
 
             const body = JSON.stringify({
                 'transaction_id': this.betterPaymentTransactionId,
-                'amount': this.refund.amount,
-                'comment': this.refund.comment,
-                'execution_date': this.refund.execution_date
+                'amount': this.capture.amount,
+                'invoice_id': this.capture.invoice_id,
+                'comment': this.capture.comment,
+                'execution_date': this.capture.execution_date
             });
 
             const requestOptions = {
@@ -156,26 +160,23 @@ Component.override('sw-order-detail-base', {
                 .then(response => response.json())
                 .then(result => {
                     this.buttonDisabled = false;
-                    // detect refund api request error and show as notification
+                    // detect capture api request error and show as notification
                     if (result.error_code === 0) {
-                        // refund statuses can be success|started|local|error
+                        // capture statuses can be success|started|local|error
                         // Note: All statuses except for "error" are considered to be successful.
                         if (result.status !== 'error') {
-                            // update refund card table records
-                            this.getRefunds();
+                            // update capture card table records
+                            this.getCaptures();
 
                             // this is to show check mark on submit button
                             this.processSuccess = true;
 
                             this.createNotificationSuccess({
-                                message: this.$tc('betterpayment.refund.messages.successfulRefundRequest')
+                                message: this.$tc('betterpayment.capture.messages.successfulCaptureRequest')
                             });
-
-                            // update order transaction state
-                            this.updateTransactionState();
                         } else {
                             this.createNotificationError({
-                                message: this.$tc('betterpayment.refund.messages.invalidRefundRequest')
+                                message: this.$tc('betterpayment.capture.messages.invalidCaptureRequest')
                             });
                         }
                     } else {
@@ -191,61 +192,13 @@ Component.override('sw-order-detail-base', {
                 });
         },
 
-        createRefundFinished() {
-            this.refund.amount = null;
-            this.refund.comment = null;
-            this.refund.execution_date = null;
+        createCaptureFinished() {
+            this.capture.amount = null;
+            this.capture.invoice_id = null;
+            this.capture.comment = this.$tc('betterpayment.capture.defaults.comment');
+            this.capture.execution_date = null;
+
             this.processSuccess = false;
         },
-
-        updateTransactionState() {
-            const url = this.apiUrl + '/rest/transactions/' + this.betterPaymentTransactionId;
-
-            const headers = new Headers();
-            headers.append('Authorization', 'Basic ' + this.apiAuth);
-
-            const requestOptions = {
-                method: 'GET',
-                headers: headers,
-            };
-
-            fetch(url, requestOptions)
-                .then(response => response.json())
-                .then(result => {
-                    if (!result.hasOwnProperty('error_code')) {
-                        if (result.refunded_amount > 0) {
-                            let actionName;
-                            
-                            if (result.refunded_amount >= result.amount) {
-                                actionName = 'refund';
-                            } else {
-                                actionName = 'refund_partially';
-                            }
-
-                            const docIds = [];
-                            const sendMail = true;
-
-                            this.orderStateMachineService.transitionOrderTransactionState(
-                                this.transaction.id,
-                                actionName,
-                                {documentIds: docIds, sendMail},
-                            ).then(() => {
-                                this.$emit('order-state-change');
-                            }).catch((error) => {
-                                this.createNotificationError(error);
-                            });
-                        }
-                    } else {
-                        this.createNotificationError({
-                            message: result.error_message
-                        });
-                    }
-                })
-                .catch(exception => {
-                    this.createNotificationError({
-                        message: exception
-                    });
-                });
-        }
     },
 });

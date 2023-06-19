@@ -1,7 +1,7 @@
 {% block sw_order_detail_base_line_items_card %}
     {% parent %}
     <sw-card
-            v-if="cardIsVisible"
+            v-if="refundCardIsVisible"
             :title="$tc('betterpayment.refund.cardTitle')">
         <template #grid>
             <sw-card-section divider="bottom" :slim="true">
@@ -55,8 +55,8 @@
                         </sw-datepicker>
                         <sw-text-field
                                 :copyable="true" :copyableTooltip="true" disabled size="small"
+                                :label="$tc('betterpayment.refund.labels.transactionId')"
                                 v-model="betterPaymentTransactionId">
-                            <template v-slot:label>{{ $tc('betterpayment.refund.labels.transactionId') }}</template>
                         </sw-text-field>
                     </sw-container>
                     <sw-textarea-field
