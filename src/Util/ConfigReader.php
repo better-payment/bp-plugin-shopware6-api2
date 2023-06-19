@@ -35,11 +35,13 @@ class ConfigReader
     public const INVOICE_COLLECT_DATE_OF_BIRTH = 'invoiceCollectDateOfBirth';
     public const INVOICE_COLLECT_GENDER = 'invoiceCollectGender';
     public const INVOICE_RISK_CHECK_AGREEMENT = 'invoiceRiskCheckAgreement';
+    public const INVOICE_AUTOMATICALLY_CAPTURE_ON_ORDER_INVOICE_DOCUMENT_SENT = 'invoiceAutomaticallyCaptureOnOrderInvoiceDocumentSent';
 
     public const INVOICE_B2B_DISPLAY_INSTRUCTION = 'invoiceB2BDisplayInstruction';
     public const INVOICE_B2B_IBAN = 'invoiceB2BIBAN';
     public const INVOICE_B2B_BIC = 'invoiceB2BBIC';
     public const INVOICE_B2B_RISK_CHECK_AGREEMENT = 'invoiceB2BRiskCheckAgreement';
+    public const INVOICE_B2B_AUTOMATICALLY_CAPTURE_ON_ORDER_INVOICE_DOCUMENT_SENT = 'invoiceB2BAutomaticallyCaptureOnOrderInvoiceDocumentSent';
     
 
     public function __construct(SystemConfigService $systemConfigService)

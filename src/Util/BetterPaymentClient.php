@@ -198,4 +198,21 @@ class BetterPaymentClient
             throw new RuntimeException('Better Payment Client ERROR: ' . $exception->getMessage());
         }
     }
+
+    public function capture(array $parameters) {
+		$body = json_encode($parameters);
+        $request = new Request('POST', 'rest/capture', $this->getHeaders(), $body);
+        try {
+            $response = $this->getClient()->send($request);
+            $responseBody = json_decode((string) $response->getBody());
+            if ($responseBody->error_code == 0) {
+                return $responseBody;
+            }
+            else {
+                throw new RuntimeException('Better Payment Client ERROR: ' . $response->getBody());
+            }
+        } catch (GuzzleException $exception) {
+            throw new RuntimeException('Better Payment Client ERROR: ' . $exception->getMessage());
+        }
+    }
 }
