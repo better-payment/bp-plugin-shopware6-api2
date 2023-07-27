@@ -89,7 +89,7 @@ class BetterPaymentClient
         $requestParameters += [
             'payment_type' => $transaction->getOrderTransaction()->getPaymentMethod()->getCustomFields()['shortname'],
             'risk_check_approval' => '1',
-            'postback_url' => getenv('APP_URL').'/api/betterpayment/webhook',
+            'postback_url' => $this->getWebhookUrl(),
 	        'app_name' => 'Shopware 6',
 	        'app_version' => 'SW ' . $this->shopwareVersion . ', Plugin ' . $this->pluginService->getPluginByName(BetterPayment::PLUGIN_NAME, Context::createDefaultContext())->getVersion(),
         ];
@@ -215,4 +215,12 @@ class BetterPaymentClient
             throw new RuntimeException('Better Payment Client ERROR: ' . $exception->getMessage());
         }
     }
+
+	public function getWebhookUrl(): string
+	{
+		$baseUrl = getenv('APP_URL');
+		$path = '/api/betterpayment/webhook';
+
+		return rtrim($baseUrl, '/').$path;
+	}
 }
