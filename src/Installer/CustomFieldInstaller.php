@@ -2,7 +2,7 @@
 
 namespace BetterPayment\Installer;
 
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\Plugin\Context\InstallContext;
 use Shopware\Core\System\CustomField\CustomFieldTypes;
 
@@ -82,9 +82,9 @@ class CustomFieldInstaller
         // You can add more customer fields here
     ];
 
-    private EntityRepositoryInterface $customFieldSetRepository;
+    private EntityRepository $customFieldSetRepository;
 
-    public function __construct(EntityRepositoryInterface $customFieldSetRepository)
+    public function __construct(EntityRepository $customFieldSetRepository)
     {
         $this->customFieldSetRepository = $customFieldSetRepository;
     }

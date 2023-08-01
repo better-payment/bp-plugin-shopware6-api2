@@ -2,8 +2,7 @@
     <div class="form-row">
         <div class="form-group col-md-3 col-sm-6">
             <label for="better_payment_customer_gender">{{ 'betterpayment.register.labelGender' | trans }}*</label>
-            <select name="better_payment_customer_gender" id="better_payment_customer_gender" class="custom-select"
-                    required>
+            <select name="better_payment_customer_gender" id="better_payment_customer_gender" class="form-select" required>
                 <option disabled selected value="">{{ 'betterpayment.register.selectGender' | trans }}</option>
                 <option value="m"
                         {% if context.customer.customFields.better_payment_customer_gender == 'm' or data.get('better_payment_customer_gender') == 'm' %} selected {% endif %}>

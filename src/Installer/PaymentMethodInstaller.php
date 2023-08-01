@@ -13,7 +13,7 @@ use BetterPayment\PaymentMethod\SEPADirectDebit;
 use BetterPayment\PaymentMethod\SEPADirectDebitB2B;
 use BetterPayment\PaymentMethod\Sofort;
 use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\Plugin\Context\ActivateContext;
 use Shopware\Core\Framework\Plugin\Context\DeactivateContext;
 use Shopware\Core\Framework\Plugin\Context\InstallContext;
@@ -35,13 +35,13 @@ class PaymentMethodInstaller
     ];
 
     private PluginIdProvider $pluginIdProvider;
-    private EntityRepositoryInterface $paymentMethodRepository;
+    private EntityRepository $paymentMethodRepository;
 
     /**
      * @param PluginIdProvider $pluginIdProvider
-     * @param EntityRepositoryInterface $paymentMethodRepository
+     * @param EntityRepository $paymentMethodRepository
      */
-    public function __construct(PluginIdProvider $pluginIdProvider, EntityRepositoryInterface $paymentMethodRepository)
+    public function __construct(PluginIdProvider $pluginIdProvider, EntityRepository $paymentMethodRepository)
     {
         $this->pluginIdProvider = $pluginIdProvider;
         $this->paymentMethodRepository = $paymentMethodRepository;

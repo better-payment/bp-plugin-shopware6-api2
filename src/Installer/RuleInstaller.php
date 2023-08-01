@@ -7,7 +7,7 @@ use BetterPayment\PaymentMethod\InvoiceB2B;
 use BetterPayment\PaymentMethod\SEPADirectDebit;
 use BetterPayment\PaymentMethod\SEPADirectDebitB2B;
 use Shopware\Core\Checkout\Customer\Rule\IsCompanyRule;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\Plugin\Context\InstallContext;
 use Shopware\Core\Framework\Rule\Container\AndRule;
 
@@ -18,9 +18,9 @@ class RuleInstaller
     private const CUSTOMER_IS_PRIVATE_RULE_ID = 'ea5c01b126ac4cd7861bc6daeff9bc3d';
     private const CUSTOMER_IS_COMPANY_RULE_ID = 'fbac3618c6a2477ba079b31c07bb52fa';
 
-    private EntityRepositoryInterface $ruleRepository;
+    private EntityRepository $ruleRepository;
 
-    public function __construct(EntityRepositoryInterface $ruleRepository)
+    public function __construct(EntityRepository $ruleRepository)
     {
         $this->ruleRepository = $ruleRepository;
     }

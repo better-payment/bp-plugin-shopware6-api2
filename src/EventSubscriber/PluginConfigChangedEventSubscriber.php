@@ -5,7 +5,7 @@ namespace BetterPayment\EventSubscriber;
 use BetterPayment\Installer\CustomFieldInstaller;
 use BetterPayment\Util\ConfigReader;
 use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\System\CustomField\CustomFieldEntity;
 use Shopware\Core\System\SystemConfig\Event\SystemConfigChangedEvent;
@@ -16,9 +16,9 @@ class PluginConfigChangedEventSubscriber implements EventSubscriberInterface
 {
     private ConfigReader $configReader;
     private SystemConfigService $systemConfigService;
-    private EntityRepositoryInterface $customFieldRepository;
+    private EntityRepository $customFieldRepository;
 
-    public function __construct(ConfigReader $configReader, SystemConfigService $systemConfigService, EntityRepositoryInterface $customFieldRepository)
+    public function __construct(ConfigReader $configReader, SystemConfigService $systemConfigService, EntityRepository $customFieldRepository)
     {
         $this->configReader = $configReader;
         $this->systemConfigService = $systemConfigService;

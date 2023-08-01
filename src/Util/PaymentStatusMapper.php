@@ -8,7 +8,7 @@ use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionEnti
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStates;
 use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,12 +18,12 @@ class PaymentStatusMapper
 {
     private OrderTransactionStateHandler $orderTransactionStateHandler;
     private BetterPaymentClient $betterPaymentClient;
-    private EntityRepositoryInterface $orderTransactionRepository;
+    private EntityRepository $orderTransactionRepository;
 
     public function __construct(
         OrderTransactionStateHandler $orderTransactionStateHandler,
         BetterPaymentClient $betterPaymentClient,
-        EntityRepositoryInterface $orderTransactionRepository
+        EntityRepository $orderTransactionRepository
     ){
         $this->orderTransactionStateHandler = $orderTransactionStateHandler;
         $this->betterPaymentClient = $betterPaymentClient;
