@@ -97,7 +97,7 @@ class BetterPaymentClient
         if (get_class($transaction) == AsyncPaymentTransactionStruct::class) {
             $requestParameters += [
                 'success_url' => $transaction->getReturnUrl(),
-                'error_url' => getenv('APP_URL').'/account/order/edit/' .$transaction->getOrder()->getId()
+                'error_url' => $this->getAppUrl().'/account/order/edit/' .$transaction->getOrder()->getId()
                     .'?error-code=CHECKOUT__ASYNC_PAYMENT_PROCESS_INTERRUPTED',
             ];
         }
@@ -216,11 +216,16 @@ class BetterPaymentClient
         }
     }
 
-	public function getWebhookUrl(): string
-	{
-		$baseUrl = getenv('APP_URL');
-		$path = '/api/betterpayment/webhook';
+    public function getAppUrl(): string
+    {
+        return rtrim(getenv('APP_URL'), '/');
+    }
 
-		return rtrim($baseUrl, '/').$path;
-	}
+    public function getWebhookUrl(): string
+    {
+        $baseUrl = $this->getAppUrl();
+        $path = '/api/betterpayment/webhook';
+
+        return $baseUrl.$path;
+    }
 }
