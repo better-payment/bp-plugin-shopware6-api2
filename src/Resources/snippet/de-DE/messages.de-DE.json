@@ -28,6 +28,16 @@
       "agreementLabel": "Ich erkläre mich mit dem folgenden Sepa-Mandat einverstanden "
     },
 
+    "missing-risk-check-information-modal": {
+      "title": "Fehlende Informationen für Risikoprüfungen",
+      "body1": "Für die von Ihnen gewählte Zahlungsmethode müssen Sie folgende Angaben machen:",
+      "body2": "Bitte gehen Sie zu Ihrem Profil, um die Informationen zu aktualisieren, oder wählen Sie einfach eine andere Zahlungsmethode.",
+      "birthdate": "Geburtsdatum",
+      "gender": "Geschlecht",
+      "close_button": "Schließen",
+      "action_button": "Zum Profil"
+    },
+
     "register": {
       "labelGender": "Geschlecht",
       "selectGender": "Geschlecht auswählen...",

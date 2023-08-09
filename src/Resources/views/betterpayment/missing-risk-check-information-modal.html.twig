@@ -1,0 +1,51 @@
+{% if page.extensions.betterpayment.birthdayIsMissing or page.extensions.betterpayment.genderIsMissing %}
+    <!-- Button trigger modal -->
+    <button style="display: none" type="button" id="modalButton" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+        Launch modal
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ 'betterpayment.missing-risk-check-information-modal.title' | trans }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <p>{{ 'betterpayment.missing-risk-check-information-modal.body1' | trans }}</p>
+                        <ul>
+                            {% if page.extensions.betterpayment.birthdayIsMissing %}
+                                <li> {{ 'betterpayment.missing-risk-check-information-modal.birthdate' | trans }} </li>
+                            {% endif %}
+                            {% if page.extensions.betterpayment.genderIsMissing %}
+                                <li> {{ 'betterpayment.missing-risk-check-information-modal.gender' | trans }} </li>
+                            {% endif %}
+                        </ul>
+                        <p>{{ 'betterpayment.missing-risk-check-information-modal.body2' | trans }}</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'betterpayment.missing-risk-check-information-modal.close_button' | trans }}</button>
+                    <a href="/account/profile" type="button" class="btn btn-primary">{{ 'betterpayment.missing-risk-check-information-modal.action_button' | trans }}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const modalButton = document.getElementById('modalButton');
+            modalButton.click();
+
+            const form = document.getElementById("confirmOrderForm");
+            form.addEventListener("submit", function(event) {
+                event.preventDefault();
+                window.location.href = "/account/profile";
+            });
+        });
+    </script>
+{% endif %}
