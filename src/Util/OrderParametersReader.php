@@ -182,7 +182,7 @@ class OrderParametersReader
         // Get VAT ID from billing address, and fallback to customer's VAT ID
         $vatId = $billingAddress->getVatId();
         if (!$vatId) {
-            $vatId = $order->getOrderCustomer()->getVatIds()[0];
+            $vatId = $order->getOrderCustomer()->getVatIds() ? $order->getOrderCustomer()->getVatIds()[0] : null;
         }
 
         return [
