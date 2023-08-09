@@ -33,7 +33,9 @@ class SEPADirectDebitB2BHandler implements SynchronousPaymentHandlerInterface
         } catch (\Exception $e) {
             throw new SyncPaymentProcessException(
                 $transaction->getOrderTransaction()->getId(),
-                'An error occurred during the communication with external payment gateway' . PHP_EOL . $e->getMessage()
+                'An error occurred during the communication with external payment gateway' . PHP_EOL
+                . $e->getMessage() . PHP_EOL
+                . 'TRACE: ' . $e->getTraceAsString()
             );
         }
     }
