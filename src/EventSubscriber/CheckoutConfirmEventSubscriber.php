@@ -68,7 +68,7 @@ class CheckoutConfirmEventSubscriber implements EventSubscriberInterface
         
         // in invoice payment methods (b2c|b2b) only risk check agreement checkbox is added as form field when corresponding config is enabled
         // that's why it also needs to check in if condition whether config is enabled before assigning related template view
-        elseif ($paymentMethod->getHandlerIdentifier() == InvoiceHandler::class /*&& $this->configReader->getBool(ConfigReader::INVOICE_RISK_CHECK_AGREEMENT)*/) {
+        elseif ($paymentMethod->getHandlerIdentifier() == InvoiceHandler::class) {
             $data = new CheckoutData();
 
             $data->assign([
@@ -79,7 +79,7 @@ class CheckoutConfirmEventSubscriber implements EventSubscriberInterface
 
             $page->addExtension(CheckoutData::EXTENSION_NAME, $data);
         }
-        elseif ($paymentMethod->getHandlerIdentifier() == InvoiceB2BHandler::class /*&& $this->configReader->getBool(ConfigReader::INVOICE_B2B_RISK_CHECK_AGREEMENT)*/) {
+        elseif ($paymentMethod->getHandlerIdentifier() == InvoiceB2BHandler::class) {
             $data = new CheckoutData();
 
             $data->assign([
