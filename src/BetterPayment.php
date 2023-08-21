@@ -5,7 +5,7 @@ namespace BetterPayment;
 use BetterPayment\Installer\PaymentMethodInstaller;
 use BetterPayment\Installer\CustomFieldInstaller;
 use BetterPayment\Installer\RuleInstaller;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\Plugin;
 use Shopware\Core\Framework\Plugin\Context\ActivateContext;
 use Shopware\Core\Framework\Plugin\Context\DeactivateContext;
@@ -44,11 +44,19 @@ class BetterPayment extends Plugin
         $this->getPaymentMethodInstaller()->deactivate($deactivateContext);
     }
 
+    private function getRuleInstaller(): RuleInstaller
+    {
+        /** @var EntityRepository $ruleRepository */
+        $ruleRepository = $this->container->get('rule.repository');
+
+        return new RuleInstaller($ruleRepository);
+    }
+
     public function getPaymentMethodInstaller(): PaymentMethodInstaller
     {
         /** @var PluginIdProvider $pluginIdProvider */
         $pluginIdProvider = $this->container->get(PluginIdProvider::class);
-        /** @var EntityRepositoryInterface $paymentMethodRepository */
+        /** @var EntityRepository $paymentMethodRepository */
         $paymentMethodRepository = $this->container->get('payment_method.repository');
 
         return new PaymentMethodInstaller($pluginIdProvider, $paymentMethodRepository);
@@ -56,17 +64,11 @@ class BetterPayment extends Plugin
 
     private function getCustomFieldInstaller(): CustomFieldInstaller
     {
-        /** @var EntityRepositoryInterface $customFieldSetRepository */
+        /** @var EntityRepository $customFieldSetRepository */
         $customFieldSetRepository = $this->container->get('custom_field_set.repository');
 
         return new CustomFieldInstaller($customFieldSetRepository);
     }
 
-    private function getRuleInstaller(): RuleInstaller
-    {
-        /** @var EntityRepositoryInterface $ruleRepository */
-        $ruleRepository = $this->container->get('rule.repository');
 
-        return new RuleInstaller($ruleRepository);
-    }
 }

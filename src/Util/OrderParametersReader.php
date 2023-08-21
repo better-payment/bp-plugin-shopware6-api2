@@ -9,7 +9,7 @@ use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionEnti
 use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Checkout\Payment\Cart\SyncPaymentTransactionStruct;
 use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\System\Currency\CurrencyEntity;
 use Shopware\Core\System\Language\LanguageEntity;
@@ -18,17 +18,17 @@ use Shopware\Core\System\SystemConfig\SystemConfigService;
 class OrderParametersReader
 {
 	private SystemConfigService $systemConfigService;
-	private EntityRepositoryInterface $orderAddressRepository;
-	private EntityRepositoryInterface $customerAddressRepository;
-    private EntityRepositoryInterface $languageRepository;
-	private EntityRepositoryInterface $currencyRepository;
+	private EntityRepository $orderAddressRepository;
+	private EntityRepository $customerAddressRepository;
+    private EntityRepository $languageRepository;
+	private EntityRepository $currencyRepository;
 
 	public function __construct(
         SystemConfigService $systemConfigService,
-        EntityRepositoryInterface $orderAddressRepository,
-        EntityRepositoryInterface $customerAddressRepository,
-        EntityRepositoryInterface $languageRepository,
-	    EntityRepositoryInterface $currencyRepository
+        EntityRepository $orderAddressRepository,
+        EntityRepository $customerAddressRepository,
+        EntityRepository $languageRepository,
+	    EntityRepository $currencyRepository
     ){
         $this->systemConfigService = $systemConfigService;
         $this->orderAddressRepository = $orderAddressRepository;
