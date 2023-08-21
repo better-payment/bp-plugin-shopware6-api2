@@ -3,7 +3,7 @@ import whiteLabels from '../../../../data/whitelabels.json';
 
 const {Component, Mixin, ApiService} = Shopware;
 
-Component.override('sw-order-detail-base', {
+Component.override('sw-order-detail-details', {
     template,
 
     inject: [
@@ -34,6 +34,10 @@ Component.override('sw-order-detail-base', {
 
     created() {
         this.setAPIProperties();
+
+        if (this.captureCardIsVisible) {
+            setTimeout(() => this.getCaptures(), 1000);
+        }
     },
 
     computed: {
@@ -72,16 +76,6 @@ Component.override('sw-order-detail-base', {
         }
     },
 
-    watch: {
-        // when order is set get its transaction captures
-        // order is not directly set in created() lifecycle hook
-        order() {
-            if (this.captureCardIsVisible) {
-                this.getCaptures();
-            }
-        }
-    },
-
     methods: {
         setAPIProperties() {
             const pluginConfig = ApiService.getByName('systemConfigApiService');
@@ -99,8 +93,6 @@ Component.override('sw-order-detail-base', {
 
                 this.apiUrl = whiteLabels[whiteLabel][environment].api_url;
                 this.apiAuth = btoa(apiKey + ':' + outgoingKey);
-
-                return Promise.resolve();
             });
         },
 

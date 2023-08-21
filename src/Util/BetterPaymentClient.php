@@ -15,8 +15,9 @@ use Shopware\Core\Checkout\Customer\CustomerEntity;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionEntity;
 use Shopware\Core\Checkout\Payment\Cart\AsyncPaymentTransactionStruct;
 use Shopware\Core\Checkout\Payment\Cart\SyncPaymentTransactionStruct;
+use Shopware\Core\DevOps\Environment\EnvironmentHelper;
 use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\Plugin\PluginService;
 use Shopware\Core\Framework\Validation\DataBag\RequestDataBag;
 
@@ -24,14 +25,14 @@ class BetterPaymentClient
 {
 	private ConfigReader $configReader;
 	private OrderParametersReader $orderParametersReader;
-	private EntityRepositoryInterface $orderTransactionRepository;
+	private EntityRepository $orderTransactionRepository;
 	private PluginService $pluginService;
 	private string $shopwareVersion;
 
 	public function __construct(
         ConfigReader $configReader,
 		OrderParametersReader $orderParametersReader,
-		EntityRepositoryInterface $orderTransactionRepository,
+		EntityRepository $orderTransactionRepository,
 		PluginService $pluginService,
 		string $shopwareVersion
     ){
@@ -218,14 +219,14 @@ class BetterPaymentClient
 
     public function getAppUrl(): string
     {
-        return rtrim(getenv('APP_URL'), '/');
+        return rtrim(EnvironmentHelper::getVariable('APP_URL'), '/');
     }
 
-    public function getWebhookUrl(): string
-    {
-        $baseUrl = $this->getAppUrl();
-        $path = '/api/betterpayment/webhook';
+	public function getWebhookUrl(): string
+	{
+		$baseUrl = $this->getAppUrl();
+		$path = '/api/betterpayment/webhook';
 
-        return $baseUrl.$path;
-    }
+		return $baseUrl.$path;
+	}
 }

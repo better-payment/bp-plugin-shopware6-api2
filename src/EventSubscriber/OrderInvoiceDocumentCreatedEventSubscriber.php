@@ -10,7 +10,7 @@ use BetterPayment\Util\ConfigReader;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionEntity;
 use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Event\EntityWrittenEvent;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -23,17 +23,17 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class OrderInvoiceDocumentCreatedEventSubscriber implements EventSubscriberInterface
 {
     private BetterPaymentClient $betterPaymentClient;
-    private EntityRepositoryInterface $orderRepository;
+    private EntityRepository $orderRepository;
     private ConfigReader $configReader;
 
     /**
      * OrderInvoiceDocumentCreatedEventSubscriber constructor.
      *
      * @param BetterPaymentClient $betterPaymentClient
-     * @param EntityRepositoryInterface $orderRepository
+     * @param EntityRepository $orderRepository
      * @param ConfigReader $configReader
      */
-    public function __construct(BetterPaymentClient $betterPaymentClient, EntityRepositoryInterface $orderRepository, ConfigReader $configReader)
+    public function __construct(BetterPaymentClient $betterPaymentClient, EntityRepository $orderRepository, ConfigReader $configReader)
     {
         $this->betterPaymentClient = $betterPaymentClient;
         $this->orderRepository = $orderRepository;
