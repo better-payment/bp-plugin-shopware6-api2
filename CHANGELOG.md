@@ -1,4 +1,4 @@
-This changelog follows the specifications of https://keepachangelog.com. Please, follow the specs when adding a new entry.
+This changelog follows the specifications of https://keepachangelog.com. Please, follow the specs when adding a new entry
 
 ## [2.0.0] - 2023-08-22
 
