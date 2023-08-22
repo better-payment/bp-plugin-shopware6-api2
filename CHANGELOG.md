@@ -1,54 +1,54 @@
-# 2.0.0
+This changelog follows the specifications of https://keepachangelog.com. Please, follow the specs when adding a new entry.
 
-- Added support for Shopware 6.5.*
-- Removed support for Shopware 6.4.*
-- Refund/Capture cards on administration moved to under Payment card in Details tab of Order page
-- Tested with 6.5.0.0 & 6.5.3.0
+# [2.0.0] - 2023-08-22
 
+### Added
 
-# 1.3.0
+- Support for Shopware 6.5.*
 
-- Bug fix for invoice payments
-- Feature to notify the existing customers when date of birth or gender fields are made required by the shop owner, while their account is missing this information. In such cases, customer will be redirected to the profile page to update their information and then proceed to checkout.
-- Tested with 6.4.0.0 & 6.4.20.0
+### Changed
 
-# 1.2.0
+- Refund and Capture cards on administration moved under Payment card in Details tab of the Order page
 
-Enhancement to remove `/` character at the end of APP_URL environment variable when generating webhook URLs.
-This change helps to avoid errors for generating return and webhook URLs when users leave `/` character at the end of their APP_URL environment variable.
+### Removed
 
-# 1.1.0
+- Removed support for Shopware 6.4.\*. Bug fixes for our plugin's 1.3.\* release will still be available for 6 months.
 
-- Customer number is passed as Better Payment API request parameter
-- Added Capture card to administration under Refunds card
-- Automatic Capture during Document Creation for Invoice B2C and B2B depending on plugin configuration flag
-- Tested with 6.4.0.0 & 6.4.20.0
+## [1.3.0] - 2023-08-09
 
-# 1.0.0 - Initial release of the Better Payment API2 plugin for Shopware 6
+### Added
 
-### Supported Shopware versions
+- Feature to notify the existing customers when date of birth or gender fields are made required by the shop owner, while their account is missing this information. In such cases, customer will be redirected to the profile page to update their information and then proceed to checkout. This feature is not compatible with 3-step-checkout plugin in Shopware store, due to that plugin replacing the standard checkout page with a custom one.
 
-- > 6.4 < 6.5
+### Fixed
 
-### Included Payment Methods
+- Fixed an issue in invoice payments where customer had no VAT IDs
 
-- Credit Card
-- SEPA Direct Debit B2C and B2B
-- Invoice B2C and B2B
-- PayPal
-- Sofort
-- Paydirekt
+## [1.2.0] - 2023-07-31
 
-### Included actions
+### Fixed
 
-- Payments
-- Refunds
+- Removal of trailing `/` character in APP_URL environment variable, in order to general webhook and return URLs correctly, when shop owner included a trailing `/` character in their domain in APP_URL.
 
-### Included services
+## [1.1.0] - 2023-06-19
 
-- Multi whitelabel support
-- Risk checks, including collection and configuration of Date of Birth and Gender fields
+### Added
 
-### Tested with
-- 6.4.0.0
-- 6.4.20.0
+- Passing customer_id in payment requests to Better Payment API
+- Captures
+- Configuration option to automatically capture a transaction when an invoice document is created
+
+## [1.0.0] - 2023-04-17
+
+### Added
+
+- Support Shopware 6.4.*
+- Credit Card Payments
+- SEPA Direct Debit B2C and B2B payments
+- Invoice B2C and B2B Payments
+- PayPal Payments
+- Sofort Payments
+- Paydirekt Payments
+- Refunds for all payment methods
+- Multi whitelabel(partner company) support
+- Risk checks, including collection and configuration of DOB and Gender fields
