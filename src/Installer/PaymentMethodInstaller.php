@@ -3,6 +3,7 @@
 namespace BetterPayment\Installer;
 
 use BetterPayment\BetterPayment;
+use BetterPayment\PaymentMethod\Giropay;
 use BetterPayment\PaymentMethod\InvoiceB2B;
 use BetterPayment\PaymentMethod\PaymentMethod;
 use BetterPayment\PaymentMethod\CreditCard;
@@ -28,6 +29,7 @@ class PaymentMethodInstaller
         Paydirekt::class,
         Sofort::class,
         Paypal::class,
+	    Giropay::class,
         SEPADirectDebit::class,
         SEPADirectDebitB2B::class,
         Invoice::class,
