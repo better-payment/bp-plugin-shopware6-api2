@@ -6,7 +6,7 @@ use BetterPayment\PaymentHandler\GiropayHandler;
 
 class Giropay extends PaymentMethod
 {
-    public const UUID = '2189673d76af71afa498914ccdb0c9b2';
+    public const UUID = '9aa2dc141a97415c802b0a3775e55c6c';
     public const SHORTNAME = 'giro';
 
     protected string $id = self::UUID;
