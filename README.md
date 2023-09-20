@@ -18,9 +18,9 @@ We support Shopware 6.4 and onwards.
 
 **Latest Releases for:**
 
-- Shopware 6.5.* - [Plugin Version 2.0.0](https://github.com/better-payment/bp-plugin-shopware6-api2/releases/tag/2.0.0)
+- Shopware 6.5.* - [Plugin Version 2.1.0](https://github.com/better-payment/bp-plugin-shopware6-api2/releases/tag/2.1.0)
 
-- Shopware 6.4.* - [Plugin Version 1.3.0](https://github.com/better-payment/bp-plugin-shopware6-api2/releases/tag/1.3.0)
+- Shopware 6.4.* - [Plugin Version 1.4.0](https://github.com/better-payment/bp-plugin-shopware6-api2/releases/tag/1.4.0)
 
 
 ## Configuration
