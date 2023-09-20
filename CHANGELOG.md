@@ -1,5 +1,17 @@
 This changelog follows the specifications of https://keepachangelog.com. Please, follow the specs when adding a new entry
 
+## [2.1.0] - 2023-09-20
+
+### Added
+
+- Giropay Payment Method
+
+## [1.4.0] - 2023-09-20
+
+### Added
+
+- Giropay Payment Method
+
 ## [2.0.0] - 2023-08-22
 
 ### Added
