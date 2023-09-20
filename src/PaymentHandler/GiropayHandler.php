@@ -25,12 +25,8 @@ class GiropayHandler implements AsynchronousPaymentHandlerInterface
         $this->betterPaymentClient = $betterPaymentClient;
     }
 
-    /**
-     * @throws AsyncPaymentProcessException
-     */
     public function pay(AsyncPaymentTransactionStruct $transaction, RequestDataBag $dataBag, SalesChannelContext $salesChannelContext): RedirectResponse
     {
-        // Method that sends the return URL to the external gateway and gets a redirect URL back
         try {
             $redirectUrl = $this->betterPaymentClient->request($transaction)->action_data->url;
         } catch (\Exception $e) {
@@ -42,18 +38,12 @@ class GiropayHandler implements AsynchronousPaymentHandlerInterface
             );
         }
 
-        // Redirect to external gateway
         return new RedirectResponse($redirectUrl);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function finalize(AsyncPaymentTransactionStruct $transaction, Request $request, SalesChannelContext $salesChannelContext): void
     {
-        // When it returns to success url mark payment as paid
         $context = $salesChannelContext->getContext();
-        // Payment completed, set transaction status to "paid"
         $this->orderTransactionStateHandler->paid($transaction->getOrderTransaction()->getId(), $context);
     }
 }

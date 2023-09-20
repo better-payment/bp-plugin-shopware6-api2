@@ -29,7 +29,7 @@ class PaymentMethodInstaller
         Paydirekt::class,
         Sofort::class,
         Paypal::class,
-	    Giropay::class,
+        Giropay::class,
         SEPADirectDebit::class,
         SEPADirectDebitB2B::class,
         Invoice::class,
