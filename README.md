@@ -4,9 +4,19 @@ This repository contains the codebase for the official Better Payment API2 plugi
 
 ## Installation
 
-Currently, plugin installation can only be done manually using a ZIP file. To receive the ZIP file, please contact the payment gateway support, as it's not yet published nor planned to be published in Shopware marketplace.
+Currently, plugin installation can only be done manually using a ZIP file. You can download the ZIP files by going to [Github Releases](https://github.com/better-payment/bp-plugin-shopware6-api2/releases).
 
-If you are accessing the repository through Github, please [click here](https://github.com/better-payment/bp-plugin-shopware6-api2/archive/refs/heads/main.zip) to get the latest version of the plugin.
+## Shopware and plugin versioning
+
+For each Shopware minor release, we are releasing a major version.
+
+We support Shopware 6.4 and onwards.
+
+**Latest Releases for:**
+
+- Shopware 6.5.* - [Plugin Version 2.1.0](https://github.com/better-payment/bp-plugin-shopware6-api2/releases/tag/2.1.0)
+
+- Shopware 6.4.* - [Plugin Version 1.4.0](https://github.com/better-payment/bp-plugin-shopware6-api2/releases/tag/1.4.0)
 
 ## Configuration
 
