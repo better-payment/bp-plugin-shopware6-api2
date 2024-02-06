@@ -1,5 +1,4 @@
 import template from './refund-card.html.twig';
-import whiteLabels from '../../../../data/whitelabels.json';
 
 const {Component, Mixin, ApiService} = Shopware;
 

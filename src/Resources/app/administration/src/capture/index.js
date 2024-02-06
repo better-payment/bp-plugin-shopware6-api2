@@ -1,5 +1,4 @@
 import template from './capture-card.html.twig';
-import whiteLabels from '../../../../data/whitelabels.json';
 
 const {Component, Mixin, ApiService} = Shopware;
 
