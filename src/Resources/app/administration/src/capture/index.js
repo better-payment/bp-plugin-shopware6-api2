@@ -81,7 +81,10 @@ Component.override('sw-order-detail-details', {
             const pluginConfig = ApiService.getByName('systemConfigApiService');
             pluginConfig.getValues('BetterPayment').then(config => {
                 const environment = config['BetterPayment.config.environment'];
-                const whiteLabel = config['BetterPayment.config.whiteLabel'];
+
+                const testAPIUrl = config['BetterPayment.config.testAPIUrl'];
+                const productionAPIUrl = config['BetterPayment.config.productionAPIUrl'];
+                const apiUrl = environment === 'test' ? testAPIUrl : productionAPIUrl;
 
                 const testAPIKey = config['BetterPayment.config.testAPIKey'];
                 const productionAPIKey = config['BetterPayment.config.productionAPIKey'];
@@ -91,7 +94,7 @@ Component.override('sw-order-detail-details', {
                 const productionOutgoingKey = config['BetterPayment.config.productionOutgoingKey'];
                 const outgoingKey = environment === 'test' ? testOutgoingKey : productionOutgoingKey;
 
-                this.apiUrl = whiteLabels[whiteLabel][environment].api_url;
+                this.apiUrl = apiUrl;
                 this.apiAuth = btoa(apiKey + ':' + outgoingKey);
             });
         },

@@ -11,10 +11,11 @@ class ConfigReader
     public const CONFIG_DOMAIN = 'BetterPayment.config.';
 
     public const ENVIRONMENT = 'environment';
-    public const WHITE_LABEL = 'whiteLabel';
+    public const TEST_API_URL = 'testAPIUrl';
     public const TEST_API_KEY = 'testAPIKey';
     public const TEST_OUTGOING_KEY = 'testOutgoingKey';
     public const TEST_INCOMING_KEY = 'testIncomingKey';
+    public const PRODUCTION_API_URL = 'productionAPIUrl';
     public const PRODUCTION_API_KEY = 'productionAPIKey';
     public const PRODUCTION_OUTGOING_KEY = 'productionOutgoingKey';
     public const PRODUCTION_INCOMING_KEY = 'productionIncomingKey';
@@ -66,26 +67,31 @@ class ConfigReader
 
     public function getAPIUrl(): string
     {
-        $whiteLabel = $this->get(self::WHITE_LABEL);
-        $environment = $this->get(self::ENVIRONMENT);
+        $apiUrl = $this->get(self::ENVIRONMENT) == 'test'
+            ? $this->getString(self::TEST_API_URL)
+            : $this->getString(self::PRODUCTION_API_URL);
 
-        $data = json_decode(file_get_contents(__DIR__.'/../Resources/data/whitelabels.json'), true);
-
-        return $data[$whiteLabel][$environment]['api_url'];
+        return rtrim($apiUrl, '/');
     }
 
     public function getAPIKey(): string
     {
-        return $this->get(self::ENVIRONMENT) == 'test' ? $this->getString(self::TEST_API_KEY) : $this->getString(self::PRODUCTION_API_KEY);
+        return $this->get(self::ENVIRONMENT) == 'test'
+            ? $this->getString(self::TEST_API_KEY)
+            : $this->getString(self::PRODUCTION_API_KEY);
     }
 
     public function getOutgoingKey(): string
     {
-        return $this->get(self::ENVIRONMENT) == 'test' ? $this->getString(self::TEST_OUTGOING_KEY) : $this->getString(self::PRODUCTION_OUTGOING_KEY);
+        return $this->get(self::ENVIRONMENT) == 'test'
+            ? $this->getString(self::TEST_OUTGOING_KEY)
+            : $this->getString(self::PRODUCTION_OUTGOING_KEY);
     }
 
     public function getIncomingKey(): string
     {
-        return $this->get(self::ENVIRONMENT) == 'test' ? $this->getString(self::TEST_INCOMING_KEY) : $this->getString(self::PRODUCTION_INCOMING_KEY);
+        return $this->get(self::ENVIRONMENT) == 'test'
+            ? $this->getString(self::TEST_INCOMING_KEY)
+            : $this->getString(self::PRODUCTION_INCOMING_KEY);
     }
 }
