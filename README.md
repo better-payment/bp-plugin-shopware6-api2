@@ -18,14 +18,14 @@ We support Shopware 6.4 and onwards.
 
 **Latest Releases for:**
 
-- Shopware 6.5.* - [Plugin Version 2.1.0](https://github.com/better-payment/bp-plugin-shopware6-api2/releases/tag/2.1.0)
+- Shopware 6.5.* - [Plugin Version 2.1.1](https://github.com/better-payment/bp-plugin-shopware6-api2/releases/tag/2.1.1)
 
 - Shopware 6.4.* - [Plugin Version 1.4.0](https://github.com/better-payment/bp-plugin-shopware6-api2/releases/tag/1.4.0)
 
 
 ## Configuration
 
-- Make sure you have your API, OUTGOING and INCOMING keys ready, for each environment. You can find these credentials in your payment gateway dashboard.
+- Make sure you have your API URL and API, OUTGOING and INCOMING keys ready, for each environment. You can find these credentials in your payment gateway dashboard.
 
   - TEST: https://testdashboard.betterpayment.de
   - LIVE: https://dashboard.betterpayment.de
