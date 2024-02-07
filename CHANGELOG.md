@@ -1,5 +1,19 @@
 This changelog follows the specifications of https://keepachangelog.com. Please, follow the specs when adding a new entry
 
+## [2.1.1] - 2024-02-07
+
+### Added
+
+- API URL as a text configuration field
+
+### Removed
+
+- Selecting payment gateway as dropdown select field. You should now enter API URL manually instead.
+
+### Notes
+
+If updating from 2.1.0, navigate to extension settings and save the configuration, making sure the API URL is the same as in your payment gateway dashboard.
+
 ## [2.1.0] - 2023-09-20
 
 ### Added
