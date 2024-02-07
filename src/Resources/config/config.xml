@@ -5,67 +5,6 @@
     <card>
         <title>Base configuration</title>
         <title lang="de-DE">Basis-Konfiguration</title>
-
-        <input-field type="single-select">
-            <name>whiteLabel</name>
-            <label>Select your payment provider</label>
-            <label lang="de-DE">Wählen Sie Ihren Zahlungsanbieter</label>
-            <defaultValue>betterpayment</defaultValue>
-            <options>
-                <option>
-                    <id>betterpayment</id>
-                    <name>Better Payment</name>
-                </option>
-                <option>
-                    <id>solvendi</id>
-                    <name>Solvendi</name>
-                </option>
-                <option>
-                    <id>diagonal</id>
-                    <name>Diagonal-Payment</name>
-                </option>
-                <option>
-                    <id>collectai</id>
-                    <name>collectAI</name>
-                </option>
-                <option>
-                    <id>betterbill</id>
-                    <name>BetterBill GmbH</name>
-                </option>
-                <option>
-                    <id>kleverpay</id>
-                    <name>Kleverpay</name>
-                </option>
-                <option>
-                    <id>abilitapay</id>
-                    <name>abilitaPay</name>
-                </option>
-                <option>
-                    <id>vr_dienste</id>
-                    <name>VR-Dienste</name>
-                </option>
-                <option>
-                    <id>vr_straubing</id>
-                    <name>Raiffeisenbank Straubing</name>
-                </option>
-                <option>
-                    <id>continentalpay</id>
-                    <name>Continental Pay</name>
-                </option>
-                <option>
-                    <id>vrkg</id>
-                    <name>Volksbank Bad Kissingen</name>
-                </option>
-                <option>
-                    <id>demondo</id>
-                    <name>Demondo Paygate</name>
-                </option>
-                <option>
-                    <id>vivapago</id>
-                    <name>Vivapago</name>
-                </option>
-            </options>
-        </input-field>
         
         <input-field type="single-select">
             <name>environment</name>
@@ -90,6 +29,16 @@
     <card>
         <title>Test environment credentials</title>
         <title lang="de-DE">Anmeldedaten für die Testumgebung</title>
+
+        <input-field type="url">
+            <name>testAPIUrl</name>
+            <placeholder>testapi.betterpayment.de</placeholder>
+            <defaultValue>testapi.betterpayment.de</defaultValue>
+            <label>API url</label>
+            <label lang="de-DE">API url</label>
+            <helpText>You can find your test API url in test dashboard of the payment provider.</helpText>
+            <helpText lang="de-DE">Sie können Ihre Test-API-Url im Test-Dashboard des Zahlungsanbieters finden.</helpText>
+        </input-field>
 
         <input-field>
             <name>testAPIKey</name>
@@ -117,6 +66,16 @@
     <card>
         <title>Production environment credentials</title>
         <title lang="de-DE">Anmeldedaten für die Produktionsumgebung</title>
+
+        <input-field type="url">
+            <name>productionAPIUrl</name>
+            <placeholder>api.betterpayment.de</placeholder>
+            <defaultValue>api.betterpayment.de</defaultValue>
+            <label>API url</label>
+            <label lang="de-DE">API url</label>
+            <helpText>You can find your API url in production dashboard of the payment provider.</helpText>
+            <helpText lang="de-DE">Sie können Ihren API-Url im Produktions-Dashboard des Zahlungsanbieters finden.</helpText>
+        </input-field>
 
         <input-field>
             <name>productionAPIKey</name>
