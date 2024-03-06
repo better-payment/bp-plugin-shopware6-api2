@@ -29,7 +29,7 @@ class WebhookController extends AbstractController
     public function handle(Request $request, Context $context): Response
     {
         try {
-            if ($this->checksumIsValidated($request) || true) {
+            if ($this->checksumIsValidated($request)) {
                 // Update state and return response
                 return $this->paymentStatusMapper->updateOrderTransactionStateFromWebhook($request, $context);
             }
