@@ -41,6 +41,13 @@
             <tag name="shopware.payment.method.async" />
         </service>
 
+        <service id="BetterPayment\PaymentHandler\RequestToPayHandler">
+            <argument type="service" id="Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler" />
+            <argument type="service" id="BetterPayment\Util\BetterPaymentClient" />
+
+            <tag name="shopware.payment.method.async" />
+        </service>
+
         <service id="BetterPayment\PaymentHandler\SEPADirectDebitHandler">
             <argument type="service" id="BetterPayment\Util\PaymentStatusMapper" />
             <argument type="service" id="BetterPayment\Util\BetterPaymentClient" />

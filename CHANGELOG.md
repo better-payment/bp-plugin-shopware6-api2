@@ -1,5 +1,11 @@
 This changelog follows the specifications of https://keepachangelog.com. Please, follow the specs when adding a new entry
 
+## [2.2.0] - 2024-04-24
+
+### Added
+
+- Request To Pay Payment Method
+
 ## [2.1.1] - 2024-02-07
 
 ### Added
