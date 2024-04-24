@@ -10,6 +10,7 @@ use BetterPayment\PaymentMethod\CreditCard;
 use BetterPayment\PaymentMethod\Invoice;
 use BetterPayment\PaymentMethod\Paydirekt;
 use BetterPayment\PaymentMethod\Paypal;
+use BetterPayment\PaymentMethod\RequestToPay;
 use BetterPayment\PaymentMethod\SEPADirectDebit;
 use BetterPayment\PaymentMethod\SEPADirectDebitB2B;
 use BetterPayment\PaymentMethod\Sofort;
@@ -30,6 +31,7 @@ class PaymentMethodInstaller
         Sofort::class,
         Paypal::class,
         Giropay::class,
+        RequestToPay::class,
         SEPADirectDebit::class,
         SEPADirectDebitB2B::class,
         Invoice::class,
