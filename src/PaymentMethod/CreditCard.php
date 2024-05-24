@@ -2,7 +2,7 @@
 
 namespace BetterPayment\PaymentMethod;
 
-use BetterPayment\PaymentHandler\CreditCardHandler;
+use BetterPayment\PaymentHandler\AsynchronousBetterPaymentHandler;
 
 class CreditCard extends PaymentMethod
 {
@@ -10,7 +10,7 @@ class CreditCard extends PaymentMethod
     public const SHORTNAME = 'cc';
 
     protected string $id = self::UUID;
-    protected string $handler = CreditCardHandler::class;
+    protected string $handler = AsynchronousBetterPaymentHandler::class;
     protected string $name = 'Credit Card';
     protected string $shortname = self::SHORTNAME;
     protected string $description = '';

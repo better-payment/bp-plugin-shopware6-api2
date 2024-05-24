@@ -2,7 +2,7 @@
 
 namespace BetterPayment\PaymentMethod;
 
-use BetterPayment\PaymentHandler\GiropayHandler;
+use BetterPayment\PaymentHandler\AsynchronousBetterPaymentHandler;
 
 class Giropay extends PaymentMethod
 {
@@ -10,7 +10,7 @@ class Giropay extends PaymentMethod
     public const SHORTNAME = 'giro';
 
     protected string $id = self::UUID;
-    protected string $handler = GiropayHandler::class;
+    protected string $handler = AsynchronousBetterPaymentHandler::class;
     protected string $name = 'Giropay';
     protected string $shortname = self::SHORTNAME;
     protected string $description = '';

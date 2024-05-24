@@ -3,10 +3,10 @@
 namespace BetterPayment\EventSubscriber;
 
 use BetterPayment\Installer\CustomFieldInstaller;
-use BetterPayment\PaymentHandler\InvoiceB2BHandler;
-use BetterPayment\PaymentHandler\InvoiceHandler;
-use BetterPayment\PaymentHandler\SEPADirectDebitB2BHandler;
-use BetterPayment\PaymentHandler\SEPADirectDebitHandler;
+use BetterPayment\PaymentMethod\Invoice;
+use BetterPayment\PaymentMethod\InvoiceB2B;
+use BetterPayment\PaymentMethod\SEPADirectDebit;
+use BetterPayment\PaymentMethod\SEPADirectDebitB2B;
 use BetterPayment\Storefront\Struct\CheckoutData;
 use BetterPayment\Util\ConfigReader;
 use Shopware\Core\Checkout\Customer\CustomerEntity;
@@ -39,7 +39,7 @@ class CheckoutConfirmEventSubscriber implements EventSubscriberInterface
         $paymentMethod = $event->getSalesChannelContext()->getPaymentMethod();
         $customer = $event->getSalesChannelContext()->getCustomer();
 
-        if ($paymentMethod->getHandlerIdentifier() == SEPADirectDebitHandler::class) {
+        if ($paymentMethod->getId() == SEPADirectDebit::UUID) {
             $data = new CheckoutData();
 
             $data->assign([
@@ -53,7 +53,7 @@ class CheckoutConfirmEventSubscriber implements EventSubscriberInterface
 
             $page->addExtension(CheckoutData::EXTENSION_NAME, $data);
         }
-        elseif ($paymentMethod->getHandlerIdentifier() == SEPADirectDebitB2BHandler::class) {
+        elseif ($paymentMethod->getId() == SEPADirectDebitB2B::UUID) {
             $data = new CheckoutData();
 
             $data->assign([
@@ -68,7 +68,7 @@ class CheckoutConfirmEventSubscriber implements EventSubscriberInterface
         
         // in invoice payment methods (b2c|b2b) only risk check agreement checkbox is added as form field when corresponding config is enabled
         // that's why it also needs to check in if condition whether config is enabled before assigning related template view
-        elseif ($paymentMethod->getHandlerIdentifier() == InvoiceHandler::class) {
+        elseif ($paymentMethod->getId() == Invoice::UUID) {
             $data = new CheckoutData();
 
             $data->assign([
@@ -79,7 +79,7 @@ class CheckoutConfirmEventSubscriber implements EventSubscriberInterface
 
             $page->addExtension(CheckoutData::EXTENSION_NAME, $data);
         }
-        elseif ($paymentMethod->getHandlerIdentifier() == InvoiceB2BHandler::class) {
+        elseif ($paymentMethod->getId() == InvoiceB2B::UUID) {
             $data = new CheckoutData();
 
             $data->assign([

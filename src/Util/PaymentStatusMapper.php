@@ -2,8 +2,8 @@
 
 namespace BetterPayment\Util;
 
-use BetterPayment\PaymentHandler\SEPADirectDebitB2BHandler;
-use BetterPayment\PaymentHandler\SEPADirectDebitHandler;
+use BetterPayment\PaymentMethod\SEPADirectDebit;
+use BetterPayment\PaymentMethod\SEPADirectDebitB2B;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionEntity;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStates;
@@ -53,8 +53,8 @@ class PaymentStatusMapper
                 // when the Shopware Transaction's state is in_process. In this case, we have to add a custom flow
                 // to mark this transaction as FAIL, as transition from in_progress to chargeback is not possible.
                 case 'chargeback':
-                    if (($orderTransaction->getPaymentMethod()->getHandlerIdentifier() == SEPADirectDebitHandler::class
-                        || $orderTransaction->getPaymentMethod()->getHandlerIdentifier() == SEPADirectDebitB2BHandler::class)
+                    if (($orderTransaction->getPaymentMethod()->getId() == SEPADirectDebit::UUID
+                        || $orderTransaction->getPaymentMethod()->getId() == SEPADirectDebitB2B::UUID)
                         && $orderTransaction->getStateMachineState()->getTechnicalName() == OrderTransactionStates::STATE_IN_PROGRESS)
                     {
                         $this->orderTransactionStateHandler->fail($orderTransactionId, $context);

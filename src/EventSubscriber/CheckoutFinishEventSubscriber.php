@@ -2,8 +2,8 @@
 
 namespace BetterPayment\EventSubscriber;
 
-use BetterPayment\PaymentHandler\InvoiceB2BHandler;
-use BetterPayment\PaymentHandler\InvoiceHandler;
+use BetterPayment\PaymentMethod\Invoice;
+use BetterPayment\PaymentMethod\InvoiceB2B;
 use BetterPayment\Storefront\Struct\CheckoutData;
 use BetterPayment\Util\ConfigReader;
 use Shopware\Storefront\Page\Checkout\Finish\CheckoutFinishPageLoadedEvent;
@@ -30,7 +30,7 @@ class CheckoutFinishEventSubscriber implements EventSubscriberInterface
         $page = $event->getPage();
         $paymentMethod = $event->getSalesChannelContext()->getPaymentMethod();
 
-        if ($paymentMethod->getHandlerIdentifier() == InvoiceHandler::class && $this->configReader->getBool(ConfigReader::INVOICE_DISPLAY_INSTRUCTION)) {
+        if ($paymentMethod->getId() == Invoice::UUID && $this->configReader->getBool(ConfigReader::INVOICE_DISPLAY_INSTRUCTION)) {
             $data = new CheckoutData();
 
             $data->assign([
@@ -41,7 +41,7 @@ class CheckoutFinishEventSubscriber implements EventSubscriberInterface
 
             $page->addExtension(CheckoutData::EXTENSION_NAME, $data);
         }
-        elseif ($paymentMethod->getHandlerIdentifier() == InvoiceB2BHandler::class && $this->configReader->getBool(ConfigReader::INVOICE_B2B_DISPLAY_INSTRUCTION)) {
+        elseif ($paymentMethod->getId() == InvoiceB2B::UUID && $this->configReader->getBool(ConfigReader::INVOICE_B2B_DISPLAY_INSTRUCTION)) {
             $data = new CheckoutData();
 
             $data->assign([

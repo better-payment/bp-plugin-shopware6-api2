@@ -6,13 +6,13 @@ use BetterPayment\Util\BetterPaymentClient;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler;
 use Shopware\Core\Checkout\Payment\Cart\AsyncPaymentTransactionStruct;
 use Shopware\Core\Checkout\Payment\Cart\PaymentHandler\AsynchronousPaymentHandlerInterface;
-use Shopware\Core\Checkout\Payment\Exception\AsyncPaymentProcessException;
+use Shopware\Core\Checkout\Payment\PaymentException;
 use Shopware\Core\Framework\Validation\DataBag\RequestDataBag;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-class RequestToPayHandler implements AsynchronousPaymentHandlerInterface
+class AsynchronousBetterPaymentHandler implements AsynchronousPaymentHandlerInterface
 {
     private OrderTransactionStateHandler $orderTransactionStateHandler;
     private BetterPaymentClient $betterPaymentClient;
@@ -25,16 +25,13 @@ class RequestToPayHandler implements AsynchronousPaymentHandlerInterface
         $this->betterPaymentClient = $betterPaymentClient;
     }
 
-    /**
-     * @throws AsyncPaymentProcessException
-     */
     public function pay(AsyncPaymentTransactionStruct $transaction, RequestDataBag $dataBag, SalesChannelContext $salesChannelContext): RedirectResponse
     {
         // Method that sends the return URL to the external gateway and gets a redirect URL back
         try {
             $redirectUrl = $this->betterPaymentClient->request($transaction)->action_data->url;
         } catch (\Exception $e) {
-            throw new AsyncPaymentProcessException(
+            throw PaymentException::asyncProcessInterrupted(
                 $transaction->getOrderTransaction()->getId(),
                 'An error occurred during the communication with external payment gateway' . PHP_EOL
                 . $e->getMessage() . PHP_EOL
@@ -46,9 +43,6 @@ class RequestToPayHandler implements AsynchronousPaymentHandlerInterface
         return new RedirectResponse($redirectUrl);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function finalize(AsyncPaymentTransactionStruct $transaction, Request $request, SalesChannelContext $salesChannelContext): void
     {
         // When it returns to success url mark payment as paid
