@@ -8,8 +8,9 @@ use Shopware\Core\Framework\Context;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
+#[Route(defaults: ['_routeScope' => ['api'], 'auth_required' => false])]
 class WebhookController extends AbstractController
 {
     private PaymentStatusMapper $paymentStatusMapper;
@@ -23,9 +24,7 @@ class WebhookController extends AbstractController
         $this->configReader = $configReader;
     }
 
-    /**
-     * @Route("/api/betterpayment/webhook", methods={"POST"}, defaults={"_routeScope"={"api"}, "auth_required"=false, "auth_enabled"=false}, name="api.betterpayment.webhook")
-     */
+    #[Route(path: '/api/betterpayment/webhook', name: 'api.betterpayment.webhook', methods: ['POST'])]
     public function handle(Request $request, Context $context): Response
     {
         try {
