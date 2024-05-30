@@ -28,22 +28,22 @@
                                 required numberType="float" :digits="2" :allowEmpty="false" size="small"
                                 :disabled="!canCreateCapture"
                                 :label="$tc('betterpayment.capture.labels.amount')"
-                                v-model="capture.amount">
+                                v-model:value="capture.amount">
                         </sw-number-field>
                         <sw-text-field
                                 required size="small"
                                 :disabled="!canCreateCapture"
                                 :label="$tc('betterpayment.capture.labels.invoiceId')"
-                                v-model="capture.invoice_id">
+                                v-model:value="capture.invoice_id">
                         </sw-text-field>
                         <sw-datepicker
                                 required size="small" :label="$tc('betterpayment.capture.labels.date')"
                                 :disabled="!canCreateCapture"
-                                v-model="capture.execution_date">
+                                v-model:value="capture.execution_date">
                         </sw-datepicker>
                         <sw-text-field
                                 :copyable="true" :copyableTooltip="true" disabled size="small"
-                                v-model="betterPaymentTransactionId"
+                                v-model:value="betterPaymentTransactionId"
                                 :label="$tc('betterpayment.capture.labels.transactionId')">
                         </sw-text-field>
                     </sw-container>
@@ -51,7 +51,7 @@
                             type="textarea" size="small"
                             :disabled="!canCreateCapture"
                             :label="$tc('betterpayment.capture.labels.comment')"
-                            v-model="capture.comment">
+                            v-model:value="capture.comment">
                     </sw-textarea-field>
                 </sw-container>
                 <sw-button-process
@@ -61,7 +61,7 @@
                         @click="createCapture"
                         variant="ghost"
                         size="small"
-                        @process-finish="createCaptureFinished">
+                        @update:process-success="createCaptureFinished">
                     {{ $tc('betterpayment.capture.actions.createNew') }}
                 </sw-button-process>
             </sw-card-section>

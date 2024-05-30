@@ -52,24 +52,24 @@
                                 required numberType="float" :digits="2" :allowEmpty="false" size="small"
                                 :disabled="!canCreateRefund || isFullyRefunded"
                                 :label="$tc('betterpayment.refund.labels.amount')"
-                                v-model="refund.amount">
+                                v-model:value="refund.amount">
                         </sw-number-field>
                         <sw-datepicker
                                 size="small" :label="$tc('betterpayment.refund.labels.date')"
                                 :disabled="!canCreateRefund || isFullyRefunded"
-                                v-model="refund.execution_date">
+                                v-model:value="refund.execution_date">
                         </sw-datepicker>
                         <sw-text-field
                                 :copyable="true" :copyableTooltip="true" disabled size="small"
                                 :label="$tc('betterpayment.refund.labels.transactionId')"
-                                v-model="betterPaymentTransactionId">
+                                v-model:value="betterPaymentTransactionId">
                         </sw-text-field>
                     </sw-container>
                     <sw-textarea-field
                             type="textarea" size="small"
                             :disabled="!canCreateRefund || isFullyRefunded"
                             :label="$tc('betterpayment.refund.labels.comment')"
-                            v-model="refund.comment">
+                            v-model:value="refund.comment">
                     </sw-textarea-field>
                 </sw-container>
                 <sw-button-process
@@ -79,7 +79,7 @@
                         @click="createRefund"
                         variant="ghost"
                         size="small"
-                        @process-finish="createRefundFinished">
+                        @update:process-success="createRefundFinished">
                     {{ $tc('betterpayment.refund.actions.createNew') }}
                 </sw-button-process>
             </sw-card-section>
