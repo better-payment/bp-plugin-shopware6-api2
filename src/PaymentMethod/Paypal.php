@@ -2,7 +2,7 @@
 
 namespace BetterPayment\PaymentMethod;
 
-use BetterPayment\PaymentHandler\PaypalHandler;
+use BetterPayment\PaymentHandler\AsynchronousBetterPaymentHandler;
 
 class Paypal extends PaymentMethod
 {
@@ -10,7 +10,7 @@ class Paypal extends PaymentMethod
     public const SHORTNAME = 'paypal';
 
     protected string $id = self::UUID;
-    protected string $handler = PaypalHandler::class;
+    protected string $handler = AsynchronousBetterPaymentHandler::class;
     protected string $name = 'PayPal';
     protected string $shortname = self::SHORTNAME;
     protected string $description = '';

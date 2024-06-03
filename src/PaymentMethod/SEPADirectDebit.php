@@ -2,7 +2,7 @@
 
 namespace BetterPayment\PaymentMethod;
 
-use BetterPayment\PaymentHandler\SEPADirectDebitHandler;
+use BetterPayment\PaymentHandler\SynchronousBetterPaymentHandler;
 
 class SEPADirectDebit extends PaymentMethod
 {
@@ -10,7 +10,7 @@ class SEPADirectDebit extends PaymentMethod
     public const SHORTNAME = 'dd';
 
     protected string $id = self::UUID;
-    protected string $handler = SEPADirectDebitHandler::class;
+    protected string $handler = SynchronousBetterPaymentHandler::class;
     protected string $name = 'SEPA Direct Debit';
     protected string $shortname = self::SHORTNAME;
     protected string $description = '';

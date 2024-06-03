@@ -2,7 +2,7 @@
 
 namespace BetterPayment\PaymentMethod;
 
-use BetterPayment\PaymentHandler\RequestToPayHandler;
+use BetterPayment\PaymentHandler\AsynchronousBetterPaymentHandler;
 
 class RequestToPay extends PaymentMethod
 {
@@ -10,7 +10,7 @@ class RequestToPay extends PaymentMethod
     public const SHORTNAME = 'rtp';
 
     protected string $id = self::UUID;
-    protected string $handler = RequestToPayHandler::class;
+    protected string $handler = AsynchronousBetterPaymentHandler::class;
     protected string $name = 'Request To Pay';
     protected string $shortname = self::SHORTNAME;
     protected string $description = '';

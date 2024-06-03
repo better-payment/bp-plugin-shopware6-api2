@@ -6,70 +6,14 @@
 
     <services>
         <!-- Payment Handlers -->
-        <service id="BetterPayment\PaymentHandler\CreditCardHandler">
+        <service id="BetterPayment\PaymentHandler\AsynchronousBetterPaymentHandler">
             <argument type="service" id="Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler" />
             <argument type="service" id="BetterPayment\Util\BetterPaymentClient" />
 
             <tag name="shopware.payment.method.async" />
         </service>
 
-        <service id="BetterPayment\PaymentHandler\SofortHandler">
-            <argument type="service" id="Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler" />
-            <argument type="service" id="BetterPayment\Util\BetterPaymentClient" />
-
-            <tag name="shopware.payment.method.async" />
-        </service>
-
-        <service id="BetterPayment\PaymentHandler\PaydirektHandler">
-            <argument type="service" id="Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler" />
-            <argument type="service" id="BetterPayment\Util\BetterPaymentClient" />
-
-            <tag name="shopware.payment.method.async" />
-        </service>
-
-        <service id="BetterPayment\PaymentHandler\PaypalHandler">
-            <argument type="service" id="Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler" />
-            <argument type="service" id="BetterPayment\Util\BetterPaymentClient" />
-
-            <tag name="shopware.payment.method.async" />
-        </service>
-
-        <service id="BetterPayment\PaymentHandler\GiropayHandler">
-            <argument type="service" id="Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler" />
-            <argument type="service" id="BetterPayment\Util\BetterPaymentClient" />
-
-            <tag name="shopware.payment.method.async" />
-        </service>
-
-        <service id="BetterPayment\PaymentHandler\RequestToPayHandler">
-            <argument type="service" id="Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler" />
-            <argument type="service" id="BetterPayment\Util\BetterPaymentClient" />
-
-            <tag name="shopware.payment.method.async" />
-        </service>
-
-        <service id="BetterPayment\PaymentHandler\SEPADirectDebitHandler">
-            <argument type="service" id="BetterPayment\Util\PaymentStatusMapper" />
-            <argument type="service" id="BetterPayment\Util\BetterPaymentClient" />
-
-            <tag name="shopware.payment.method.sync" />
-        </service>
-
-        <service id="BetterPayment\PaymentHandler\SEPADirectDebitB2BHandler">
-            <argument type="service" id="BetterPayment\Util\PaymentStatusMapper" />
-            <argument type="service" id="BetterPayment\Util\BetterPaymentClient" />
-
-            <tag name="shopware.payment.method.sync" />
-        </service>
-
-        <service id="BetterPayment\PaymentHandler\InvoiceHandler">
-            <argument type="service" id="BetterPayment\Util\PaymentStatusMapper" />
-            <argument type="service" id="BetterPayment\Util\BetterPaymentClient" />
-
-            <tag name="shopware.payment.method.sync" />
-        </service>
-
-        <service id="BetterPayment\PaymentHandler\InvoiceB2BHandler">
+        <service id="BetterPayment\PaymentHandler\SynchronousBetterPaymentHandler">
             <argument type="service" id="BetterPayment\Util\PaymentStatusMapper" />
             <argument type="service" id="BetterPayment\Util\BetterPaymentClient" />
 

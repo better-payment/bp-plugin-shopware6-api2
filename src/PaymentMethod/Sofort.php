@@ -2,7 +2,7 @@
 
 namespace BetterPayment\PaymentMethod;
 
-use BetterPayment\PaymentHandler\SofortHandler;
+use BetterPayment\PaymentHandler\AsynchronousBetterPaymentHandler;
 
 class Sofort extends PaymentMethod
 {
@@ -10,7 +10,7 @@ class Sofort extends PaymentMethod
     public const SHORTNAME = 'sofort';
 
     protected string $id = self::UUID;
-    protected string $handler = SofortHandler::class;
+    protected string $handler = AsynchronousBetterPaymentHandler::class;
     protected string $name = 'Sofort';
     protected string $shortname = self::SHORTNAME;
     protected string $description = '';

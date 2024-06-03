@@ -2,7 +2,7 @@
 
 namespace BetterPayment\PaymentMethod;
 
-use BetterPayment\PaymentHandler\InvoiceB2BHandler;
+use BetterPayment\PaymentHandler\SynchronousBetterPaymentHandler;
 
 class InvoiceB2B extends PaymentMethod
 {
@@ -10,7 +10,7 @@ class InvoiceB2B extends PaymentMethod
     public const SHORTNAME = 'kar_b2b';
 
     protected string $id = self::UUID;
-    protected string $handler = InvoiceB2BHandler::class;
+    protected string $handler = SynchronousBetterPaymentHandler::class;
     protected string $name = 'Invoice B2B';
     protected string $shortname = self::SHORTNAME;
     protected string $description = '';

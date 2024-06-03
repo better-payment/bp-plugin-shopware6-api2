@@ -2,7 +2,7 @@
 
 namespace BetterPayment\PaymentMethod;
 
-use BetterPayment\PaymentHandler\PaydirektHandler;
+use BetterPayment\PaymentHandler\AsynchronousBetterPaymentHandler;
 
 class Paydirekt extends PaymentMethod
 {
@@ -10,7 +10,7 @@ class Paydirekt extends PaymentMethod
     public const SHORTNAME = 'paydirekt';
 
     protected string $id = self::UUID;
-    protected string $handler = PaydirektHandler::class;
+    protected string $handler = AsynchronousBetterPaymentHandler::class;
     protected string $name = 'Paydirekt';
     protected string $shortname = self::SHORTNAME;
     protected string $description = '';
