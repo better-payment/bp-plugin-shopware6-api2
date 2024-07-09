@@ -48,7 +48,7 @@ class AsynchronousBetterPaymentHandler implements AsynchronousPaymentHandlerInte
     {
         $context = $salesChannelContext->getContext();
         $betterPaymentTransactionId = $transaction->getOrderTransaction()->getCustomFields()['better_payment_transaction_id'];
-        $status = $this->betterPaymentClient->getBetterPaymentTransaction($betterPaymentTransactionId)->status;
+        $status = $this->betterPaymentClient->getBetterPaymentTransaction($betterPaymentTransactionId)['status'];
         $this->paymentStatusMapper->updateOrderTransactionStateFromPaymentHandler($transaction->getOrderTransaction()->getId(), $status, $context);
     }
 }

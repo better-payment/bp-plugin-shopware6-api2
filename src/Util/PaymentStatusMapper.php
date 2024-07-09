@@ -84,8 +84,8 @@ class PaymentStatusMapper
                 // amount in shopware, call refund, otherwise, call refundPartially.
                 case 'refunded':
                     $transaction = $this->betterPaymentClient->getBetterPaymentTransaction($betterPaymentTransactionID);
-                    $refundedAmount = $transaction->refunded_amount;
-                    $amount = $transaction->amount;
+                    $refundedAmount = $transaction['refunded_amount'];
+                    $amount = $transaction['amount'];
                     if ($refundedAmount >= $amount)
                         $this->orderTransactionStateHandler->refund($orderTransactionId, $context);
                     else
