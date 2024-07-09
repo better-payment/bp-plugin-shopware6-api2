@@ -1,5 +1,11 @@
 This changelog follows the specifications of https://keepachangelog.com. Please, follow the specs when adding a new entry
 
+## [3.0.0] - 2024-07-09
+
+### Added
+
+- Implement a safe flow when custom fields' gender key is missing in customer record
+
 ## [3.0.0] - 2024-06-03
 
 ### Added
