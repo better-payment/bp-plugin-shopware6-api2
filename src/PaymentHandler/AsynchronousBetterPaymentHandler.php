@@ -3,7 +3,7 @@
 namespace BetterPayment\PaymentHandler;
 
 use BetterPayment\Util\BetterPaymentClient;
-use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler;
+use BetterPayment\Util\PaymentStatusMapper;
 use Shopware\Core\Checkout\Payment\Cart\AsyncPaymentTransactionStruct;
 use Shopware\Core\Checkout\Payment\Cart\PaymentHandler\AsynchronousPaymentHandlerInterface;
 use Shopware\Core\Checkout\Payment\PaymentException;
@@ -14,14 +14,14 @@ use Symfony\Component\HttpFoundation\Request;
 
 class AsynchronousBetterPaymentHandler implements AsynchronousPaymentHandlerInterface
 {
-    private OrderTransactionStateHandler $orderTransactionStateHandler;
+    private PaymentStatusMapper $paymentStatusMapper;
     private BetterPaymentClient $betterPaymentClient;
 
     public function __construct(
-        OrderTransactionStateHandler $orderTransactionStateHandler,
-        BetterPaymentClient $betterPaymentClient
+        PaymentStatusMapper $paymentStatusMapper,
+        BetterPaymentClient $betterPaymentClient,
     ){
-        $this->orderTransactionStateHandler = $orderTransactionStateHandler;
+        $this->paymentStatusMapper = $paymentStatusMapper;
         $this->betterPaymentClient = $betterPaymentClient;
     }
 
@@ -43,11 +43,12 @@ class AsynchronousBetterPaymentHandler implements AsynchronousPaymentHandlerInte
         return new RedirectResponse($redirectUrl);
     }
 
+    // When it returns to success url, update the payment status
     public function finalize(AsyncPaymentTransactionStruct $transaction, Request $request, SalesChannelContext $salesChannelContext): void
     {
-        // When it returns to success url mark payment as paid
         $context = $salesChannelContext->getContext();
-        // Payment completed, set transaction status to "paid"
-        $this->orderTransactionStateHandler->paid($transaction->getOrderTransaction()->getId(), $context);
+        $betterPaymentTransactionId = $transaction->getOrderTransaction()->getCustomFields()['better_payment_transaction_id'];
+        $status = $this->betterPaymentClient->getBetterPaymentTransaction($betterPaymentTransactionId)->status;
+        $this->paymentStatusMapper->updateOrderTransactionStateFromPaymentHandler($transaction->getOrderTransaction()->getId(), $status, $context);
     }
 }
