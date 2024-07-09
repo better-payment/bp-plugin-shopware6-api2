@@ -1,4 +1,9 @@
 This changelog follows the specifications of https://keepachangelog.com. Please, follow the specs when adding a new entry
+## [3.0.2] - 2024-07-09
+
+### Added
+
+- Add safe status update for async payment methods with redirect url
 
 ## [3.0.1] - 2024-07-09
 
