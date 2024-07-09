@@ -97,6 +97,7 @@ class CheckoutConfirmEventSubscriber implements EventSubscriberInterface
 
     private function genderIsMissing(CustomerEntity $customer): bool
     {
-        return !$customer->getCustomFields()[CustomFieldInstaller::CUSTOMER_GENDER];
+        $customFields = $customer->getCustomFields();
+        return isset($customFields[CustomFieldInstaller::CUSTOMER_GENDER]) ? !$customFields[CustomFieldInstaller::CUSTOMER_GENDER] : true;
     }
 }
