@@ -3,6 +3,7 @@
 namespace BetterPayment\Installer;
 
 use BetterPayment\BetterPayment;
+use BetterPayment\PaymentMethod\Aiia;
 use BetterPayment\PaymentMethod\Giropay;
 use BetterPayment\PaymentMethod\InvoiceB2B;
 use BetterPayment\PaymentMethod\PaymentMethod;
@@ -32,6 +33,7 @@ class PaymentMethodInstaller
         Paypal::class,
         Giropay::class,
         RequestToPay::class,
+        Aiia::class,
         SEPADirectDebit::class,
         SEPADirectDebitB2B::class,
         Invoice::class,
