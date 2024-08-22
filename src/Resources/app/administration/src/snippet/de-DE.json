@@ -16,6 +16,7 @@
           "paypal": "Sie können mehrere Rückerstattungen bis zur Höhe des gesamten Transaktionsbetrags für die Transaktion vornehmen.",
           "giropay": "Erstattungen sind für diese Zahlungsmethode nicht möglich.",
           "requestToPay": "Sie können mehrere Rückerstattungen bis zur Höhe des gesamten Transaktionsbetrags für die Transaktion vornehmen.",
+          "ideal": "Sie können mehrere Rückerstattungen bis zur Höhe des gesamten Transaktionsbetrags für die Transaktion vornehmen.",
           "sepaDirectDebit": "Rückerstattungen im SEPA-Lastschriftverfahren werden innerhalb von 1 Arbeitstag bearbeitet. Bitte erstellen Sie keine weiteren Rückerstattungen, bis die von Ihnen erstellte Rückerstattung bearbeitet wurde. Der Transaktionsstatus Ihrer Bestellung wird automatisch auf Rückerstattung innerhalb von 1 Werktag geändert.",
           "sepaDirectDebitB2B": "Rückerstattungen im SEPA-Lastschriftverfahren werden innerhalb von 1 Arbeitstag bearbeitet. Bitte erstellen Sie keine weiteren Rückerstattungen, bis die von Ihnen erstellte Rückerstattung bearbeitet wurde. Der Transaktionsstatus Ihrer Bestellung wird automatisch auf Rückerstattung innerhalb von 1 Werktag geändert.",
           "invoice": "Sie können mehrere Rückerstattungen bis zur Höhe des gesamten Transaktionsbetrags für die Transaktion vornehmen.",
