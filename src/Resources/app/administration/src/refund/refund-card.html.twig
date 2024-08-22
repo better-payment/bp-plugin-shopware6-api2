@@ -31,6 +31,12 @@
                             <span v-else-if="paymentMethod == 'rtp'">
                                 {{ $tc('betterpayment.refund.labels.paymentMethodsInfo.requestToPay') }}
                             </span>
+                            <span v-else-if="paymentMethod == 'aiia'">
+                                {{ $tc('betterpayment.refund.labels.paymentMethodsInfo.aiia') }}
+                            </span>
+                            <span v-else-if="paymentMethod == 'ideal'">
+                                {{ $tc('betterpayment.refund.labels.paymentMethodsInfo.ideal') }}
+                            </span>
                             <span v-else-if="paymentMethod == 'dd'">
                                 {{ $tc('betterpayment.refund.labels.paymentMethodsInfo.sepaDirectDebit') }}
                             </span>

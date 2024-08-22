@@ -16,6 +16,8 @@
           "paypal": "You can issue multiple refunds up to the total transaction amount for the transaction.",
           "giropay": "Refunds are not supported for this payment method.",
           "requestToPay": "You can issue multiple refunds up to the total transaction amount for the transaction.",
+          "aiia": "You can issue multiple refunds up to the total transaction amount for the transaction.",
+          "ideal": "You can issue multiple refunds up to the total transaction amount for the transaction.",
           "sepaDirectDebit": "SEPA Direct Debit refunds are processed within 1 business day. Please, do not create multiple refunds until the ones you have created has been processed. Your order transaction state, will change to refunded within 1 business day automatically.",
           "sepaDirectDebitB2B": "SEPA Direct Debit refunds are processed within 1 business day. Please, do not create multiple refunds until the ones you have created has been processed. Your order transaction state, will change to refunded within 1 business day automatically.",
           "invoice": "You can issue multiple refunds up to the total transaction amount for the transaction.",
