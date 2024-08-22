@@ -1,4 +1,13 @@
 This changelog follows the specifications of https://keepachangelog.com. Please, follow the specs when adding a new entry
+
+## [3.1.0] - 2024-08-23
+
+### Added
+
+- Aiia payment method
+- iDEAL payment method
+
+
 ## [3.0.2] - 2024-07-09
 
 ### Added
