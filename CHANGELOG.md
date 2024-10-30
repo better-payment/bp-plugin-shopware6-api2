@@ -4,7 +4,7 @@ This changelog follows the specifications of https://keepachangelog.com. Please,
 
 ### Fixed
 
-- Bugfix
+- Issue related to automatic capture of invoice transactions
 
 ## [3.1.0] - 2024-08-23
 
