@@ -1,5 +1,11 @@
 This changelog follows the specifications of https://keepachangelog.com. Please, follow the specs when adding a new entry
 
+## [3.1.1] - 2024-10-30
+
+### Fixed
+
+- Bugfix
+
 ## [3.1.0] - 2024-08-23
 
 ### Added
