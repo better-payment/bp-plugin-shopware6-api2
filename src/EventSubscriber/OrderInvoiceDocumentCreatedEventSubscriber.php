@@ -102,7 +102,7 @@ class OrderInvoiceDocumentCreatedEventSubscriber implements EventSubscriberInter
      * @param OrderTransactionEntity $orderTransaction
      * @return bool Whether the order transaction is capturable or not.
      */
-	public function isCapturable(OrderTransactionEntity $orderTransaction): bool
+    public function isCapturable(OrderTransactionEntity $orderTransaction): bool
     {
         $customFields = $orderTransaction->getPaymentMethod()->getCustomFields();
         if ($customFields === null || !isset($customFields['shortname'])) {
