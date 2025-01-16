@@ -104,12 +104,14 @@ class OrderInvoiceDocumentCreatedEventSubscriber implements EventSubscriberInter
      */
     public function isCapturable(OrderTransactionEntity $orderTransaction): bool
     {
-        $customFields = $orderTransaction->getPaymentMethod()->getCustomFields();
-        if ($customFields === null || !isset($customFields['shortname'])) {
+        $paymentMethodCustomFields = $orderTransaction->getPaymentMethod()->getCustomFields();
+        $transactionCustomFields = $orderTransaction->getCustomFields();
+        if (!isset($paymentMethodCustomFields['shortname']) || !isset($transactionCustomFields['better_payment_transaction_id'])) 
+        {
             return false;
         }
 
-        $paymentMethodShortname = $customFields['shortname'];
+        $paymentMethodShortname = $paymentMethodCustomFields['shortname'];
         
         return ($paymentMethodShortname == Invoice::SHORTNAME 
                 && $this->configReader->getBool(ConfigReader::INVOICE_AUTOMATICALLY_CAPTURE_ON_ORDER_INVOICE_DOCUMENT_SENT))

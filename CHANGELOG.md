@@ -1,5 +1,12 @@
 This changelog follows the specifications of https://keepachangelog.com. Please, follow the specs when adding a new entry
 
+## [3.1.2] - 2025-01-16
+
+### Fixed
+
+- Issue related to automatic capture of invoice transaction for which doesn't have transaction ID present
+
+
 ## [3.1.1] - 2024-10-30
 
 ### Fixed
