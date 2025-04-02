@@ -43,6 +43,9 @@ class ConfigReader
     public const INVOICE_B2B_BIC = 'invoiceB2BBIC';
     public const INVOICE_B2B_RISK_CHECK_AGREEMENT = 'invoiceB2BRiskCheckAgreement';
     public const INVOICE_B2B_AUTOMATICALLY_CAPTURE_ON_ORDER_INVOICE_DOCUMENT_SENT = 'invoiceB2BAutomaticallyCaptureOnOrderInvoiceDocumentSent';
+
+    public const APPLE_PAY_3DS_ENABLED = 'applePay3dsEnabled';
+    public const APPLE_PAY_SUPPORTED_NETWORKS = 'applePaySupportedNetworks';
     
 
     public function __construct(SystemConfigService $systemConfigService)
