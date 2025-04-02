@@ -1,0 +1,18 @@
+{# TODO: check whether any of the express payment methods is activated #}
+{% if true %}
+    <div class="row">
+        <div class="col-sm-6 confirm-payment">
+            <div class="card checkout-card">
+                <div class="card-body">
+                    <div class="card-title">
+                        Express Payment method
+                    </div>
+
+                    <div>
+                        {% sw_include '@Storefront/betterpayment/apple-pay.html.twig' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
