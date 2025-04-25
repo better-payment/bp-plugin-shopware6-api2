@@ -2,7 +2,7 @@
 
 namespace BetterPayment\PaymentMethod;
 
-use BetterPayment\PaymentHandler\AsynchronousBetterPaymentHandler;
+use BetterPayment\PaymentHandler\ApplePayPaymentHandler;
 
 class ApplePay extends PaymentMethod
 {
@@ -10,7 +10,7 @@ class ApplePay extends PaymentMethod
     public const SHORTNAME = 'apple_pay';
 
     protected string $id = self::UUID;
-    protected string $handler = AsynchronousBetterPaymentHandler::class;
+    protected string $handler = ApplePayPaymentHandler::class;
     protected string $name = 'Apple Pay';
     protected string $shortname = self::SHORTNAME;
     protected string $description = '';

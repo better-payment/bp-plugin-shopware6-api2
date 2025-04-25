@@ -3,6 +3,7 @@
 namespace BetterPayment\EventSubscriber;
 
 use BetterPayment\Installer\CustomFieldInstaller;
+use BetterPayment\PaymentMethod\ApplePay;
 use BetterPayment\PaymentMethod\Invoice;
 use BetterPayment\PaymentMethod\InvoiceB2B;
 use BetterPayment\PaymentMethod\SEPADirectDebit;
@@ -87,6 +88,28 @@ class CheckoutConfirmEventSubscriber implements EventSubscriberInterface
             ]);
 
             $page->addExtension(CheckoutData::EXTENSION_NAME, $data);
+        }
+        elseif ($paymentMethod->getId() == ApplePay::UUID) {
+            $data = new CheckoutData();
+            $data->assign([
+                'template' => '@Storefront/betterpayment/apple-pay.html.twig',
+                'initialData' => [
+                    'applePay' => [
+                        'merchantCapabilities' => $this->configReader->getBool(ConfigReader::APPLE_PAY_3DS_ENABLED) ? ["supports3DS"] : [],
+                        'supportedNetworks' => $this->configReader->get(ConfigReader::APPLE_PAY_SUPPORTED_NETWORKS),
+                    ],
+                    'countryCode' => $customer->getDefaultBillingAddress()->getCountry()->getIso(),
+                    'currency' => $event->getSalesChannelContext()->getCurrency()->getIsoCode(),
+                    'orderId' => Uuid::randomHex(),
+                    'shopName' => $this->configReader->getSystemConfig('core.basicInformation.shopName', $event->getSalesChannelContext()->getSalesChannelId()),
+                    'customerId' => $customer->getCustomerNumber(),
+                    'customerIp' => $customer->getRemoteAddress(),
+                    'postbackUrl' => $this->configReader->getPostbackUrl(),
+                    'appName' => $this->configReader->getAppName(),
+                    'appVersion' => $this->configReader->getAppVersion(),
+                ],
+            ]);
+            $page->addExtension('expressPaymentMethod', $data);
         }
     }
 

@@ -2,7 +2,6 @@
 
 namespace BetterPayment\Util;
 
-use BetterPayment\BetterPayment;
 use BetterPayment\Installer\CustomFieldInstaller;
 use BetterPayment\PaymentMethod\Invoice;
 use BetterPayment\PaymentMethod\SEPADirectDebit;
@@ -15,10 +14,8 @@ use Shopware\Core\Checkout\Customer\CustomerEntity;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionEntity;
 use Shopware\Core\Checkout\Payment\Cart\AsyncPaymentTransactionStruct;
 use Shopware\Core\Checkout\Payment\Cart\SyncPaymentTransactionStruct;
-use Shopware\Core\DevOps\Environment\EnvironmentHelper;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
-use Shopware\Core\Framework\Plugin\PluginService;
 use Shopware\Core\Framework\Validation\DataBag\RequestDataBag;
 
 class BetterPaymentClient
@@ -26,21 +23,15 @@ class BetterPaymentClient
 	private ConfigReader $configReader;
 	private OrderParametersReader $orderParametersReader;
 	private EntityRepository $orderTransactionRepository;
-	private PluginService $pluginService;
-	private string $shopwareVersion;
 
 	public function __construct(
         ConfigReader $configReader,
 		OrderParametersReader $orderParametersReader,
 		EntityRepository $orderTransactionRepository,
-		PluginService $pluginService,
-		string $shopwareVersion
     ){
 		$this->configReader = $configReader;
 		$this->orderParametersReader = $orderParametersReader;
 		$this->orderTransactionRepository = $orderTransactionRepository;
-		$this->pluginService = $pluginService;
-		$this->shopwareVersion = $shopwareVersion;
 	}
 
 	private function getClient(): Client
@@ -90,16 +81,16 @@ class BetterPaymentClient
         $requestParameters += [
             'payment_type' => $transaction->getOrderTransaction()->getPaymentMethod()->getCustomFields()['shortname'],
             'risk_check_approval' => '1',
-            'postback_url' => $this->getWebhookUrl(),
-	        'app_name' => 'Shopware 6',
-	        'app_version' => 'SW ' . $this->shopwareVersion . ', Plugin ' . $this->pluginService->getPluginByName(BetterPayment::PLUGIN_NAME, Context::createDefaultContext())->getVersion(),
+            'postback_url' => $this->configReader->getPostbackUrl(),
+	        'app_name' => $this->configReader->getAppName(),
+	        'app_version' => $this->configReader->getAppVersion(),
         ];
 
         if (get_class($transaction) == AsyncPaymentTransactionStruct::class) {
             $requestParameters += [
                 'success_url' => $transaction->getReturnUrl(),
-                'error_url' => $this->getAppUrl().'/account/order/edit/' .$transaction->getOrder()->getId()
-                    .'?error-code=CHECKOUT__ASYNC_PAYMENT_PROCESS_INTERRUPTED',
+                'error_url' => $this->configReader->getAppUrl() . '/account/order/edit/' . $transaction->getOrder()->getId()
+                    . '?error-code=CHECKOUT__ASYNC_PAYMENT_PROCESS_INTERRUPTED',
             ];
         }
 
@@ -216,17 +207,4 @@ class BetterPaymentClient
             throw new RuntimeException('Better Payment Client ERROR: ' . $exception->getMessage());
         }
     }
-
-    public function getAppUrl(): string
-    {
-        return rtrim(EnvironmentHelper::getVariable('APP_URL'), '/');
-    }
-
-	public function getWebhookUrl(): string
-	{
-		$baseUrl = $this->getAppUrl();
-		$path = '/api/betterpayment/webhook';
-
-		return $baseUrl.$path;
-	}
 }

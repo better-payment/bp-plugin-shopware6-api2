@@ -1,11 +1,5 @@
 {% sw_extends '@Storefront/storefront/page/checkout/confirm/index.html.twig' %}
 
-{% block page_checkout_confirm_address %}
-    {% sw_include '@Storefront/betterpayment/express-payment-methods.html.twig' %}
-
-    {{ parent() }}
-{% endblock %}
-
 {% block page_checkout_confirm %}
     {{ parent() }}
 
@@ -14,3 +8,16 @@
     {% endif %}
 {% endblock %}
 
+{% block page_checkout_confirm_form_submit %}
+    {% if page.extensions.expressPaymentMethod %}
+        {% sw_include page.extensions.expressPaymentMethod.template %}
+
+        <button hidden
+                id="confirmFormSubmit"
+                form="confirmOrderForm"
+                type="submit">
+        </button>
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}

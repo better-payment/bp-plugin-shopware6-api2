@@ -10,14 +10,8 @@
 </style>
 
 {% set applePayPluginOptions = {
-    countryCode: context.customer.defaultBillingAddress.country.iso,
-    currencyCode: context.currency.isoCode,
-    supportedNetworks: config('BetterPayment.config.applePaySupportedNetworks'),
-    merchantCapabilities: config('BetterPayment.config.applePay3dsEnabled') ? ["supports3DS"] : [],
-    total: {
-        label: config('core.basicInformation.shopName'),
-        amount: page.cart.price.totalPrice
-    },
+    initialData: page.extensions.expressPaymentMethod.initialData,
+    amount: page.cart.price.totalPrice,
     validateMerchantPath: path('frontend.betterpayment.apple-pay.validate-merchant'),
     processPaymentPath: path('frontend.betterpayment.apple-pay.process-payment'),
 } %}
