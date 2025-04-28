@@ -1,5 +1,3 @@
-import DomAccess from 'src/helper/dom-access.helper';
-
 const { PluginBaseClass } = window;
 
 const APPLE_PAY_JS_API_VERSION = 14;
@@ -12,7 +10,13 @@ const REQUIRED_CONTACT_FIELDS = [
 export default class ApplePayPlugin extends PluginBaseClass {
     init() {
         this.el.addEventListener('click', this.onClick.bind(this));
-        this.orderForm = DomAccess.querySelector(document, '#confirmOrderForm');
+        this.orderForm = document.getElementById('confirmOrderForm');
+    }
+
+    showErrorMessage() {
+        const errorContainer = document.getElementById('betterpayment-apple-pay-error');
+        errorContainer.style.display = 'block';
+        errorContainer.scrollIntoView({block: 'start'});
     }
 
     onClick() {
@@ -23,10 +27,6 @@ export default class ApplePayPlugin extends PluginBaseClass {
 
         const initialData = this.options.initialData;
         const amount = this.options.amount;
-
-        // if (!ApplePaySession) {
-        //     return;
-        // }
 
         try {
             const requestBody = {
@@ -57,7 +57,7 @@ export default class ApplePayPlugin extends PluginBaseClass {
                         session.completeMerchantValidation(merchantSession);
                     })
                     .catch(err => {
-                        console.error("Error fetching merchant session", err);
+                        this.showErrorMessage();
                     });
             };
 
@@ -105,8 +105,8 @@ export default class ApplePayPlugin extends PluginBaseClass {
                     amount: amount,
                     currency: initialData.currency,
                     postback_url: initialData.postback_url,
-                    shipping_costs: '',
-                    vat: '',
+                    shipping_costs: initialData.shippingCosts,
+                    vat: initialData.vat,
                     order_id: initialData.orderId,
                     merchant_reference: initialData.orderId + ' - ' + initialData.shopName,
                     customer_id: initialData.customerId,
@@ -147,46 +147,41 @@ export default class ApplePayPlugin extends PluginBaseClass {
 
                 if (response.ok) {
                     const data = await response.json();
-                    console.log(data);
 
                     if (data.error_code === 0) {
                         session.completePayment({
                             status: ApplePaySession.STATUS_SUCCESS
                         });
 
-                        // transaction_id = data.transaction_id;
-                        // transaction_status = data.status;
+                        document.getElementById('betterpayment_transaction_id').value = data.transaction_id;
+                        document.getElementById('betterpayment_transaction_status').value = data.status;
 
-                        // TODO: submit order
                         this.orderForm.submit();
                     }
                     else {
-                        console.error('Payment Gateway request failed:', response.status, response.statusText);
-                        console.error('Error details:', data);
-
                         session.completePayment({
                             status: ApplePaySession.STATUS_FAILURE
                         });
+
+                        this.showErrorMessage();
                     }
                 }
                 else {
-                    const errorData = await response.json();
-                    console.error('Payment Gateway request failed:', response.status, response.statusText);
-                    console.error('Error details:', errorData);
-
                     session.completePayment({
                         status: ApplePaySession.STATUS_FAILURE
                     });
+
+                    this.showErrorMessage();
                 }
             };
 
             session.oncancel = (event) => {
-                console.log(event);
+                this.showErrorMessage();
             };
 
             session.begin();
         } catch (e) {
-            console.error(e);
+            this.showErrorMessage();
         }
     }
 }

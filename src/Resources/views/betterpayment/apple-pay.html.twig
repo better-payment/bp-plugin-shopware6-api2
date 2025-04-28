@@ -9,9 +9,13 @@
     }
 </style>
 
+<input hidden name="betterpayment_transaction_id" id="betterpayment_transaction_id">
+<input hidden name="betterpayment_transaction_status" id="betterpayment_transaction_status">
+
 {% set applePayPluginOptions = {
     initialData: page.extensions.expressPaymentMethod.initialData,
-    amount: page.cart.price.totalPrice,
+    page: page,
+    amount: amount,
     validateMerchantPath: path('frontend.betterpayment.apple-pay.validate-merchant'),
     processPaymentPath: path('frontend.betterpayment.apple-pay.process-payment'),
 } %}

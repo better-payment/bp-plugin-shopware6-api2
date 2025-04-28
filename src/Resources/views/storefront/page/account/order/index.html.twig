@@ -1,0 +1,15 @@
+{% sw_extends '@Storefront/storefront/page/account/order/index.html.twig' %}
+
+{% block page_checkout_confirm_form_submit %}
+    {% if page.extensions.expressPaymentMethod %}
+        {% sw_include page.extensions.expressPaymentMethod.template with { 'amount': page.order.amountTotal } %}
+
+        <button hidden
+                id="confirmFormSubmit"
+                form="confirmOrderForm"
+                type="submit">
+        </button>
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}

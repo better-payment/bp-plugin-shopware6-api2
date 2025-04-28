@@ -1,5 +1,13 @@
 {% sw_extends '@Storefront/storefront/page/checkout/confirm/index.html.twig' %}
 
+{% block base_flashbags_checkout %}
+    <div id="betterpayment-apple-pay-error" style="display: none;">
+        {% sw_include '@Storefront/storefront/utilities/alert.html.twig' with { type: "danger", content: "Something went wrong with Apple Pay payment" } %}
+    </div>
+
+    {{ parent() }}
+{% endblock %}
+
 {% block page_checkout_confirm %}
     {{ parent() }}
 
@@ -10,7 +18,7 @@
 
 {% block page_checkout_confirm_form_submit %}
     {% if page.extensions.expressPaymentMethod %}
-        {% sw_include page.extensions.expressPaymentMethod.template %}
+        {% sw_include page.extensions.expressPaymentMethod.template with { 'amount': page.cart.price.totalPrice } %}
 
         <button hidden
                 id="confirmFormSubmit"

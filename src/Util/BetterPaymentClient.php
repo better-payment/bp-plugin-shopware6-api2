@@ -58,7 +58,7 @@ class BetterPaymentClient
             $response = $this->getClient()->send($request);
             $responseBody = json_decode((string) $response->getBody());
             if ($responseBody->error_code == 0) {
-                $this->storeBetterPaymentTransactionID($transaction->getOrderTransaction(), $responseBody->transaction_id);
+                $this->storeBetterPaymentTransactionID($transaction->getOrderTransaction()->getId(), $responseBody->transaction_id);
                 return $responseBody;
             }
             else {
@@ -97,11 +97,11 @@ class BetterPaymentClient
         return $requestParameters;
     }
 
-    private function storeBetterPaymentTransactionID(OrderTransactionEntity $orderTransactionEntity, string $betterPaymentTransactionID): void
+    public function storeBetterPaymentTransactionID(string $orderTransactionId, string $betterPaymentTransactionID): void
     {
         $this->orderTransactionRepository->update([
             [
-                'id' => $orderTransactionEntity->getId(),
+                'id' => $orderTransactionId,
                 'customFields' => [
                     'better_payment_transaction_id' => $betterPaymentTransactionID
                 ]
