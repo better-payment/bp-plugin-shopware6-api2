@@ -153,8 +153,8 @@ export default class ApplePayPlugin extends PluginBaseClass {
                             status: ApplePaySession.STATUS_SUCCESS
                         });
 
-                        document.getElementById('betterpayment_transaction_id').value = data.transaction_id;
-                        document.getElementById('betterpayment_transaction_status').value = data.status;
+                        document.getElementById('betterpayment_apple_pay_transaction_id').value = data.transaction_id;
+                        document.getElementById('betterpayment_apple_pay_transaction_status').value = data.status;
 
                         this.orderForm.submit();
                     }

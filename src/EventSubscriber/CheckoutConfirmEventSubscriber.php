@@ -112,9 +112,7 @@ class CheckoutConfirmEventSubscriber implements EventSubscriberInterface
         $customer = $event->getSalesChannelContext()->getCustomer();
 
         return [
-            'orderId' => $page instanceof AccountEditOrderPage
-                ? $page->getOrder()->getOrderNumber()
-                : Uuid::randomHex(),
+            'orderId' => Uuid::randomHex(),
             'shippingCosts' => $page instanceof AccountEditOrderPage
                 ? $page->getOrder()->getShippingTotal()
                 : $page->getCart()->getShippingCosts()->getTotalPrice(),

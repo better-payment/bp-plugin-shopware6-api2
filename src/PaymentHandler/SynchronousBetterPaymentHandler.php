@@ -26,9 +26,8 @@ class SynchronousBetterPaymentHandler implements SynchronousPaymentHandlerInterf
     public function pay(SyncPaymentTransactionStruct $transaction, RequestDataBag $dataBag, SalesChannelContext $salesChannelContext): void
     {
         try {
-            $status = $this->betterPaymentClient->request($transaction, $dataBag)->status;
             $context = $salesChannelContext->getContext();
-
+            $status = $this->betterPaymentClient->request($transaction, $context, $dataBag)->status;
             $this->paymentStatusMapper->updateOrderTransactionStateFromPaymentHandler($transaction->getOrderTransaction()->getId(), $status, $context);
         } catch (\Exception $e) {
             throw PaymentException::syncProcessInterrupted(

@@ -11,7 +11,6 @@ use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Request;
 use RuntimeException;
 use Shopware\Core\Checkout\Customer\CustomerEntity;
-use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionEntity;
 use Shopware\Core\Checkout\Payment\Cart\AsyncPaymentTransactionStruct;
 use Shopware\Core\Checkout\Payment\Cart\SyncPaymentTransactionStruct;
 use Shopware\Core\Framework\Context;
@@ -49,7 +48,7 @@ class BetterPaymentClient
         ];
     }
 
-    public function request(SyncPaymentTransactionStruct $transaction, RequestDataBag $dataBag = null)
+    public function request(SyncPaymentTransactionStruct $transaction, Context $context, RequestDataBag $dataBag = null)
     {
         $requestParameters = $this->getRequestParameters($transaction, $dataBag);
         $body = json_encode($requestParameters);
@@ -58,7 +57,7 @@ class BetterPaymentClient
             $response = $this->getClient()->send($request);
             $responseBody = json_decode((string) $response->getBody());
             if ($responseBody->error_code == 0) {
-                $this->storeBetterPaymentTransactionID($transaction->getOrderTransaction()->getId(), $responseBody->transaction_id);
+                $this->storeBetterPaymentTransactionID($transaction->getOrderTransaction()->getId(), $responseBody->transaction_id, $context);
                 return $responseBody;
             }
             else {
@@ -97,7 +96,7 @@ class BetterPaymentClient
         return $requestParameters;
     }
 
-    public function storeBetterPaymentTransactionID(string $orderTransactionId, string $betterPaymentTransactionID): void
+    public function storeBetterPaymentTransactionID(string $orderTransactionId, string $betterPaymentTransactionID, Context $context): void
     {
         $this->orderTransactionRepository->update([
             [
@@ -106,7 +105,7 @@ class BetterPaymentClient
                     'better_payment_transaction_id' => $betterPaymentTransactionID
                 ]
             ]
-        ], Context::createDefaultContext());
+        ], $context);
     }
 
     private function getPaymentMethodSpecificParameters(SyncPaymentTransactionStruct $transaction, RequestDataBag $dataBag = null): array

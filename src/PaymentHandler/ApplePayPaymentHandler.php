@@ -4,39 +4,54 @@ namespace BetterPayment\PaymentHandler;
 
 use BetterPayment\Util\BetterPaymentClient;
 use BetterPayment\Util\PaymentStatusMapper;
-use Shopware\Core\Checkout\Payment\Cart\PaymentHandler\AbstractPaymentHandler;
-use Shopware\Core\Checkout\Payment\Cart\PaymentHandler\PaymentHandlerType;
-use Shopware\Core\Checkout\Payment\Cart\PaymentTransactionStruct;
-use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\Struct\Struct;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request;
+use Shopware\Core\Checkout\Payment\Cart\PaymentHandler\SynchronousPaymentHandlerInterface;
+use Shopware\Core\Checkout\Payment\Cart\SyncPaymentTransactionStruct;
+use Shopware\Core\Checkout\Payment\PaymentException;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
+use Shopware\Core\Framework\Validation\DataBag\RequestDataBag;
+use Shopware\Core\System\SalesChannel\SalesChannelContext;
 
-class ApplePayPaymentHandler extends AbstractPaymentHandler
+class ApplePayPaymentHandler implements SynchronousPaymentHandlerInterface
 {
     private PaymentStatusMapper $paymentStatusMapper;
     private BetterPaymentClient $betterPaymentClient;
+    private EntityRepository $orderRepository;
 
     public function __construct(
         PaymentStatusMapper $paymentStatusMapper,
-        BetterPaymentClient $betterPaymentClient
+        BetterPaymentClient $betterPaymentClient,
+        EntityRepository $orderRepository,
     ){
         $this->paymentStatusMapper = $paymentStatusMapper;
         $this->betterPaymentClient = $betterPaymentClient;
+        $this->orderRepository = $orderRepository;
     }
 
-    public function supports(PaymentHandlerType $type, string $paymentMethodId, Context $context): bool
+    public function pay(SyncPaymentTransactionStruct $transaction, RequestDataBag $dataBag, SalesChannelContext $salesChannelContext): void
     {
-        return false;
-    }
+        try {
+            $context = $salesChannelContext->getContext();
 
-    public function pay(Request $request, PaymentTransactionStruct $transaction, Context $context, ?Struct $validateStruct): ?RedirectResponse
-    {
-        $status = $request->get("betterpayment_transaction_status");
-        $this->paymentStatusMapper->updateOrderTransactionStateFromPaymentHandler($transaction->getOrderTransactionId(), $status, $context);
+            $this->paymentStatusMapper->updateOrderTransactionStateFromPaymentHandler($transaction->getOrderTransaction()->getId(), $dataBag->get('betterpayment_apple_pay_transaction_status'), $context);
+            $this->betterPaymentClient->storeBetterPaymentTransactionID($transaction->getOrderTransaction()->getId(), $dataBag->get('betterpayment_apple_pay_transaction_id'), $context);
 
-        $this->betterPaymentClient->storeBetterPaymentTransactionID($transaction->getOrderTransactionId(), $request->get('betterpayment_transaction_id'));
-
-        return null;
+            // Set Apple Pay order id as custom field to order, so that it can be matched with order in payment gateway
+            // Here we cannot use core (by shopware) order number. Because of the flow, the order is created after request sent to payment gateway
+            $this->orderRepository->update([
+                [
+                    'id' => $transaction->getOrder()->getId(),
+                    'customFields' => [
+                        'betterpayment_apple_pay_order_id' => $dataBag->get('betterpayment_apple_pay_order_id'),
+                    ]
+                ]
+            ], $context);
+        } catch (\Exception $e) {
+            throw PaymentException::syncProcessInterrupted(
+                $transaction->getOrderTransaction()->getId(),
+                'An error occurred during the communication with external payment gateway' . PHP_EOL
+                . $e->getMessage() . PHP_EOL
+                . 'TRACE: ' . $e->getTraceAsString()
+            );
+        }
     }
 }

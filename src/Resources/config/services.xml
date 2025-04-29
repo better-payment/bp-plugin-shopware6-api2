@@ -23,8 +23,9 @@
         <service id="BetterPayment\PaymentHandler\ApplePayPaymentHandler">
             <argument type="service" id="BetterPayment\Util\PaymentStatusMapper" />
             <argument type="service" id="BetterPayment\Util\BetterPaymentClient" />
+            <argument type="service" id="order.repository" />
 
-            <tag name="shopware.payment.method.sync" />
+            <tag name="shopware.payment.method.sync"/>
         </service>
         <!-- End Payment Handlers -->
 
