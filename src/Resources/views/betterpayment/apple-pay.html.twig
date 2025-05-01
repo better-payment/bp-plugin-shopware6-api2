@@ -1,8 +1,8 @@
 <script src="https://applepay.cdn-apple.com/jsapi/1.latest/apple-pay-sdk.js"></script>
 <style>
     apple-pay-button {
-        --apple-pay-button-width: 150px;
-        --apple-pay-button-height: 30px;
+        --apple-pay-button-width: 425px;
+        --apple-pay-button-height: 40px;
         --apple-pay-button-border-radius: 3px;
         --apple-pay-button-padding: 0px 0px;
         --apple-pay-button-box-sizing: border-box;
@@ -16,6 +16,8 @@
 {% set applePayPluginOptions = {
     initialData: page.extensions.expressPaymentMethod.initialData,
     amount: amount,
+    billingAddress: billingAddress,
+    shippingAddress: shippingAddress,
     validateMerchantPath: path('frontend.betterpayment.apple-pay.validate-merchant'),
     processPaymentPath: path('frontend.betterpayment.apple-pay.process-payment'),
 } %}

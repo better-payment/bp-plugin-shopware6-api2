@@ -73,31 +73,8 @@ export default class ApplePayPlugin extends PluginBaseClass {
             };
 
             session.onpaymentauthorized = async (event) => {
-                const billingAddress = {
-                    first_name: event.payment?.billingContact?.givenName ?? null,
-                    last_name: event.payment?.billingContact?.familyName ?? null,
-                    address_1: event.payment?.billingContact?.addressLines?.[0] ?? null,
-                    address_2: event.payment?.billingContact?.addressLines?.[1] ?? null,
-                    city: event.payment?.billingContact?.locality ?? null,
-                    state: event.payment?.billingContact?.administrativeArea ?? null,
-                    country: event.payment?.billingContact?.countryCode ?? "DE",
-                    postcode: event.payment?.billingContact?.postalCode ?? null,
-                    email: event.payment?.shippingContact?.emailAddress ?? null,
-                    phone: event.payment?.shippingContact?.phoneNumber ?? null
-                };
-
-                const shippingAddress = {
-                    first_name: event.payment?.shippingContact?.givenName ?? null,
-                    last_name: event.payment?.shippingContact?.familyName ?? null,
-                    address_1: event.payment?.shippingContact?.addressLines?.[0] ?? null,
-                    address_2: event.payment?.shippingContact?.addressLines?.[1] ?? null,
-                    city: event.payment?.shippingContact?.locality ?? null,
-                    state: event.payment?.shippingContact?.administrativeArea ?? null,
-                    country: event.payment?.shippingContact?.countryCode ?? "DE",
-                    postcode: event.payment?.shippingContact?.postalCode ?? null,
-                    email: event.payment?.shippingContact?.emailAddress ?? null,
-                    phone: event.payment?.shippingContact?.phoneNumber ?? null,
-                }
+                const billingAddress = this.options.billingAddress;
+                const shippingAddress = this.options.shippingAddress;
 
                 const payload = {
                     // common parameters
@@ -115,26 +92,24 @@ export default class ApplePayPlugin extends PluginBaseClass {
                     app_version: initialData.appVersion,
 
                     // billing address parameters
-                    address: billingAddress.address_1,
-                    address2: billingAddress.address_2,
+                    address: billingAddress.street,
                     city: billingAddress.city,
-                    postal_code: billingAddress.postcode,
-                    state: billingAddress.state,
-                    country: billingAddress.country,
-                    first_name: billingAddress.first_name,
-                    last_name: billingAddress.last_name,
-                    email: billingAddress.email,
-                    phone: billingAddress.phone,
+                    postal_code: billingAddress.zipcode,
+                    state: billingAddress.countryState?.name,
+                    country: billingAddress.country.iso,
+                    first_name: billingAddress.firstName,
+                    last_name: billingAddress.lastName,
+                    email: initialData.email,
+                    phone: billingAddress.phoneNumber,
 
                     // shipping address parameters
-                    shipping_address: shippingAddress.address_1,
-                    shipping_address2: shippingAddress.address_2,
+                    shipping_address: shippingAddress.street,
                     shipping_city: shippingAddress.city,
-                    shipping_postal_code: shippingAddress.postcode,
-                    shipping_state: shippingAddress.state,
-                    shipping_country: shippingAddress.country,
-                    shipping_first_name: shippingAddress.first_name,
-                    shipping_last_name: shippingAddress.last_name,
+                    shipping_postal_code: shippingAddress.zipcode,
+                    shipping_state: shippingAddress.countryState?.name,
+                    shipping_country: shippingAddress.country.iso,
+                    shipping_first_name: shippingAddress.firstName,
+                    shipping_last_name: shippingAddress.lastName,
                 };
 
                 const response = await fetch(this.options.processPaymentPath, {

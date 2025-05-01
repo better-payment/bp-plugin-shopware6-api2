@@ -113,6 +113,7 @@ class CheckoutConfirmEventSubscriber implements EventSubscriberInterface
 
         return [
             'orderId' => Uuid::randomHex(),
+            'email' => $customer->getEmail(),
             'shippingCosts' => $page instanceof AccountEditOrderPage
                 ? $page->getOrder()->getShippingTotal()
                 : $page->getCart()->getShippingCosts()->getTotalPrice(),
