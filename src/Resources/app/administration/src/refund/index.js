@@ -20,6 +20,7 @@ Component.override('sw-order-detail-details', {
                 amount: null,
                 comment: null,
                 execution_date: null,
+                refund_id: null,
             },
             refunds: [],
             processSuccess: false,
@@ -137,7 +138,8 @@ Component.override('sw-order-detail-details', {
                 'transaction_id': this.betterPaymentTransactionId,
                 'amount': this.refund.amount,
                 'comment': this.refund.comment,
-                'execution_date': this.refund.execution_date
+                'execution_date': this.refund.execution_date,
+                'refund_id': this.refund.refund_id,
             });
 
             const requestOptions = {
@@ -189,6 +191,7 @@ Component.override('sw-order-detail-details', {
             this.refund.amount = null;
             this.refund.comment = null;
             this.refund.execution_date = null;
+            this.refund.refund_id = null;
             this.processSuccess = false;
         },
 

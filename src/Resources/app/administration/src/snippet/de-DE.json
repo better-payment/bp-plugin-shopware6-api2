@@ -7,6 +7,8 @@
         "amount": "Betrag",
         "comment": "Kommentar",
         "transactionId": "Transaktions-ID",
+        "refundId": "Gutschriftsnummer",
+        "refundIdInfo": "Einige Zahlungsabwickler benötigen für die Bearbeitung von Rückerstattungen möglicherweise eine spezielle Rückerstattungs-ID. Bitte geben Sie die ID ein, falls Sie eine haben. Andernfalls ist das Feld optional.",
         "date": "Datum",
         "noMoreRefunds": "Die Transaktion wurde in voller Höhe rückerstattet. Sie können keine weiteren Rückerstattungen über das Zahlungsgateway ausstellen.",
         "paymentMethodsInfo": {
@@ -62,6 +64,13 @@
 
       "defaults": {
         "comment": "Captured using Shopware 6 plugin"
+      }
+    },
+
+    "applePay": {
+      "cardTitle": "Details zu Better Payment Apple Pay",
+      "labels": {
+        "applePayOrderId": "Apple Pay Order ID"
       }
     }
   }

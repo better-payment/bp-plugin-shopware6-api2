@@ -49,11 +49,14 @@
                             <span v-else-if="paymentMethod == 'kar_b2b'">
                                 {{ $tc('betterpayment.refund.labels.paymentMethodsInfo.invoiceB2B') }}
                             </span>
+                            <span v-else-if="paymentMethod == 'apple_pay'">
+                                {{ $tc('betterpayment.refund.labels.paymentMethodsInfo.creditCard') }}
+                            </span>
                         </div>
                     </sw-label>
                 </sw-container>
                 <sw-container columns="1fr 1fr" gap="0px 14px">
-                    <sw-container rows="1fr 1fr 1fr" gap="10px 0px">
+                    <sw-container rows="1fr 1fr 1fr 1fr" gap="10px 0px">
                         <sw-number-field
                                 required numberType="float" :digits="2" :allowEmpty="false" size="small"
                                 :disabled="!canCreateRefund || isFullyRefunded"
@@ -69,6 +72,16 @@
                                 :copyable="true" :copyableTooltip="true" disabled size="small"
                                 :label="$tc('betterpayment.refund.labels.transactionId')"
                                 v-model:value="betterPaymentTransactionId">
+                        </sw-text-field>
+                        <sw-label variant="info" style="height: auto">
+                            <div style="white-space: normal;">
+                                {{ $tc('betterpayment.refund.labels.refundIdInfo') }}
+                            </div>
+                        </sw-label>
+                        <sw-text-field
+                                size="small" :label="$tc('betterpayment.refund.labels.refundId')"
+                                :disabled="!canCreateRefund || isFullyRefunded"
+                                v-model:value="refund.refund_id">
                         </sw-text-field>
                     </sw-container>
                     <sw-textarea-field

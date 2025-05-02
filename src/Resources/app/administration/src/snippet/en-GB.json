@@ -7,6 +7,8 @@
         "amount": "Amount",
         "comment": "Comment",
         "transactionId": "Transaction ID",
+        "refundId": "Refund ID",
+        "refundIdInfo": "Some payment processors may require a specific refund_id for processing refunds. Please, enter the ID if you have any. Otherwise, it's an optional field.",
         "date": "Date",
         "noMoreRefunds": "Transaction is fully refunded. You can not issue more refunds through payment gateway.",
         "paymentMethodsInfo": {
@@ -62,6 +64,13 @@
 
       "defaults": {
         "comment": "Captured using Shopware 6 plugin"
+      }
+    },
+
+    "applePay": {
+      "cardTitle": "Better Payment Apple Pay details",
+      "labels": {
+        "applePayOrderId": "Apple Pay Order ID"
       }
     }
   }
