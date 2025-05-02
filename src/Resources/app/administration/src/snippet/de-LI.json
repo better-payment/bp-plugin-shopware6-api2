@@ -1,0 +1,77 @@
+{
+  "betterpayment": {
+    "refund": {
+      "cardTitle": "Better-Payment Rückerstattungen",
+
+      "labels": {
+        "amount": "Betrag",
+        "comment": "Kommentar",
+        "transactionId": "Transaktions-ID",
+        "refundId": "Gutschriftsnummer",
+        "refundIdInfo": "Einige Zahlungsabwickler benötigen für die Bearbeitung von Rückerstattungen möglicherweise eine spezielle Rückerstattungs-ID. Bitte geben Sie die ID ein, falls Sie eine haben. Andernfalls ist das Feld optional.",
+        "date": "Datum",
+        "noMoreRefunds": "Die Transaktion wurde in voller Höhe rückerstattet. Sie können keine weiteren Rückerstattungen über das Zahlungsgateway ausstellen.",
+        "paymentMethodsInfo": {
+          "creditCard": "Sie können Rückerstattungen bis zur Höhe des Gesamtbetrags der Transaktion vornehmen. Teil- und Mehrfachrückerstattungen können je nach dem für Ihr Konto konfigurierten Zahlungsabwickler unterstützt werden oder nicht. Rückerstattungen werden sofort ausgeführt.",
+          "sofort": "Sie können mehrere Rückerstattungen ausstellen, bis zum Gesamtbetrag der Transaktion. SOFORT-Rückerstattungen können nur halbwegs automatisiert werden. Sie können über das Plugin gestartet werden, müssen aber im Dashboard von SOFORT abgeschlossen werden, indem eine Transaktionsdatei heruntergeladen und zur Bank des Händlers hochgeladen wird.",
+          "paydirekt": "Sie können mehrere Rückerstattungen bis zur Höhe des gesamten Transaktionsbetrags für die Transaktion vornehmen.",
+          "paypal": "Sie können mehrere Rückerstattungen bis zur Höhe des gesamten Transaktionsbetrags für die Transaktion vornehmen.",
+          "giropay": "Erstattungen sind für diese Zahlungsmethode nicht möglich.",
+          "requestToPay": "Sie können mehrere Rückerstattungen bis zur Höhe des gesamten Transaktionsbetrags für die Transaktion vornehmen.",
+          "aiia": "Sie können mehrere Rückerstattungen bis zur Höhe des gesamten Transaktionsbetrags für die Transaktion vornehmen.",
+          "ideal": "Sie können mehrere Rückerstattungen bis zur Höhe des gesamten Transaktionsbetrags für die Transaktion vornehmen.",
+          "sepaDirectDebit": "Rückerstattungen im SEPA-Lastschriftverfahren werden innerhalb von 1 Arbeitstag bearbeitet. Bitte erstellen Sie keine weiteren Rückerstattungen, bis die von Ihnen erstellte Rückerstattung bearbeitet wurde. Der Transaktionsstatus Ihrer Bestellung wird automatisch auf Rückerstattung innerhalb von 1 Werktag geändert.",
+          "sepaDirectDebitB2B": "Rückerstattungen im SEPA-Lastschriftverfahren werden innerhalb von 1 Arbeitstag bearbeitet. Bitte erstellen Sie keine weiteren Rückerstattungen, bis die von Ihnen erstellte Rückerstattung bearbeitet wurde. Der Transaktionsstatus Ihrer Bestellung wird automatisch auf Rückerstattung innerhalb von 1 Werktag geändert.",
+          "invoice": "Sie können mehrere Rückerstattungen bis zur Höhe des gesamten Transaktionsbetrags für die Transaktion vornehmen.",
+          "invoiceB2B": "Sie können mehrere Rückerstattungen bis zur Höhe des gesamten Transaktionsbetrags für die Transaktion vornehmen."
+        }
+      },
+
+      "actions": {
+        "createNew": "Neue Rückerstattung erstellen"
+      },
+
+      "messages": {
+        "successfulRefundRequest": "Rückerstattung erfolgreich",
+        "invalidRefundRequest": "Rückerstattung fehlgeschlagen. Bitte überprüfen Sie Ihre Daten und versuchen Sie es erneut."
+      }
+    },
+
+    "capture": {
+      "cardTitle": "Better-Payment Erfasst",
+
+      "labels": {
+        "amount": "Betrag",
+        "comment": "Kommentar",
+        "date": "Datum",
+        "invoiceId": "Invoice ID",
+        "transactionId": "Transaktions-ID",
+        "notCapturableState": "Der aktuelle Zahlungsstatus ist für die Erfassung nicht verfügbar.",
+        "paymentMethodsInfo": {
+          "invoice": "Bitte geben Sie die Rechnungs-ID an, wenn Sie die Daten manuell erfassen. Wenn Sie keine Rechnung erstellt haben, können Sie das Feld leer lassen.",
+          "invoiceB2B": "Bitte geben Sie die Rechnungs-ID an, wenn Sie die Daten manuell erfassen. Wenn Sie keine Rechnung erstellt haben, können Sie das Feld leer lassen."
+        }
+      },
+
+      "actions": {
+        "createNew": "Erfassen"
+      },
+
+      "messages": {
+        "successfulCaptureRequest": "Erfolgreich eingefangen",
+        "invalidCaptureRequest": "Erfassung fehlgeschlagen. Bitte überprüfen Sie Ihre Daten und versuchen Sie es erneut."
+      },
+
+      "defaults": {
+        "comment": "Captured using Shopware 6 plugin"
+      }
+    },
+
+    "applePay": {
+      "cardTitle": "Details zu Better Payment Apple Pay",
+      "labels": {
+        "applePayOrderId": "Apple Pay Order ID"
+      }
+    }
+  }
+}
