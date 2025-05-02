@@ -12,7 +12,7 @@ Component.override('sw-order-detail-details', {
         },
 
         applePayCardIsVisible() {
-            return this.isBetterPaymentTransaction;
+            return this.isBetterPaymentTransaction && this.paymentMethod === 'apple_pay';
         },
 
         applePayOrderId() {
