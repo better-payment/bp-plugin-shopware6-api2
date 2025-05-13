@@ -5,7 +5,6 @@ namespace BetterPayment\Controller;
 use BetterPayment\Util\ConfigReader;
 use BetterPayment\Util\PaymentStatusMapper;
 use GuzzleHttp\Client;
-use Shopware\Core\Framework\Context;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,8 +16,8 @@ use Symfony\Component\Routing\Attribute\Route;
     defaults: [
         'XmlHttpRequest' => true,
         '_routeScope' => ['storefront'],
-//        '_loginRequired' => true,
-//        '_loginRequiredAllowGuest' => true,
+        '_loginRequired' => true,
+        '_loginRequiredAllowGuest' => true,
     ],
 )]
 class ApplePayController extends AbstractController
@@ -63,7 +62,7 @@ class ApplePayController extends AbstractController
     }
 
     #[Route(path: 'process-payment', name: 'frontend.betterpayment.apple-pay.process-payment', methods: ['POST'])]
-    public function processPayment(Request $request, Context $context): Response
+    public function processPayment(Request $request): Response
     {
         $client = new Client([
             'base_uri' => $this->configReader->getApiUrl(),
