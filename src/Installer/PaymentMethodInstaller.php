@@ -4,6 +4,7 @@ namespace BetterPayment\Installer;
 
 use BetterPayment\BetterPayment;
 use BetterPayment\PaymentMethod\Aiia;
+use BetterPayment\PaymentMethod\ApplePay;
 use BetterPayment\PaymentMethod\Giropay;
 use BetterPayment\PaymentMethod\Ideal;
 use BetterPayment\PaymentMethod\InvoiceB2B;
@@ -39,7 +40,8 @@ class PaymentMethodInstaller
         SEPADirectDebit::class,
         SEPADirectDebitB2B::class,
         Invoice::class,
-        InvoiceB2B::class
+        InvoiceB2B::class,
+        ApplePay::class,
     ];
 
     private PluginIdProvider $pluginIdProvider;

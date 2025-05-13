@@ -1,5 +1,13 @@
 This changelog follows the specifications of https://keepachangelog.com. Please, follow the specs when adding a new entry
 
+## [3.2.0] - 2025-05-05
+
+### Added
+
+- Apple Pay payment method
+- You can now send (optional) refund_id parameter in refund requests
+
+
 ## [3.1.2] - 2025-01-16
 
 ### Fixed

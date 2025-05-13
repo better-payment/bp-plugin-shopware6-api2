@@ -2,12 +2,14 @@
 
 namespace BetterPayment\Util;
 
+use BetterPayment\BetterPayment;
+use Shopware\Core\DevOps\Environment\EnvironmentHelper;
+use Shopware\Core\Framework\Context;
+use Shopware\Core\Framework\Plugin\PluginService;
 use Shopware\Core\System\SystemConfig\SystemConfigService;
 
 class ConfigReader
 {
-    private SystemConfigService $systemConfigService;
-
     public const CONFIG_DOMAIN = 'BetterPayment.config.';
 
     public const ENVIRONMENT = 'environment';
@@ -43,11 +45,28 @@ class ConfigReader
     public const INVOICE_B2B_BIC = 'invoiceB2BBIC';
     public const INVOICE_B2B_RISK_CHECK_AGREEMENT = 'invoiceB2BRiskCheckAgreement';
     public const INVOICE_B2B_AUTOMATICALLY_CAPTURE_ON_ORDER_INVOICE_DOCUMENT_SENT = 'invoiceB2BAutomaticallyCaptureOnOrderInvoiceDocumentSent';
-    
 
-    public function __construct(SystemConfigService $systemConfigService)
-    {
+    public const APPLE_PAY_3DS_ENABLED = 'applePay3dsEnabled';
+    public const APPLE_PAY_SUPPORTED_NETWORKS = 'applePaySupportedNetworks';
+
+
+    private SystemConfigService $systemConfigService;
+    private PluginService $pluginService;
+    private string $shopwareVersion;
+
+    public function __construct(
+        SystemConfigService $systemConfigService,
+        PluginService $pluginService,
+        string $shopwareVersion
+    ) {
         $this->systemConfigService = $systemConfigService;
+        $this->pluginService = $pluginService;
+        $this->shopwareVersion = $shopwareVersion;
+    }
+
+    public function getSystemConfig(string $key, string $salesChannelId)
+    {
+        return $this->systemConfigService->get($key, $salesChannelId);
     }
 
     public function get(string $key)
@@ -93,5 +112,25 @@ class ConfigReader
         return $this->get(self::ENVIRONMENT) == 'test'
             ? $this->getString(self::TEST_INCOMING_KEY)
             : $this->getString(self::PRODUCTION_INCOMING_KEY);
+    }
+
+    public function getAppUrl(): string
+    {
+        return rtrim(EnvironmentHelper::getVariable('APP_URL'), '/');
+    }
+
+    public function getPostbackUrl(): string
+    {
+        return $this->getAppUrl() . '/api/betterpayment/webhook';
+    }
+
+    public function getAppName(): string
+    {
+        return 'Shopware 6';
+    }
+
+    public function getAppVersion(): string
+    {
+        return 'SW ' . $this->shopwareVersion . ', Plugin ' . $this->pluginService->getPluginByName(BetterPayment::PLUGIN_NAME, Context::createDefaultContext())->getVersion();
     }
 }

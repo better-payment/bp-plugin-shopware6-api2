@@ -299,4 +299,36 @@
             </helpText>
         </input-field>
     </card>
+
+    <card>
+        <title>Apple Pay payment method configuration</title>
+        <title lang="de-DE">Konfiguration der Apple Pay-Zahlungsmethode</title>
+
+        <input-field type="bool">
+            <name>applePay3dsEnabled</name>
+            <label>3DS enabled</label>
+            <label lang="de-DE">3DS aktiviert</label>
+            <helpText>The transaction will go through an additional authentication layer to enhance security and reduce fraud.</helpText>
+            <helpText lang="de-DE">Die Transaktion durchläuft eine zusätzliche Authentifizierungsebene, um die Sicherheit zu erhöhen und Betrug zu reduzieren.</helpText>
+            <defaultValue>true</defaultValue>
+        </input-field>
+        <input-field type="multi-select">
+            <name>applePaySupportedNetworks</name>
+            <label>Supported Networks</label>
+            <label lang="de-DE">Unterstützte Netzwerke</label>
+            <helpText>This refer to the card networks (schemes) that Apple Pay can process transactions with.</helpText>
+            <helpText lang="de-DE">Dies bezieht sich auf die Kartennetzwerke (Systeme), mit denen Apple Pay Transaktionen abwickeln kann.</helpText>
+            <defaultValue>["visa", "masterCard"]</defaultValue>
+            <options>
+                <option>
+                    <id>visa</id>
+                    <name>VISA</name>
+                </option>
+                <option>
+                    <id>masterCard</id>
+                    <name>MASTERCARD</name>
+                </option>
+            </options>
+        </input-field>
+    </card>
 </config>

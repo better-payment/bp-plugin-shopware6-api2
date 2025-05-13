@@ -29,7 +29,7 @@ class AsynchronousBetterPaymentHandler implements AsynchronousPaymentHandlerInte
     {
         // Method that sends the return URL to the external gateway and gets a redirect URL back
         try {
-            $redirectUrl = $this->betterPaymentClient->request($transaction)->action_data->url;
+            $redirectUrl = $this->betterPaymentClient->request($transaction, $salesChannelContext->getContext())->action_data->url;
         } catch (\Exception $e) {
             throw PaymentException::asyncProcessInterrupted(
                 $transaction->getOrderTransaction()->getId(),

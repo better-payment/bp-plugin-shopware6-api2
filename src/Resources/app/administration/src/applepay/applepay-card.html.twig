@@ -1,0 +1,16 @@
+{% block sw_order_detail_details_payment %}
+    {% parent %}
+    <sw-card
+            v-if="applePayCardIsVisible"
+            :title="$tc('betterpayment.applePay.cardTitle')">
+        <template #grid>
+            <sw-card-section divider="bottom" :slim="true">
+                <sw-text-field
+                    :copyable="true" :copyableTooltip="true" disabled size="small"
+                    :label="$tc('betterpayment.applePay.labels.applePayOrderId')"
+                    v-model:value="applePayOrderId">
+                </sw-text-field>
+            </sw-card-section>
+        </template>
+    </sw-card>
+{% endblock %}

@@ -3,6 +3,7 @@
 namespace BetterPayment\EventSubscriber;
 
 use BetterPayment\Installer\CustomFieldInstaller;
+use BetterPayment\PaymentMethod\ApplePay;
 use BetterPayment\PaymentMethod\Invoice;
 use BetterPayment\PaymentMethod\InvoiceB2B;
 use BetterPayment\PaymentMethod\SEPADirectDebit;
@@ -11,6 +12,7 @@ use BetterPayment\Storefront\Struct\CheckoutData;
 use BetterPayment\Util\ConfigReader;
 use Shopware\Core\Checkout\Customer\CustomerEntity;
 use Shopware\Core\Framework\Uuid\Uuid;
+use Shopware\Storefront\Page\Account\Order\AccountEditOrderPage;
 use Shopware\Storefront\Page\Account\Order\AccountEditOrderPageLoadedEvent;
 use Shopware\Storefront\Page\Checkout\Confirm\CheckoutConfirmPageLoadedEvent;
 use Shopware\Storefront\Page\PageLoadedEvent;
@@ -88,6 +90,45 @@ class CheckoutConfirmEventSubscriber implements EventSubscriberInterface
 
             $page->addExtension(CheckoutData::EXTENSION_NAME, $data);
         }
+        elseif ($paymentMethod->getId() == ApplePay::UUID) {
+            $data = new CheckoutData();
+            $data->assign([
+                'template' => '@Storefront/betterpayment/apple-pay.html.twig',
+                'initialData' => [
+                    ...$this->getExpressPaymentMethodInitialData($event),
+                    'applePay' => [
+                        'merchantCapabilities' => $this->configReader->getBool(ConfigReader::APPLE_PAY_3DS_ENABLED) ? ["supports3DS"] : [],
+                        'supportedNetworks' => $this->configReader->get(ConfigReader::APPLE_PAY_SUPPORTED_NETWORKS),
+                    ],
+                ],
+            ]);
+            $page->addExtension('expressPaymentMethod', $data);
+        }
+    }
+
+    private function getExpressPaymentMethodInitialData(PageLoadedEvent $event): array
+    {
+        $page = $event->getPage();
+        $customer = $event->getSalesChannelContext()->getCustomer();
+
+        return [
+            'orderId' => Uuid::randomHex(),
+            'email' => $customer->getEmail(),
+            'shippingCosts' => $page instanceof AccountEditOrderPage
+                ? $page->getOrder()->getShippingTotal()
+                : $page->getCart()->getShippingCosts()->getTotalPrice(),
+            'vat' => $page instanceof AccountEditOrderPage
+                ? $page->getOrder()->getPrice()->getCalculatedTaxes()->getAmount()
+                : $page->getCart()->getPrice()->getCalculatedTaxes()->getAmount(),
+            'countryCode' => $customer->getDefaultBillingAddress()->getCountry()->getIso(),
+            'currency' => $event->getSalesChannelContext()->getCurrency()->getIsoCode(),
+            'shopName' => $this->configReader->getSystemConfig('core.basicInformation.shopName', $event->getSalesChannelContext()->getSalesChannelId()),
+            'customerId' => $customer->getCustomerNumber(),
+            'customerIp' => $customer->getRemoteAddress(),
+            'postbackUrl' => $this->configReader->getPostbackUrl(),
+            'appName' => $this->configReader->getAppName(),
+            'appVersion' => $this->configReader->getAppVersion(),
+        ];
     }
 
     private function birthdayIsMissing(CustomerEntity $customer): bool

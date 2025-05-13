@@ -1,5 +1,13 @@
 {% sw_extends '@Storefront/storefront/page/checkout/confirm/index.html.twig' %}
 
+{% block base_flashbags_checkout %}
+    <div id="betterpayment-apple-pay-error" style="display: none;">
+        {% sw_include '@Storefront/storefront/utilities/alert.html.twig' with { type: "danger", content: "Something went wrong with Apple Pay payment" } %}
+    </div>
+
+    {{ parent() }}
+{% endblock %}
+
 {% block page_checkout_confirm %}
     {{ parent() }}
 
@@ -8,3 +16,37 @@
     {% endif %}
 {% endblock %}
 
+{% block page_checkout_confirm_form_submit %}
+    {% if page.extensions.expressPaymentMethod %}
+        {# finding billingAddress and shippingAddress is copied from core file below #}
+        {# '@Storefront/storefront/page/checkout/confirm/confirm-address.html.twig' #}
+        {% if page.order %}
+            {% set order = page.order %}
+            {% set deliveries = order.deliveries.elements %}
+            {% set billingAddress = order.billingAddress %}
+
+            {% if deliveries|length > 0 and order.billingAddress.id != deliveries|first.shippingOrderAddressId %}
+                {% set shippingAddress = deliveries|first.shippingOrderAddress %}
+            {% else %}
+                {% set shippingAddress = billingAddress %}
+            {% endif %}
+        {% else %}
+            {% set billingAddress = context.customer.activeBillingAddress %}
+            {% set shippingAddress = context.customer.activeShippingAddress %}
+        {% endif %}
+
+        {% sw_include page.extensions.expressPaymentMethod.template with {
+            amount: page.cart.price.totalPrice,
+            billingAddress: billingAddress,
+            shippingAddress: shippingAddress,
+        } %}
+
+        <button hidden
+                id="confirmFormSubmit"
+                form="confirmOrderForm"
+                type="submit">
+        </button>
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}

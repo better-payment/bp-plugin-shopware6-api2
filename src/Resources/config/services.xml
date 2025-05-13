@@ -19,6 +19,14 @@
 
             <tag name="shopware.payment.method.sync" />
         </service>
+
+        <service id="BetterPayment\PaymentHandler\ApplePayPaymentHandler">
+            <argument type="service" id="BetterPayment\Util\PaymentStatusMapper" />
+            <argument type="service" id="BetterPayment\Util\BetterPaymentClient" />
+            <argument type="service" id="order.repository" />
+
+            <tag name="shopware.payment.method.sync"/>
+        </service>
         <!-- End Payment Handlers -->
 
         <!-- Event Subscribers -->
@@ -62,13 +70,12 @@
             <argument type="service" id="BetterPayment\Util\ConfigReader" />
             <argument type="service" id="BetterPayment\Util\OrderParametersReader" />
             <argument type="service" id="order_transaction.repository" />
-
-            <argument type="service" id="Shopware\Core\Framework\Plugin\PluginService" />
-            <argument>%kernel.shopware_version%</argument>
         </service>
 
         <service id="BetterPayment\Util\ConfigReader">
             <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService" />
+            <argument type="service" id="Shopware\Core\Framework\Plugin\PluginService" />
+            <argument>%kernel.shopware_version%</argument>
         </service>
 
         <service id="BetterPayment\Util\OrderParametersReader">
@@ -88,6 +95,14 @@
 
         <!-- Controllers -->
         <service id="BetterPayment\Controller\WebhookController" public="true">
+            <argument type="service" id="BetterPayment\Util\PaymentStatusMapper" />
+            <argument type="service" id="BetterPayment\Util\ConfigReader" />
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+        </service>
+
+        <service id="BetterPayment\Controller\ApplePayController" public="true">
             <argument type="service" id="BetterPayment\Util\PaymentStatusMapper" />
             <argument type="service" id="BetterPayment\Util\ConfigReader" />
             <call method="setContainer">
