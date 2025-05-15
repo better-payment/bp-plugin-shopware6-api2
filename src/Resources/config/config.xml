@@ -145,6 +145,19 @@
                 Ohne diese Zustimmung werden die Zahlungen nicht ausgeführt. Sie können dieses Feld deaktivieren, falls Sie es als Teil Ihrer Allgemeinen Geschäftsbedingungen vorsehen.
             </helpText>
         </input-field>
+        <input-field type="bool">
+            <name>sepaDirectDebitAutomaticallyCaptureOnOrderInvoiceDocumentSent</name>
+            <label>Automatically capture transaction when order invoice document is sent</label>
+            <label lang="de-DE">Automatisches Erfassen der Transaktion, wenn das Rechnungsdokument gesendet wird</label>
+            <helpText>
+                When order's invoice document is sent, plugin will automatically capture the order's transaction in API.
+                You can also capture transactions manually, by turning this flag off.
+            </helpText>
+            <helpText lang="de-DE">
+                Wenn das Rechnungsdokument der Bestellung gesendet wird, erfasst das Plugin automatisch die Transaktion der Bestellung in der API.
+                Sie können Transaktionen auch manuell erfassen, indem Sie dieses Flag deaktivieren.
+            </helpText>
+        </input-field>
     </card>
 
     <card>
@@ -176,6 +189,19 @@
             <helpText lang="de-DE">
                 Wenn Sie diese Option aktivieren, muss der Kunde der Risikoprüfung auf der Kassenseite zustimmen.
                 Ohne diese Zustimmung werden die Zahlungen nicht ausgeführt. Sie können dieses Feld deaktivieren, falls Sie es als Teil Ihrer Allgemeinen Geschäftsbedingungen vorsehen.
+            </helpText>
+        </input-field>
+        <input-field type="bool">
+            <name>sepaDirectDebitB2BAutomaticallyCaptureOnOrderInvoiceDocumentSent</name>
+            <label>Automatically capture transaction when order invoice document is sent</label>
+            <label lang="de-DE">Automatisches Erfassen der Transaktion, wenn das Rechnungsdokument gesendet wird</label>
+            <helpText>
+                When order's invoice document is sent, plugin will automatically capture the order's transaction in API.
+                You can also capture transactions manually, by turning this flag off.
+            </helpText>
+            <helpText lang="de-DE">
+                Wenn das Rechnungsdokument der Bestellung gesendet wird, erfasst das Plugin automatisch die Transaktion der Bestellung in der API.
+                Sie können Transaktionen auch manuell erfassen, indem Sie dieses Flag deaktivieren.
             </helpText>
         </input-field>
     </card>

@@ -5,6 +5,8 @@ namespace BetterPayment\EventSubscriber;
 
 use BetterPayment\PaymentMethod\Invoice;
 use BetterPayment\PaymentMethod\InvoiceB2B;
+use BetterPayment\PaymentMethod\SEPADirectDebit;
+use BetterPayment\PaymentMethod\SEPADirectDebitB2B;
 use BetterPayment\Util\BetterPaymentClient;
 use BetterPayment\Util\ConfigReader;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionEntity;
@@ -116,7 +118,11 @@ class OrderInvoiceDocumentCreatedEventSubscriber implements EventSubscriberInter
         return ($paymentMethodShortname == Invoice::SHORTNAME 
                 && $this->configReader->getBool(ConfigReader::INVOICE_AUTOMATICALLY_CAPTURE_ON_ORDER_INVOICE_DOCUMENT_SENT))
             || ($paymentMethodShortname == InvoiceB2B::SHORTNAME 
-                && $this->configReader->getBool(ConfigReader::INVOICE_B2B_AUTOMATICALLY_CAPTURE_ON_ORDER_INVOICE_DOCUMENT_SENT));
+                && $this->configReader->getBool(ConfigReader::INVOICE_B2B_AUTOMATICALLY_CAPTURE_ON_ORDER_INVOICE_DOCUMENT_SENT)
+            || ($paymentMethodShortname == SEPADirectDebit::SHORTNAME
+                && $this->configReader->getBool(ConfigReader::SEPA_DIRECT_DEBIT_AUTOMATICALLY_CAPTURE_ON_ORDER_INVOICE_DOCUMENT_SENT))
+            || ($paymentMethodShortname == SEPADirectDebitB2B::SHORTNAME
+                && $this->configReader->getBool(ConfigReader::SEPA_DIRECT_DEBIT_B2B_AUTOMATICALLY_CAPTURE_ON_ORDER_INVOICE_DOCUMENT_SENT)));
     }
 
 }
