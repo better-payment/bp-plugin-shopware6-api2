@@ -146,6 +146,19 @@
             </helpText>
         </input-field>
         <input-field type="bool">
+            <name>sepaDirectDebitEnableManualCapture</name>
+            <label>Enable manual capture</label>
+            <label lang="de-DE">Manuelle Erfassung aktivieren</label>
+            <helpText>
+                When turned on, you will be able to perform capture requests in the order’s view page right in the admin panel.
+                Captures can only be made when using certain processors used for SEPA. Can work alongside automatic capturing field.
+            </helpText>
+            <helpText lang="de-DE">
+                Wenn diese Option aktiviert ist, können Sie Erfassungsanfragen direkt in der Bestellansicht im Admin-Bereich durchführen.
+                Erfassungen sind nur mit bestimmten SEPA-Prozessoren möglich. Kann parallel zum Feld für automatische Erfassung verwendet werden.
+            </helpText>
+        </input-field>
+        <input-field type="bool">
             <name>sepaDirectDebitAutomaticallyCaptureOnOrderInvoiceDocumentSent</name>
             <label>Automatically capture transaction when order invoice document is sent</label>
             <label lang="de-DE">Automatisches Erfassen der Transaktion, wenn das Rechnungsdokument gesendet wird</label>
@@ -189,6 +202,19 @@
             <helpText lang="de-DE">
                 Wenn Sie diese Option aktivieren, muss der Kunde der Risikoprüfung auf der Kassenseite zustimmen.
                 Ohne diese Zustimmung werden die Zahlungen nicht ausgeführt. Sie können dieses Feld deaktivieren, falls Sie es als Teil Ihrer Allgemeinen Geschäftsbedingungen vorsehen.
+            </helpText>
+        </input-field>
+        <input-field type="bool">
+            <name>sepaDirectDebitB2BEnableManualCapture</name>
+            <label>Enable manual capture</label>
+            <label lang="de-DE">Manuelle Erfassung aktivieren</label>
+            <helpText>
+                When turned on, you will be able to perform capture requests in the order’s view page right in the admin panel.
+                Captures can only be made when using certain processors used for SEPA. Can work alongside automatic capturing field.
+            </helpText>
+            <helpText lang="de-DE">
+                Wenn diese Option aktiviert ist, können Sie Erfassungsanfragen direkt in der Bestellansicht im Admin-Bereich durchführen.
+                Erfassungen sind nur mit bestimmten SEPA-Prozessoren möglich. Kann parallel zum Feld für automatische Erfassung verwendet werden.
             </helpText>
         </input-field>
         <input-field type="bool">

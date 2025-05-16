@@ -28,15 +28,26 @@ Component.override('sw-order-detail-details', {
 
             apiUrl: null,
             apiAuth: null,
+
+            config: {
+                apiUrl: null,
+                apiKey: null,
+                outgoingKey: null,
+                sepaDirectDebitEnableManualCapture: null,
+                sepaDirectDebitB2BEnableManualCapture: null,
+            }
         };
     },
 
     created() {
-        this.setAPIProperties();
+        this.loadPluginConfig().then(() => {
+            this.setAPIProperties();
 
-        if (this.captureCardIsVisible) {
-            setTimeout(() => this.getCaptures(), 1000);
-        }
+            if (this.captureCardIsVisible) {
+                this.getCaptures();
+            }
+        });
+
     },
 
     computed: {
@@ -50,13 +61,25 @@ Component.override('sw-order-detail-details', {
         },
 
         isCapturablePaymentMethod() {
-            const capturablePaymentMethods = ['kar', 'kar_b2b'];
+            const capturablePaymentMethods = ['kar', 'kar_b2b', 'dd', 'dd_b2b'];
 
             return capturablePaymentMethods.includes(this.paymentMethod);
         },
 
+        relatedPluginConfigEnabled() {
+            if (this.paymentMethod === 'dd') {
+                return this.config.sepaDirectDebitEnableManualCapture;
+            }
+
+            if (this.paymentMethod === 'dd_b2b') {
+                return this.config.sepaDirectDebitB2BEnableManualCapture;
+            }
+
+            return true;
+        },
+
         captureCardIsVisible() {
-            return this.isBetterPaymentTransaction && this.isCapturablePaymentMethod;
+            return this.isBetterPaymentTransaction && this.isCapturablePaymentMethod && this.relatedPluginConfigEnabled;
         },
 
         isCapturableState() {
@@ -76,26 +99,31 @@ Component.override('sw-order-detail-details', {
     },
 
     methods: {
-        setAPIProperties() {
+        loadPluginConfig() {
             const pluginConfig = ApiService.getByName('systemConfigApiService');
-            pluginConfig.getValues('BetterPayment').then(config => {
+            return pluginConfig.getValues('BetterPayment').then(config => {
                 const environment = config['BetterPayment.config.environment'];
 
                 const testAPIUrl = config['BetterPayment.config.testAPIUrl'];
                 const productionAPIUrl = config['BetterPayment.config.productionAPIUrl'];
-                const apiUrl = environment === 'test' ? testAPIUrl : productionAPIUrl;
+                this.config.apiUrl = environment === 'test' ? testAPIUrl : productionAPIUrl;
 
                 const testAPIKey = config['BetterPayment.config.testAPIKey'];
                 const productionAPIKey = config['BetterPayment.config.productionAPIKey'];
-                const apiKey = environment === 'test' ? testAPIKey : productionAPIKey;
+                this.config.apiKey = environment === 'test' ? testAPIKey : productionAPIKey;
 
                 const testOutgoingKey = config['BetterPayment.config.testOutgoingKey'];
                 const productionOutgoingKey = config['BetterPayment.config.productionOutgoingKey'];
-                const outgoingKey = environment === 'test' ? testOutgoingKey : productionOutgoingKey;
+                this.config.outgoingKey = environment === 'test' ? testOutgoingKey : productionOutgoingKey;
 
-                this.apiUrl = apiUrl;
-                this.apiAuth = btoa(apiKey + ':' + outgoingKey);
+                this.config.sepaDirectDebitEnableManualCapture = config['BetterPayment.config.sepaDirectDebitEnableManualCapture'];
+                this.config.sepaDirectDebitB2BEnableManualCapture = config['BetterPayment.config.sepaDirectDebitB2BEnableManualCapture'];
             });
+        },
+
+        setAPIProperties() {
+            this.apiUrl = this.config.apiUrl;
+            this.apiAuth = btoa(this.config.apiKey + ':' + this.config.outgoingKey);
         },
 
         getCaptures() {
