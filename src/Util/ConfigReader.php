@@ -27,10 +27,14 @@ class ConfigReader
     public const SEPA_DIRECT_DEBIT_COLLECT_DATE_OF_BIRTH = 'sepaDirectDebitCollectDateOfBirth';
     public const SEPA_DIRECT_DEBIT_COLLECT_GENDER = 'sepaDirectDebitCollectGender';
     public const SEPA_DIRECT_DEBIT_RISK_CHECK_AGREEMENT = 'sepaDirectDebitRiskCheckAgreement';
+    public const SEPA_DIRECT_DEBIT_ENABLE_MANUAL_CAPTURE = 'sepaDirectDebitEnableManualCapture';
+    public const SEPA_DIRECT_DEBIT_AUTOMATICALLY_CAPTURE_ON_ORDER_INVOICE_DOCUMENT_SENT = 'sepaDirectDebitAutomaticallyCaptureOnOrderInvoiceDocumentSent';
 
     public const SEPA_DIRECT_DEBIT_B2B_CREDITOR_ID = 'sepaDirectDebitB2BCreditorID';
     public const SEPA_DIRECT_DEBIT_B2B_COMPANY_NAME = 'sepaDirectDebitB2BCompanyName';
     public const SEPA_DIRECT_DEBIT_B2B_RISK_CHECK_AGREEMENT = 'sepaDirectDebitB2BRiskCheckAgreement';
+    public const SEPA_DIRECT_DEBIT_B2B_ENABLE_MANUAL_CAPTURE = 'sepaDirectDebitB2BEnableManualCapture';
+    public const SEPA_DIRECT_DEBIT_B2B_AUTOMATICALLY_CAPTURE_ON_ORDER_INVOICE_DOCUMENT_SENT = 'sepaDirectDebitB2BAutomaticallyCaptureOnOrderInvoiceDocumentSent';
 
     public const INVOICE_DISPLAY_INSTRUCTION = 'invoiceDisplayInstruction';
     public const INVOICE_IBAN = 'invoiceIBAN';

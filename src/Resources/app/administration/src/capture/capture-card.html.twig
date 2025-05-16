@@ -14,6 +14,12 @@
                             <span v-else-if="paymentMethod == 'kar_b2b'">
                                 {{ $tc('betterpayment.capture.labels.paymentMethodsInfo.invoiceB2B') }}
                             </span>
+                            <span v-else-if="paymentMethod == 'dd'">
+                                {{ $tc('betterpayment.capture.labels.paymentMethodsInfo.invoice') }}
+                            </span>
+                            <span v-else-if="paymentMethod == 'dd_b2b'">
+                                {{ $tc('betterpayment.capture.labels.paymentMethodsInfo.invoice') }}
+                            </span>
                         </div>
                     </sw-label>
                 </sw-container>
