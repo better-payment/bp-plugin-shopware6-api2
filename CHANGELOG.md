@@ -1,5 +1,12 @@
 This changelog follows the specifications of https://keepachangelog.com. Please, follow the specs when adding a new entry
 
+## [3.2.1] - 2025-05-16
+
+### Added
+- Configuration option to enable manual captures from admin panel for Sepa Direct Debit (B2C & B2B) payments
+- Configuration option to automatically capture a transaction when an invoice document is created for Sepa Direct Debit (B2C & B2B) payments
+
+
 ## [3.2.0] - 2025-05-05
 
 ### Added
