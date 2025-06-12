@@ -53,6 +53,9 @@ class ConfigReader
     public const APPLE_PAY_3DS_ENABLED = 'applePay3dsEnabled';
     public const APPLE_PAY_SUPPORTED_NETWORKS = 'applePaySupportedNetworks';
 
+    public const GOOGLE_PAY_ALLOWED_CARD_NETWORKS = 'googlePayAllowedCardNetworks';
+    public const GOOGLE_PAY_ALLOWED_AUTH_METHODS = 'googlePayAllowedAuthMethods';
+
 
     private SystemConfigService $systemConfigService;
     private PluginService $pluginService;
