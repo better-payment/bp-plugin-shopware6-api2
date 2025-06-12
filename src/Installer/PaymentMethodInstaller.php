@@ -5,6 +5,7 @@ namespace BetterPayment\Installer;
 use BetterPayment\BetterPayment;
 use BetterPayment\PaymentMethod\Aiia;
 use BetterPayment\PaymentMethod\ApplePay;
+use BetterPayment\PaymentMethod\GooglePay;
 use BetterPayment\PaymentMethod\Giropay;
 use BetterPayment\PaymentMethod\Ideal;
 use BetterPayment\PaymentMethod\InvoiceB2B;
@@ -42,11 +43,11 @@ class PaymentMethodInstaller
         Invoice::class,
         InvoiceB2B::class,
         ApplePay::class,
+        GooglePay::class,
     ];
-
     private PluginIdProvider $pluginIdProvider;
     private EntityRepository $paymentMethodRepository;
-
+    
     /**
      * @param PluginIdProvider $pluginIdProvider
      * @param EntityRepository $paymentMethodRepository
@@ -104,7 +105,6 @@ class PaymentMethodInstaller
         foreach (self::PAYMENT_METHODS as $paymentMethod) {
             $paymentMethods[] = new $paymentMethod();
         }
-
         return $paymentMethods;
     }
 

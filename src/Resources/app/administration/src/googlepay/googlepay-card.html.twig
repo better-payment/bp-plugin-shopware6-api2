@@ -1,0 +1,16 @@
+{% block sw_order_detail_details_payment %}
+    {{ parent() }}
+    <sw-card
+            v-if="googlePayCardIsVisible"
+            :title="$tc('betterpayment.googlePay.cardTitle')">
+        <template #grid>
+            <sw-card-section divider="bottom" :slim="true">
+                <sw-text-field
+                    :copyable="true" :copyableTooltip="true" disabled size="small"
+                    :label="$tc('betterpayment.googlePay.labels.googlePayOrderId')"
+                    v-model:value="googlePayOrderId">
+                </sw-text-field>
+            </sw-card-section>
+        </template>
+    </sw-card>
+{% endblock %}

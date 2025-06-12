@@ -4,6 +4,7 @@ namespace BetterPayment\EventSubscriber;
 
 use BetterPayment\Installer\CustomFieldInstaller;
 use BetterPayment\PaymentMethod\ApplePay;
+use BetterPayment\PaymentMethod\GooglePay;
 use BetterPayment\PaymentMethod\Invoice;
 use BetterPayment\PaymentMethod\InvoiceB2B;
 use BetterPayment\PaymentMethod\SEPADirectDebit;
@@ -40,7 +41,6 @@ class CheckoutConfirmEventSubscriber implements EventSubscriberInterface
         $page = $event->getPage();
         $paymentMethod = $event->getSalesChannelContext()->getPaymentMethod();
         $customer = $event->getSalesChannelContext()->getCustomer();
-
         if ($paymentMethod->getId() == SEPADirectDebit::UUID) {
             $data = new CheckoutData();
 
@@ -99,6 +99,24 @@ class CheckoutConfirmEventSubscriber implements EventSubscriberInterface
                     'applePay' => [
                         'merchantCapabilities' => $this->configReader->getBool(ConfigReader::APPLE_PAY_3DS_ENABLED) ? ["supports3DS"] : [],
                         'supportedNetworks' => $this->configReader->get(ConfigReader::APPLE_PAY_SUPPORTED_NETWORKS),
+                    ],
+                ],
+            ]);
+            $page->addExtension('expressPaymentMethod', $data);
+        }
+        elseif ($paymentMethod->getId() == GooglePay::UUID) {
+            $data = new CheckoutData();
+            $data->assign([
+                'template' => '@Storefront/betterpayment/google-pay.html.twig',
+                'initialData' => [
+                    ...$this->getExpressPaymentMethodInitialData($event),
+                    'googlePay' => [
+                        'allowedCardNetworks' => $this->configReader->get(ConfigReader::GOOGLE_PAY_ALLOWED_CARD_NETWORKS),
+                        'allowedAuthMethods' => $this->configReader->get(ConfigReader::GOOGLE_PAY_ALLOWED_AUTH_METHODS),
+                        'gateway' => 'processingpagateq',
+                        'gatewayMerchantId' => '7209700000',
+                        'merchantId' => 'BCR2DN4TWWK67WTY',
+                        'merchantName'=>'Demo Merchant',
                     ],
                 ],
             ]);
