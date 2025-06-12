@@ -383,4 +383,45 @@
             </options>
         </input-field>
     </card>
+    <card>
+        <title>Google Pay payment method configuration</title>
+        <title lang="de-DE">Konfiguration der Google Pay-Zahlungsmethode</title>
+
+        <input-field type="multi-select">
+            <name>googlePayAllowedCardNetworks</name>
+            <label>Allowed Card Networks</label>
+            <label lang="de-DE">Unterstützte Netzwerke</label>
+            <helpText>This refer to the card networks (schemes) that Google Pay can process transactions with.</helpText>
+            <helpText lang="de-DE">Dies bezieht sich auf die Kartennetzwerke (Systeme), mit denen Google Pay Transaktionen abwickeln kann.</helpText>
+            <defaultValue>["VISA", "MASTERCARD"]</defaultValue>
+            <options>
+                <option>
+                    <id>VISA</id>
+                    <name>VISA</name>
+                </option>
+                <option>
+                    <id>MASTERCARD</id>
+                    <name>MASTERCARD</name>
+                </option>
+            </options>
+        </input-field>
+        <input-field type="multi-select">
+            <name>googlePayAllowedAuthMethods</name>
+            <label>Allowed Auth Methods</label>
+            <label lang="de-DE">Unterstützte Netzwerke</label>
+            <helpText>Fields supported to authenticate a card transaction. https://developers.google.com/pay/api/web/reference/request-objects#CardParameters</helpText>
+            <helpText lang="de-DE">Unterstützte Felder zur Authentifizierung einer Kartentransaktion. https://developers.google.com/pay/api/web/reference/request-objects#CardParameters</helpText>
+            <defaultValue>["PAN_ONLY", "CRYPTOGRAM_3DS"]</defaultValue>
+            <options>
+                <option>
+                    <id>PAN_ONLY</id>
+                    <name>PAN_ONLY</name>
+                </option>
+                <option>
+                    <id>CRYPTOGRAM_3DS</id>
+                    <name>CRYPTOGRAM_3DS</name>
+                </option>
+            </options>
+        </input-field>
+    </card>
 </config>

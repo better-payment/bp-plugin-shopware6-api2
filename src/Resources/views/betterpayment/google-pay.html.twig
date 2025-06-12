@@ -1,0 +1,20 @@
+<input hidden name="betterpayment_google_pay_transaction_id" id="betterpayment_google_pay_transaction_id">
+<input hidden name="betterpayment_google_pay_transaction_status" id="betterpayment_google_pay_transaction_status">
+<input hidden name="betterpayment_apple_pay_order_id" value="{{ page.extensions.expressPaymentMethod.initialData.orderId }}">
+
+
+{% set googlePayPluginOptions = {
+    initialData: page.extensions.expressPaymentMethod.initialData,
+    amount: amount,
+    billingAddress: billingAddress,
+    shippingAddress: shippingAddress,
+    processPaymentPath: path('frontend.betterpayment.google-pay.process-payment'),
+} %}
+
+ <div 
+    id="google-pay-button" 
+    data-google-pay-plugin 
+    data-google-pay-plugin-options='{{ googlePayPluginOptions|json_encode }}'
+    locale='{{ app.request.locale }}'
+    style="width:100%"
+ ></div>

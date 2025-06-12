@@ -27,6 +27,13 @@
 
             <tag name="shopware.payment.method.sync"/>
         </service>
+        <service id="BetterPayment\PaymentHandler\GooglePayPaymentHandler">
+            <argument type="service" id="BetterPayment\Util\PaymentStatusMapper" />
+            <argument type="service" id="BetterPayment\Util\BetterPaymentClient" />
+            <argument type="service" id="order.repository" />
+
+            <tag name="shopware.payment.method.sync"/>
+        </service>
         <!-- End Payment Handlers -->
 
         <!-- Event Subscribers -->
@@ -103,6 +110,13 @@
         </service>
 
         <service id="BetterPayment\Controller\ApplePayController" public="true">
+            <argument type="service" id="BetterPayment\Util\PaymentStatusMapper" />
+            <argument type="service" id="BetterPayment\Util\ConfigReader" />
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+        </service>
+        <service id="BetterPayment\Controller\GooglePayController" public="true">
             <argument type="service" id="BetterPayment\Util\PaymentStatusMapper" />
             <argument type="service" id="BetterPayment\Util\ConfigReader" />
             <call method="setContainer">
