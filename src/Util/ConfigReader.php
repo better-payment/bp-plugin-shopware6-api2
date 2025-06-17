@@ -55,6 +55,10 @@ class ConfigReader
 
     public const GOOGLE_PAY_ALLOWED_CARD_NETWORKS = 'googlePayAllowedCardNetworks';
     public const GOOGLE_PAY_ALLOWED_AUTH_METHODS = 'googlePayAllowedAuthMethods';
+    public const GOOGLE_PAY_GATEWAY_ID = 'gateway';
+    public const GOOGLE_PAY_GATEWAY_MERCHANT_ID = 'gatewayMerchantId';
+    public const GOOGLE_PAY_MERCHANT_ID = 'merchantId';
+    public const GOOGLE_PAY_MERCHANT_NAME = 'merchantName';
 
 
     private SystemConfigService $systemConfigService;

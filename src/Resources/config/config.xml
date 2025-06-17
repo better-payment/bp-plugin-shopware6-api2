@@ -386,6 +386,37 @@
     <card>
         <title>Google Pay payment method configuration</title>
         <title lang="de-DE">Konfiguration der Google Pay-Zahlungsmethode</title>
+        
+          <input-field>
+            <name>gateway</name>
+            <label>Gateway ID</label>
+            <label lang="de-DE">Gateway ID</label>
+            <helpText>This field represents the gateway name|id configured on your account to process Google Pay transactions. You can get this during on-boarding with Deutsche Bank / Better Payment.</helpText>
+            <helpText lang="de-DE">Dieses Feld stellt den Gateway-Namen bzw. die Gateway-ID dar, der/die auf Ihrem Konto für die Verarbeitung von Google Pay-Transaktionen konfiguriert ist. Sie können dies während des On-Boarding mit Deutsche Bank / Better Payment erhalten.</helpText>
+            <defaultValue>processingpagateq</defaultValue>
+            <disabled>true</disabled>
+        </input-field>
+        <input-field>
+            <name>gatewayMerchantId</name>
+            <label>Gateway Merchant ID</label>
+            <label lang="de-DE">Gateway Merchant ID</label>
+            <helpText>This field represents gateway merchant ID configured on your account to process Google Pay transactions. You can get this during on-boarding with Deutsche Bank / Better Payment.</helpText>
+            <helpText lang="de-DE">Dieses Feld stellt die Gateway-Händler-ID dar, die in Ihrem Konto für die Verarbeitung von Google Pay-Transaktionen konfiguriert ist. Sie erhalten diese während des On-Boarding mit Deutsche Bank / Better Payment.</helpText>
+        </input-field>
+        <input-field>
+            <name>merchantId</name>
+            <label>Merchant ID</label>
+            <label lang="de-DE">Merchant ID</label>
+            <helpText>This field represents gateway merchant ID configured on your account to process Google Pay transactions. You can get this during on-boarding with Deutsche Bank / Better Payment.</helpText>
+            <helpText lang="de-DE">Dieses Feld stellt die Händler-ID dar, die in Ihrem Konto für die Verarbeitung von Google Pay-Transaktionen konfiguriert ist. Sie erhalten diese während des On-Boarding mit Deutsche Bank / Better Payment.</helpText>
+        </input-field>
+        <input-field>
+            <name>merchantName</name>
+            <label>Merchant name</label>
+            <label lang="de-DE">Merchant name</label>
+            <helpText>This field represents gateway merchant ID configured on your account to process Google Pay transactions. You can get this during on-boarding with Deutsche Bank / Better Payment.</helpText>
+            <helpText lang="de-DE">Dieses Feld stellt den Präsentationsnamen des Händlers dar, der angezeigt wird, sobald auf die Schaltfläche Google Pay geklickt wird. Geben Sie einen Namen an, den Ihre Kunden sehen sollen.</helpText>
+        </input-field>
 
         <input-field type="multi-select">
             <name>googlePayAllowedCardNetworks</name>
@@ -409,7 +440,7 @@
             <name>googlePayAllowedAuthMethods</name>
             <label>Allowed Auth Methods</label>
             <label lang="de-DE">Unterstützte Netzwerke</label>
-            <helpText>Fields supported to authenticate a card transaction. https://developers.google.com/pay/api/web/reference/request-objects#CardParameters</helpText>
+            <helpText>Fields supported to authenticate a card transaction</helpText>
             <helpText lang="de-DE">Unterstützte Felder zur Authentifizierung einer Kartentransaktion. https://developers.google.com/pay/api/web/reference/request-objects#CardParameters</helpText>
             <defaultValue>["PAN_ONLY", "CRYPTOGRAM_3DS"]</defaultValue>
             <options>
