@@ -52,6 +52,9 @@
                             <span v-else-if="paymentMethod == 'apple_pay'">
                                 {{ $tc('betterpayment.refund.labels.paymentMethodsInfo.creditCard') }}
                             </span>
+                            <span v-else-if="paymentMethod == 'google_pay'">
+                                {{ $tc('betterpayment.refund.labels.paymentMethodsInfo.creditCard') }}
+                            </span>
                         </div>
                     </sw-label>
                 </sw-container>
