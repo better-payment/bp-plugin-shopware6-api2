@@ -35,14 +35,14 @@ class GooglePayPaymentHandler implements SynchronousPaymentHandlerInterface
             $this->paymentStatusMapper->updateOrderTransactionStateFromPaymentHandler($transaction->getOrderTransaction()->getId(), $dataBag->get('betterpayment_google_pay_transaction_status'), $context);
             $this->betterPaymentClient->storeBetterPaymentTransactionID($transaction->getOrderTransaction()->getId(), $dataBag->get('betterpayment_google_pay_transaction_id'), $context);
 
-            // Set Apple Pay order id as custom field to order, so that it can be matched with order in payment gateway
+            // Set Google Pay order id as custom field to order, so that it can be matched with order in payment gateway
             // Here we cannot use core (by shopware) order number. Because of the flow, the order is created after request sent to payment gateway
             $this->orderRepository->update([
                 [
                     'id' => $transaction->getOrder()->getId(),
-                    // 'customFields' => [
-                    //     'betterpayment_apple_pay_order_id' => $dataBag->get('betterpayment_apple_pay_order_id'),
-                    // ]
+                    'customFields' => [
+                        'betterpayment_google_pay_order_id' => $dataBag->get('betterpayment_google_pay_order_id'),
+                    ]
                 ]
             ], $context);
         } catch (\Exception $e) {

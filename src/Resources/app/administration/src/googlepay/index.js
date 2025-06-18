@@ -14,7 +14,11 @@ Component.override('sw-order-detail-details', {
         googlePayCardIsVisible() {
             return this.isBetterPaymentTransaction && this.paymentMethod === 'google_pay';
         },
-        
+
+        googlePayOrderId() {
+            return this.order.customFields.betterpayment_google_pay_order_id;
+        },
+
         paymentMethod() {
             return this.transaction.paymentMethod.customFields.shortname;
         }
