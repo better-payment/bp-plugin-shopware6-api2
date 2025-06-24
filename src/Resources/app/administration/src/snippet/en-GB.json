@@ -72,6 +72,12 @@
       "labels": {
         "applePayOrderId": "Apple Pay Order ID"
       }
+    },
+    "googlePay": {
+      "cardTitle": "Better Payment Google Pay details",
+      "labels": {
+        "googlePayOrderId": "Google Pay Order ID"
+      }
     }
   }
 }
