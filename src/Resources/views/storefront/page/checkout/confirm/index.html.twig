@@ -4,6 +4,9 @@
     <div id="betterpayment-apple-pay-error" style="display: none;">
         {% sw_include '@Storefront/storefront/utilities/alert.html.twig' with { type: "danger", content: "Something went wrong with Apple Pay payment" } %}
     </div>
+    <div id="betterpayment-google-pay-error" style="display: none;">
+        {% sw_include '@Storefront/storefront/utilities/alert.html.twig' with { type: "danger", content: "Something went wrong with Google Pay payment" } %}
+    </div>
 
     {{ parent() }}
 {% endblock %}

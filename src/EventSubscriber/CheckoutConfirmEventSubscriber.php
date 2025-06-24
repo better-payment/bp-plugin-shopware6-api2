@@ -4,6 +4,7 @@ namespace BetterPayment\EventSubscriber;
 
 use BetterPayment\Installer\CustomFieldInstaller;
 use BetterPayment\PaymentMethod\ApplePay;
+use BetterPayment\PaymentMethod\GooglePay;
 use BetterPayment\PaymentMethod\Invoice;
 use BetterPayment\PaymentMethod\InvoiceB2B;
 use BetterPayment\PaymentMethod\SEPADirectDebit;
@@ -40,7 +41,6 @@ class CheckoutConfirmEventSubscriber implements EventSubscriberInterface
         $page = $event->getPage();
         $paymentMethod = $event->getSalesChannelContext()->getPaymentMethod();
         $customer = $event->getSalesChannelContext()->getCustomer();
-
         if ($paymentMethod->getId() == SEPADirectDebit::UUID) {
             $data = new CheckoutData();
 
@@ -104,6 +104,24 @@ class CheckoutConfirmEventSubscriber implements EventSubscriberInterface
             ]);
             $page->addExtension('expressPaymentMethod', $data);
         }
+        elseif ($paymentMethod->getId() == GooglePay::UUID) {
+            $data = new CheckoutData();
+            $data->assign([
+                'template' => '@Storefront/betterpayment/google-pay.html.twig',
+                'initialData' => [
+                    ...$this->getExpressPaymentMethodInitialData($event),
+                    'googlePay' => [
+                        'allowedCardNetworks' => $this->configReader->get(ConfigReader::GOOGLE_PAY_ALLOWED_CARD_NETWORKS),
+                        'allowedAuthMethods' => $this->configReader->get(ConfigReader::GOOGLE_PAY_ALLOWED_AUTH_METHODS),
+                        'gateway' => $this->configReader->get(ConfigReader::GOOGLE_PAY_GATEWAY_ID),
+                        'gatewayMerchantId' =>  $this->configReader->get(ConfigReader::GOOGLE_PAY_GATEWAY_MERCHANT_ID),
+                        'merchantId' =>  $this->configReader->get(ConfigReader::GOOGLE_PAY_MERCHANT_ID),
+                        'merchantName'=>  $this->configReader->get(ConfigReader::GOOGLE_PAY_MERCHANT_NAME),
+                    ],
+                ],
+            ]);
+            $page->addExtension('expressPaymentMethod', $data);
+        }
     }
 
     private function getExpressPaymentMethodInitialData(PageLoadedEvent $event): array
@@ -128,6 +146,7 @@ class CheckoutConfirmEventSubscriber implements EventSubscriberInterface
             'postbackUrl' => $this->configReader->getPostbackUrl(),
             'appName' => $this->configReader->getAppName(),
             'appVersion' => $this->configReader->getAppVersion(),
+            'environment' => $this->configReader->get(ConfigReader::ENVIRONMENT),
         ];
     }
 
