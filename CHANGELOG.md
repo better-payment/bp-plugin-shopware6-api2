@@ -1,5 +1,11 @@
 This changelog follows the specifications of https://keepachangelog.com. Please, follow the specs when adding a new entry
 
+## [3.3.0] - 2025-06-24
+
+### Added
+- Google Pay payment method
+
+
 ## [3.2.1] - 2025-05-16
 
 ### Added
