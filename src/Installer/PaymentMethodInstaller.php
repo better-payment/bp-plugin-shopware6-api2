@@ -114,6 +114,7 @@ class PaymentMethodInstaller
 
         $paymentMethodData = [
             'id' => $paymentMethod->getId(),
+            'technicalName' => $paymentMethod->getTechnicalName(),
             'pluginId' => $pluginId,
             'handlerIdentifier' => $paymentMethod->getHandler(),
             'name' => $paymentMethod->getName(),
