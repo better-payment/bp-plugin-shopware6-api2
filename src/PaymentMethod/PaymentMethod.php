@@ -8,6 +8,7 @@ abstract class PaymentMethod
     protected string $handler;
     protected string $name;
     protected string $shortname;
+    protected string $technicalName;
     protected string $description;
     protected string $icon;
     protected array $translations;
@@ -16,6 +17,11 @@ abstract class PaymentMethod
     public function getId(): string
     {
         return $this->id;
+    }
+
+    public function getTechnicalName(): string
+    {
+        return 'betterpayment_' . $this->shortname;
     }
 
     public function getHandler(): string

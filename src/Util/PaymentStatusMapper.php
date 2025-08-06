@@ -83,7 +83,7 @@ class PaymentStatusMapper
                 // the amount that has been totally refunded. If this amount is greater than or equals to the transaction
                 // amount in shopware, call refund, otherwise, call refundPartially.
                 case 'refunded':
-                    $transaction = $this->betterPaymentClient->getBetterPaymentTransaction($betterPaymentTransactionID);
+                    $transaction = $this->betterPaymentClient->getTransaction($betterPaymentTransactionID);
                     $refundedAmount = $transaction['refunded_amount'];
                     $amount = $transaction['amount'];
                     if ($refundedAmount >= $amount)

@@ -6,13 +6,11 @@ use BetterPayment\BetterPayment;
 use BetterPayment\PaymentMethod\Aiia;
 use BetterPayment\PaymentMethod\ApplePay;
 use BetterPayment\PaymentMethod\GooglePay;
-use BetterPayment\PaymentMethod\Giropay;
 use BetterPayment\PaymentMethod\Ideal;
 use BetterPayment\PaymentMethod\InvoiceB2B;
 use BetterPayment\PaymentMethod\PaymentMethod;
 use BetterPayment\PaymentMethod\CreditCard;
 use BetterPayment\PaymentMethod\Invoice;
-use BetterPayment\PaymentMethod\Paydirekt;
 use BetterPayment\PaymentMethod\Paypal;
 use BetterPayment\PaymentMethod\RequestToPay;
 use BetterPayment\PaymentMethod\SEPADirectDebit;
@@ -31,10 +29,8 @@ class PaymentMethodInstaller
 {
     public const PAYMENT_METHODS = [
         CreditCard::class,
-        Paydirekt::class,
-        Sofort::class,
         Paypal::class,
-        Giropay::class,
+        Sofort::class,
         RequestToPay::class,
         Aiia::class,
         Ideal::class,
@@ -114,6 +110,7 @@ class PaymentMethodInstaller
 
         $paymentMethodData = [
             'id' => $paymentMethod->getId(),
+            'technicalName' => $paymentMethod->getTechnicalName(),
             'pluginId' => $pluginId,
             'handlerIdentifier' => $paymentMethod->getHandler(),
             'name' => $paymentMethod->getName(),
