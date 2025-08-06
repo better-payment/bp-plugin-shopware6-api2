@@ -16,17 +16,8 @@
                             <span v-if="paymentMethod == 'cc'">
                                 {{ $tc('betterpayment.refund.labels.paymentMethodsInfo.creditCard') }}
                             </span>
-                            <span v-else-if="paymentMethod == 'sofort'">
-                                {{ $tc('betterpayment.refund.labels.paymentMethodsInfo.sofort') }}
-                            </span>
-                            <span v-else-if="paymentMethod == 'paydirekt'">
-                                {{ $tc('betterpayment.refund.labels.paymentMethodsInfo.paydirekt') }}
-                            </span>
                             <span v-else-if="paymentMethod == 'paypal'">
                                 {{ $tc('betterpayment.refund.labels.paymentMethodsInfo.paypal') }}
-                            </span>
-                            <span v-else-if="paymentMethod == 'giro'">
-                                {{ $tc('betterpayment.refund.labels.paymentMethodsInfo.giropay') }}
                             </span>
                             <span v-else-if="paymentMethod == 'rtp'">
                                 {{ $tc('betterpayment.refund.labels.paymentMethodsInfo.requestToPay') }}

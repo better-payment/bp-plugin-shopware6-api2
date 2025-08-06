@@ -6,18 +6,15 @@ use BetterPayment\BetterPayment;
 use BetterPayment\PaymentMethod\Aiia;
 use BetterPayment\PaymentMethod\ApplePay;
 use BetterPayment\PaymentMethod\GooglePay;
-use BetterPayment\PaymentMethod\Giropay;
 use BetterPayment\PaymentMethod\Ideal;
 use BetterPayment\PaymentMethod\InvoiceB2B;
 use BetterPayment\PaymentMethod\PaymentMethod;
 use BetterPayment\PaymentMethod\CreditCard;
 use BetterPayment\PaymentMethod\Invoice;
-use BetterPayment\PaymentMethod\Paydirekt;
 use BetterPayment\PaymentMethod\Paypal;
 use BetterPayment\PaymentMethod\RequestToPay;
 use BetterPayment\PaymentMethod\SEPADirectDebit;
 use BetterPayment\PaymentMethod\SEPADirectDebitB2B;
-use BetterPayment\PaymentMethod\Sofort;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\Plugin\Context\ActivateContext;
@@ -31,10 +28,7 @@ class PaymentMethodInstaller
 {
     public const PAYMENT_METHODS = [
         CreditCard::class,
-        Paydirekt::class,
-        Sofort::class,
         Paypal::class,
-        Giropay::class,
         RequestToPay::class,
         Aiia::class,
         Ideal::class,
