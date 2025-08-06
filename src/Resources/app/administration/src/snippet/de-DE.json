@@ -14,6 +14,7 @@
         "paymentMethodsInfo": {
           "creditCard": "Sie können Rückerstattungen bis zur Höhe des Gesamtbetrags der Transaktion vornehmen. Teil- und Mehrfachrückerstattungen können je nach dem für Ihr Konto konfigurierten Zahlungsabwickler unterstützt werden oder nicht. Rückerstattungen werden sofort ausgeführt.",
           "paypal": "Sie können mehrere Rückerstattungen bis zur Höhe des gesamten Transaktionsbetrags für die Transaktion vornehmen.",
+          "sofort": "Sie können mehrere Rückerstattungen ausstellen, bis zum Gesamtbetrag der Transaktion. SOFORT-Rückerstattungen können nur halbwegs automatisiert werden. Sie können über das Plugin gestartet werden, müssen aber im Dashboard von SOFORT abgeschlossen werden, indem eine Transaktionsdatei heruntergeladen und zur Bank des Händlers hochgeladen wird.",
           "requestToPay": "Sie können mehrere Rückerstattungen bis zur Höhe des gesamten Transaktionsbetrags für die Transaktion vornehmen.",
           "aiia": "Sie können mehrere Rückerstattungen bis zur Höhe des gesamten Transaktionsbetrags für die Transaktion vornehmen.",
           "ideal": "Sie können mehrere Rückerstattungen bis zur Höhe des gesamten Transaktionsbetrags für die Transaktion vornehmen.",

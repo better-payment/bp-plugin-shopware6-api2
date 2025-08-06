@@ -14,6 +14,7 @@
         "paymentMethodsInfo": {
           "creditCard": "You can issue refunds up to maximum amount of the transaction. Partial and multiple refunds may or may not be supported, depending on configured acquirer for your account. Refunds are executed instantly.",
           "paypal": "You can issue multiple refunds up to the total transaction amount for the transaction.",
+          "sofort": "You can issue multiple refunds, up to the total transaction amount. SOFORT refunds can only be halfway automated. They can be started over the Plugin but must be finalized in SOFORT's dashboard by downloading a transaction file and uploading it to the merchant's bank.",
           "requestToPay": "You can issue multiple refunds up to the total transaction amount for the transaction.",
           "aiia": "You can issue multiple refunds up to the total transaction amount for the transaction.",
           "ideal": "You can issue multiple refunds up to the total transaction amount for the transaction.",

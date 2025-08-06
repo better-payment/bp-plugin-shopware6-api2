@@ -3,12 +3,13 @@
 namespace BetterPayment\Util;
 
 use BetterPayment\Installer\CustomFieldInstaller;
+use BetterPayment\PaymentHandler\AsynchronousBetterPaymentHandler;
 use BetterPayment\PaymentMethod\Invoice;
+use BetterPayment\PaymentMethod\InvoiceB2B;
 use BetterPayment\PaymentMethod\SEPADirectDebit;
 use BetterPayment\PaymentMethod\SEPADirectDebitB2B;
 use Shopware\Core\Checkout\Customer\CustomerEntity;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionEntity;
-use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Checkout\Payment\Cart\PaymentTransactionStruct;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
@@ -47,21 +48,22 @@ class OrderParametersReader
 
         /* @var OrderTransactionEntity $orderTransaction */
         $orderTransaction = $this->orderTransactionRepository->search($criteria, $context)->first();
-        $order = $orderTransaction->getOrder();
 
         return array_merge(
-            $this->getCommonParameters($order, $orderTransaction),
-            $this->getBillingAddressParameters($order),
-            $this->getShippingAddressParameters($order),
+            $this->getCommonParameters($orderTransaction),
+            $this->getBillingAddressParameters($orderTransaction),
+            $this->getShippingAddressParameters($orderTransaction),
             $this->getRiskCheckParameters($orderTransaction),
-            $this->getCompanyDetailParameters($order),
-            $this->getRedirectUrlParameters($transaction, $orderTransaction),
-            $this->getSpecialParameters($request, $orderTransaction),
+            $this->getCompanyDetailParameters($orderTransaction),
+            $this->getRedirectUrlParameters($orderTransaction, $transaction),
+            $this->getSpecialParameters($orderTransaction, $request),
         );
     }
 
-    private function getCommonParameters(OrderEntity $order, OrderTransactionEntity $orderTransaction): array
+    private function getCommonParameters(OrderTransactionEntity $orderTransaction): array
     {
+        $order = $orderTransaction->getOrder();
+
         return [
             'payment_type' => $orderTransaction->getPaymentMethod()->getCustomFields()['shortname'],
             // Any alphanumeric string to identify the Merchant’s order.
@@ -91,8 +93,9 @@ class OrderParametersReader
     }
 
     // Billing information is required in all payment methods.
-    private function getBillingAddressParameters(OrderEntity $order): array
+    private function getBillingAddressParameters(OrderTransactionEntity $orderTransaction): array
     {
+        $order = $orderTransaction->getOrder();
         $billingAddress = $order->getBillingAddress();
 
         return [
@@ -120,10 +123,10 @@ class OrderParametersReader
     }
 
     // Shipping address can be specified when it differs from the billing address.
-    private function getShippingAddressParameters(OrderEntity $order): array
+    private function getShippingAddressParameters(OrderTransactionEntity $orderTransaction): array
     {
         // TODO: check $order->getDeliveries()->first() null case, with fallback to customer's defaultShippingAddress
-        $shippingAddress = $order->getDeliveries()->first()->getShippingOrderAddress();
+        $shippingAddress = $orderTransaction->getOrder()->getDeliveries()->first()->getShippingOrderAddress();
 
         return [
             // Street address
@@ -148,87 +151,101 @@ class OrderParametersReader
     }
 
     // Company details are required in B2B Invoice and B2B SEPA Direct Debit orders.
-    private function getCompanyDetailParameters(OrderEntity $order): array
+    private function getCompanyDetailParameters(OrderTransactionEntity $orderTransaction): array
     {
-	    $billingAddress = $order->getBillingAddress();
+        if (in_array($orderTransaction->getPaymentMethodId(), [SEPADirectDebitB2B::UUID, InvoiceB2B::UUID])) {
+            $order = $orderTransaction->getOrder();
+            $billingAddress = $order->getBillingAddress();
 
-        // Get company name from billing address, and fallback to customer's company
-        $company = $billingAddress->getCompany();
-        if (!$company) {
-            $company = $order->getOrderCustomer()->getCompany();
+            // Get company name from billing address, and fallback to customer's company
+            $company = $billingAddress->getCompany();
+            if (!$company) {
+                $company = $order->getOrderCustomer()->getCompany();
+            }
+
+            // Get VAT ID from billing address, and fallback to customer's VAT ID
+            $vatId = $billingAddress->getVatId();
+            if (!$vatId) {
+                $vatId = $order->getOrderCustomer()->getVatIds() ? $order->getOrderCustomer()->getVatIds()[0] : null;
+            }
+
+            return [
+                // Company name
+                'company' => $company,
+                // Starts with ISO 3166-1 alpha2 followed by 2 to 11 characters. See more details about Vat - http://ec.europa.eu/taxation_customs/vies/
+                'company_vat_id' => $vatId,
+            ];
         }
 
-        // Get VAT ID from billing address, and fallback to customer's VAT ID
-        $vatId = $billingAddress->getVatId();
-        if (!$vatId) {
-            $vatId = $order->getOrderCustomer()->getVatIds() ? $order->getOrderCustomer()->getVatIds()[0] : null;
+	    return [];
+    }
+
+    private function getRedirectUrlParameters(OrderTransactionEntity $orderTransaction, PaymentTransactionStruct $transaction): array
+    {
+        if ($orderTransaction->getPaymentMethod()->getHandlerIdentifier() == AsynchronousBetterPaymentHandler::class) {
+            return [
+                'success_url' => $transaction->getReturnUrl(),
+                'error_url' => $this->configReader->getAppUrl() . '/account/order/edit/' . $orderTransaction->getOrderId()
+                    . '?error-code=CHECKOUT__ASYNC_PAYMENT_PROCESS_INTERRUPTED',
+            ];
         }
 
-        return [
-            // Company name
-            'company' => $company,
-            // Starts with ISO 3166-1 alpha2 followed by 2 to 11 characters. See more details about Vat - http://ec.europa.eu/taxation_customs/vies/
-            'company_vat_id' => $vatId,
-        ];
+        return [];
     }
 
-    private function getRedirectUrlParameters(PaymentTransactionStruct $transaction, OrderTransactionEntity $orderTransaction): array
+    private function getSpecialParameters(OrderTransactionEntity $orderTransaction, Request $request): array
     {
-        // TODO: add urls in case of async payment methods, not all payment methods, so check async type
-        return [
-            'success_url' => $transaction->getReturnUrl(),
-            'error_url' => $this->configReader->getAppUrl() . '/account/order/edit/' . $orderTransaction->getOrderId()
-                . '?error-code=CHECKOUT__ASYNC_PAYMENT_PROCESS_INTERRUPTED',
-        ];
-    }
-
-    private function getSpecialParameters(Request $request, OrderTransactionEntity $orderTransaction): array
-    {
-        $paymentMethodId = $orderTransaction->getPaymentMethodId();
-
-        return match ($paymentMethodId) {
-            SEPADirectDebit::UUID, SEPADirectDebitB2B::UUID => [
+        if (in_array($orderTransaction->getPaymentMethodId(), [SEPADirectDebit::UUID, SEPADirectDebitB2B::UUID])) {
+            return [
                 'account_holder' => $request->get('betterpayment_account_holder'),
                 'iban' => $request->get('betterpayment_iban'),
                 'bic' => $request->get('betterpayment_bic'),
                 'sepa_mandate' => $request->get('betterpayment_sepa_mandate')
-            ],
-            default => [],
-        };
+            ];
+        }
+
+        return [];
     }
 
     private function getRiskCheckParameters(OrderTransactionEntity $orderTransaction): array
     {
-        $params = [];
-
+        $parameters = [];
         $paymentMethodId = $orderTransaction->getPaymentMethodId();
         $customer = $orderTransaction->getOrder()->getOrderCustomer()->getCustomer();
 
         if ($paymentMethodId == SEPADirectDebit::UUID) {
             if ($this->configReader->getBool(ConfigReader::SEPA_DIRECT_DEBIT_COLLECT_DATE_OF_BIRTH)) {
-                $params += [
+                $parameters += [
                     'date_of_birth' => $this->getBirthday($customer)
                 ];
             }
+
             if ($this->configReader->getBool(ConfigReader::SEPA_DIRECT_DEBIT_COLLECT_GENDER)) {
-                $params += [
+                $parameters += [
                     'gender' => $this->getGender($customer)
                 ];
             }
-        } elseif ($paymentMethodId == Invoice::UUID) {
-            if ($this->configReader->getBool(ConfigReader::INVOICE_COLLECT_DATE_OF_BIRTH)) {
-                $params += [
-                    'date_of_birth' => $this->getBirthday($customer)
-                ];
-            }
-            if ($this->configReader->getBool(ConfigReader::INVOICE_COLLECT_GENDER)) {
-                $params += [
-                    'gender' => $this->getGender($customer)
-                ];
-            }
+
+            return $parameters;
         }
 
-        return $params;
+        if ($paymentMethodId == Invoice::UUID) {
+            if ($this->configReader->getBool(ConfigReader::INVOICE_COLLECT_DATE_OF_BIRTH)) {
+                $parameters += [
+                    'date_of_birth' => $this->getBirthday($customer)
+                ];
+            }
+
+            if ($this->configReader->getBool(ConfigReader::INVOICE_COLLECT_GENDER)) {
+                $parameters += [
+                    'gender' => $this->getGender($customer)
+                ];
+            }
+
+            return $parameters;
+        }
+
+        return [];
     }
 
     private function getBirthday(CustomerEntity $customer): ?string

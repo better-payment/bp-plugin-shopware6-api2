@@ -15,6 +15,7 @@ use BetterPayment\PaymentMethod\Paypal;
 use BetterPayment\PaymentMethod\RequestToPay;
 use BetterPayment\PaymentMethod\SEPADirectDebit;
 use BetterPayment\PaymentMethod\SEPADirectDebitB2B;
+use BetterPayment\PaymentMethod\Sofort;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\Plugin\Context\ActivateContext;
@@ -29,6 +30,7 @@ class PaymentMethodInstaller
     public const PAYMENT_METHODS = [
         CreditCard::class,
         Paypal::class,
+        Sofort::class,
         RequestToPay::class,
         Aiia::class,
         Ideal::class,

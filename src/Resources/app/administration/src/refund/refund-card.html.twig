@@ -19,6 +19,9 @@
                             <span v-else-if="paymentMethod == 'paypal'">
                                 {{ $tc('betterpayment.refund.labels.paymentMethodsInfo.paypal') }}
                             </span>
+                            <span v-else-if="paymentMethod == 'sofort'">
+                                {{ $tc('betterpayment.refund.labels.paymentMethodsInfo.sofort') }}
+                            </span>
                             <span v-else-if="paymentMethod == 'rtp'">
                                 {{ $tc('betterpayment.refund.labels.paymentMethodsInfo.requestToPay') }}
                             </span>
