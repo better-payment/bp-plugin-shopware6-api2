@@ -43,7 +43,7 @@ class SynchronousBetterPaymentHandler extends AbstractPaymentHandler
     public function pay(Request $request, PaymentTransactionStruct $transaction, Context $context, ?Struct $validateStruct): ?RedirectResponse
     {
         try {
-            $parameters = $this->orderParametersReader->getAllParameters($transaction, $context);
+            $parameters = $this->orderParametersReader->getAllParameters($request, $transaction, $context);
             $responseBody = $this->betterPaymentClient->requestPayment($parameters);
             $this->storeBetterPaymentTransactionId($transaction->getOrderTransactionId(), $responseBody['transaction_id'], $context);
             $this->paymentStatusMapper->updateOrderTransactionStateFromPaymentHandler($transaction->getOrderTransactionId(), $responseBody['status'], $context);
