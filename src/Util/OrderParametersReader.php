@@ -3,54 +3,69 @@
 namespace BetterPayment\Util;
 
 
+use BetterPayment\Installer\CustomFieldInstaller;
+use BetterPayment\PaymentMethod\Invoice;
+use BetterPayment\PaymentMethod\SEPADirectDebit;
+use BetterPayment\PaymentMethod\SEPADirectDebitB2B;
 use Shopware\Core\Checkout\Customer\Aggregate\CustomerAddress\CustomerAddressEntity;
+use Shopware\Core\Checkout\Customer\CustomerEntity;
 use Shopware\Core\Checkout\Order\Aggregate\OrderAddress\OrderAddressEntity;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionEntity;
 use Shopware\Core\Checkout\Order\OrderEntity;
-use Shopware\Core\Checkout\Payment\Cart\SyncPaymentTransactionStruct;
+use Shopware\Core\Checkout\Payment\Cart\PaymentTransactionStruct;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\System\Currency\CurrencyEntity;
 use Shopware\Core\System\Language\LanguageEntity;
-use Shopware\Core\System\SystemConfig\SystemConfigService;
 
 class OrderParametersReader
 {
-	private SystemConfigService $systemConfigService;
+    private ConfigReader $configReader;
+    private EntityRepository $orderTransactionRepository;
 	private EntityRepository $orderAddressRepository;
 	private EntityRepository $customerAddressRepository;
     private EntityRepository $languageRepository;
 	private EntityRepository $currencyRepository;
 
-	public function __construct(
-        SystemConfigService $systemConfigService,
+    public function __construct(
+        ConfigReader $configReader,
+        EntityRepository $orderTransactionRepository,
         EntityRepository $orderAddressRepository,
         EntityRepository $customerAddressRepository,
         EntityRepository $languageRepository,
-	    EntityRepository $currencyRepository
-    ){
-        $this->systemConfigService = $systemConfigService;
+	    EntityRepository $currencyRepository,
+    ) {
+        $this->configReader = $configReader;
+        $this->orderTransactionRepository = $orderTransactionRepository;
         $this->orderAddressRepository = $orderAddressRepository;
         $this->customerAddressRepository = $customerAddressRepository;
         $this->languageRepository = $languageRepository;
 		$this->currencyRepository = $currencyRepository;
-	}
+    }
 
-    public function getAllParameters(SyncPaymentTransactionStruct $transaction): array
+    public function getAllParameters(PaymentTransactionStruct $transaction, Context $context): array
     {
-        $orderTransaction = $transaction->getOrderTransaction();
-        $order = $transaction->getOrder();
+        /* @var OrderTransactionEntity $orderTransaction */
+        $orderTransaction = $this->orderTransactionRepository->search(
+            new Criteria([$transaction->getOrderTransactionId()]),
+            $context
+        )->first();
+
+        $order = $orderTransaction->getOrder();
 
         return array_merge(
             $this->getCommonParameters($order, $orderTransaction),
             $this->getBillingAddressParameters($order),
             $this->getShippingAddressParameters($order),
-            $this->getCompanyDetailParameters($order)
+            $this->getRiskCheckParameters($orderTransaction),
+            $this->getCompanyDetailParameters($order),
+            $this->getRedirectUrlParameters($transaction, $orderTransaction),
+            $this->getSpecialParameters($orderTransaction),
         );
     }
 
-    public function getCommonParameters(OrderEntity $order, OrderTransactionEntity $orderTransaction): array
+    private function getCommonParameters(OrderEntity $order, OrderTransactionEntity $orderTransaction): array
     {
         $criteria = new Criteria([$order->getOrderCustomer()->getCustomer()->getLanguageId()]);
         $criteria->addAssociation('locale');
@@ -70,12 +85,13 @@ class OrderParametersReader
 	    )->first();
 
         return [
+            'payment_type' => $orderTransaction->getPaymentMethod()->getCustomFields()['shortname'],
             // Any alphanumeric string to identify the Merchant’s order.
             'order_id' => $order->getOrderNumber(),
             // Any alphanumeric string to provide the customer number of a Merchant’s order (up to 40 characters) for factoring or debt collection
             'customer_id' => $order->getOrderCustomer()->getCustomerNumber(),
             // See details about merchant reference - https://testdashboard.betterpayment.de/docs/#merchant-reference
-            'merchant_reference' => $order->getOrderNumber().' - '.$this->systemConfigService->getString('core.basicInformation.shopName', $order->getSalesChannelId()),
+            'merchant_reference' => $order->getOrderNumber().' - '.$this->configReader->getSystemConfig('core.basicInformation.shopName', $order->getSalesChannelId()),
             // Including possible shipping costs and VAT (float number)
             'amount' => $order->getAmountTotal(),
             // Should be set if the order includes any shipping costs (float number)
@@ -88,12 +104,16 @@ class OrderParametersReader
             'customer_ip' => $order->getOrderCustomer()->getRemoteAddress(),
             // The language of payment forms in Credit Card and Paypal. Possible locale values - https://testdashboard.betterpayment.de/docs/#locales
             // use substr to convert en-GB to en
-            'locale' => substr($language->getLocale()->getCode(), 0, 2)
+            'locale' => substr($language->getLocale()->getCode(), 0, 2),
+            'postback_url' => $this->configReader->getPostbackUrl(),
+            'app_name' => $this->configReader->getAppName(),
+            'app_version' => $this->configReader->getAppVersion(),
+            'risk_check_approval' => '1',
         ];
     }
 
     // Billing information is required in all payment methods.
-    public function getBillingAddressParameters(OrderEntity $order): array
+    private function getBillingAddressParameters(OrderEntity $order): array
     {
         $criteria = new Criteria([$order->getBillingAddressId()]);
         $criteria->addAssociations(['country', 'countryState']);
@@ -129,7 +149,7 @@ class OrderParametersReader
     }
 
     // Shipping address can be specified when it differs from the billing address.
-    public function getShippingAddressParameters(OrderEntity $order): array
+    private function getShippingAddressParameters(OrderEntity $order): array
     {
         $criteria = new Criteria([$order->getOrderCustomer()->getCustomer()->getDefaultShippingAddressId()]);
         $criteria->addAssociations(['country', 'countryState']);
@@ -163,7 +183,7 @@ class OrderParametersReader
     }
 
     // Company details are required in B2B Invoice and B2B SEPA Direct Debit orders.
-    public function getCompanyDetailParameters(OrderEntity $order): array
+    private function getCompanyDetailParameters(OrderEntity $order): array
     {
 	    $criteria = new Criteria([$order->getBillingAddressId()]);
 
@@ -191,5 +211,77 @@ class OrderParametersReader
             // Starts with ISO 3166-1 alpha2 followed by 2 to 11 characters. See more details about Vat - http://ec.europa.eu/taxation_customs/vies/
             'company_vat_id' => $vatId,
         ];
+    }
+
+    private function getRedirectUrlParameters(PaymentTransactionStruct $transaction, OrderTransactionEntity $orderTransaction): array
+    {
+        // TODO: add urls in case of async payment methods, not all payment methods, so check async type
+        return [
+            'success_url' => $transaction->getReturnUrl(),
+            'error_url' => $this->configReader->getAppUrl() . '/account/order/edit/' . $orderTransaction->getOrderId()
+                . '?error-code=CHECKOUT__ASYNC_PAYMENT_PROCESS_INTERRUPTED',
+        ];
+    }
+
+    private function getSpecialParameters(OrderTransactionEntity $orderTransaction): array
+    {
+        $paymentMethodId = $orderTransaction->getPaymentMethodId();
+
+        return match ($paymentMethodId) {
+            SEPADirectDebit::UUID, SEPADirectDebitB2B::UUID => [
+                // TODO: pass and get databag values from request variable most probably
+                'test' => 'custom data',
+//                'account_holder' => $dataBag->get('betterpayment_account_holder'),
+//                'iban' => $dataBag->get('betterpayment_iban'),
+//                'bic' => $dataBag->get('betterpayment_bic'),
+//                'sepa_mandate' => $dataBag->get('betterpayment_sepa_mandate')
+            ],
+            default => [],
+        };
+    }
+
+    private function getRiskCheckParameters(OrderTransactionEntity $orderTransaction): array
+    {
+        $params = [];
+
+        $paymentMethodId = $orderTransaction->getPaymentMethodId();
+        $customer = $orderTransaction->getOrder()->getOrderCustomer()->getCustomer();
+
+        if ($paymentMethodId == SEPADirectDebit::UUID) {
+            if ($this->configReader->getBool(ConfigReader::SEPA_DIRECT_DEBIT_COLLECT_DATE_OF_BIRTH)) {
+                $params += [
+                    'date_of_birth' => $this->getBirthday($customer)
+                ];
+            }
+            if ($this->configReader->getBool(ConfigReader::SEPA_DIRECT_DEBIT_COLLECT_GENDER)) {
+                $params += [
+                    'gender' => $this->getGender($customer)
+                ];
+            }
+        } elseif ($paymentMethodId == Invoice::UUID) {
+            if ($this->configReader->getBool(ConfigReader::INVOICE_COLLECT_DATE_OF_BIRTH)) {
+                $params += [
+                    'date_of_birth' => $this->getBirthday($customer)
+                ];
+            }
+            if ($this->configReader->getBool(ConfigReader::INVOICE_COLLECT_GENDER)) {
+                $params += [
+                    'gender' => $this->getGender($customer)
+                ];
+            }
+        }
+
+        return $params;
+    }
+
+    private function getBirthday(CustomerEntity $customer): ?string
+    {
+        return $customer->getBirthday()?->format('Y-m-d');
+    }
+
+    // returns m|f|d|null as required by API and as custom field setup (null if not set yet)
+    private function getGender(CustomerEntity $customer): ?string
+    {
+        return $customer->getCustomFields()[CustomFieldInstaller::CUSTOMER_GENDER];
     }
 }
