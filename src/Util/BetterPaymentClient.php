@@ -71,8 +71,8 @@ class BetterPaymentClient
         $request = new Request('POST', 'rest/capture', $this->getHeaders(), $body);
         try {
             $response = $this->getClient()->send($request);
-            $responseBody = json_decode((string) $response->getBody());
-            if ($responseBody->error_code == 0) {
+            $responseBody = json_decode((string) $response->getBody(), true);
+            if ($responseBody['error_code'] == 0) {
                 return $responseBody;
             }
             else {
