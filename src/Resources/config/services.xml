@@ -27,14 +27,12 @@
         <service id="BetterPayment\PaymentHandler\ApplePayPaymentHandler">
             <argument type="service" id="BetterPayment\Util\PaymentStatusMapper" />
             <argument type="service" id="order_transaction.repository" />
-<!--            <argument type="service" id="order.repository" />-->
 
             <tag name="shopware.payment.method"/>
         </service>
         <service id="BetterPayment\PaymentHandler\GooglePayPaymentHandler">
             <argument type="service" id="BetterPayment\Util\PaymentStatusMapper" />
             <argument type="service" id="order_transaction.repository" />
-<!--            <argument type="service" id="order.repository" />-->
 
             <tag name="shopware.payment.method"/>
         </service>

@@ -16,16 +16,13 @@ class GooglePayPaymentHandler extends AbstractPaymentHandler
 {
     private PaymentStatusMapper $paymentStatusMapper;
     private EntityRepository $orderTransactionRepository;
-//    private EntityRepository $orderRepository;
 
     public function __construct(
         PaymentStatusMapper $paymentStatusMapper,
         EntityRepository $orderTransactionRepository,
-//        EntityRepository $orderRepository,
     ) {
         $this->paymentStatusMapper = $paymentStatusMapper;
         $this->orderTransactionRepository = $orderTransactionRepository;
-//        $this->orderRepository = $orderRepository;
     }
 
     public function supports(PaymentHandlerType $type, string $paymentMethodId, Context $context): bool
@@ -55,7 +52,6 @@ class GooglePayPaymentHandler extends AbstractPaymentHandler
         ], $context);
     }
 
-    // TODO: it can be saved to order as well maybe?
     // Set Google Pay order id as custom field to order, so that it can be matched with order in payment gateway
     // Here we cannot use core (by shopware) order number. Because of the flow, the order is created after request sent to payment gateway
     private function storeBetterPaymentGooglePayOrderId(string $orderTransactionId, string $betterPaymentApplePayOrderId, Context $context): void
