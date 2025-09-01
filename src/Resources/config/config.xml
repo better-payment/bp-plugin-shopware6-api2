@@ -386,16 +386,7 @@
     <card>
         <title>Google Pay payment method configuration</title>
         <title lang="de-DE">Konfiguration der Google Pay-Zahlungsmethode</title>
-        
-          <input-field>
-            <name>googlePayGateway</name>
-            <label>Gateway ID</label>
-            <label lang="de-DE">Gateway ID</label>
-            <helpText>This field represents the gateway name|id configured on your account to process Google Pay transactions. You can get this during on-boarding with Deutsche Bank / Better Payment.</helpText>
-            <helpText lang="de-DE">Dieses Feld stellt den Gateway-Namen bzw. die Gateway-ID dar, der/die auf Ihrem Konto für die Verarbeitung von Google Pay-Transaktionen konfiguriert ist. Sie können dies während des On-Boarding mit Deutsche Bank / Better Payment erhalten.</helpText>
-            <defaultValue>processingpagateq</defaultValue>
-            <disabled>true</disabled>
-        </input-field>
+
         <input-field>
             <name>googlePayGatewayMerchantId</name>
             <label>Gateway Merchant ID</label>
@@ -405,8 +396,8 @@
         </input-field>
         <input-field>
             <name>googlePayMerchantId</name>
-            <label>Merchant ID</label>
-            <label lang="de-DE">Merchant ID</label>
+            <label>Google Pay Merchant ID</label>
+            <label lang="de-DE">Google Pay Merchant ID</label>
             <helpText>This field represents gateway merchant ID configured on your account to process Google Pay transactions. You can get this during on-boarding with Deutsche Bank / Better Payment.</helpText>
             <helpText lang="de-DE">Dieses Feld stellt die Händler-ID dar, die in Ihrem Konto für die Verarbeitung von Google Pay-Transaktionen konfiguriert ist. Sie erhalten diese während des On-Boarding mit Deutsche Bank / Better Payment.</helpText>
         </input-field>
@@ -414,13 +405,13 @@
             <name>googlePayMerchantName</name>
             <label>Merchant name</label>
             <label lang="de-DE">Merchant name</label>
-            <helpText>This field represents gateway merchant ID configured on your account to process Google Pay transactions. You can get this during on-boarding with Deutsche Bank / Better Payment.</helpText>
-            <helpText lang="de-DE">Dieses Feld stellt den Präsentationsnamen des Händlers dar, der angezeigt wird, sobald auf die Schaltfläche Google Pay geklickt wird. Geben Sie einen Namen an, den Ihre Kunden sehen sollen.</helpText>
+            <helpText>This field represents merchant's displayed name for Google Pay modal. You can set this to your preferred display name for your business.</helpText>
+            <helpText lang="de-DE">Dieses Feld stellt den angezeigten Namen des Händlers für das Google Pay-Modal dar. Sie können hier den bevorzugten Anzeigenamen für Ihr Unternehmen festlegen.</helpText>
         </input-field>
 
         <input-field type="multi-select">
             <name>googlePayAllowedCardNetworks</name>
-            <label>Allowed Card Networks</label>
+            <label>Supported Networks</label>
             <label lang="de-DE">Unterstützte Netzwerke</label>
             <helpText>This refer to the card networks (schemes) that Google Pay can process transactions with.</helpText>
             <helpText lang="de-DE">Dies bezieht sich auf die Kartennetzwerke (Systeme), mit denen Google Pay Transaktionen abwickeln kann.</helpText>
@@ -438,10 +429,10 @@
         </input-field>
         <input-field type="multi-select">
             <name>googlePayAllowedAuthMethods</name>
-            <label>Allowed Auth Methods</label>
-            <label lang="de-DE">Unterstützte Netzwerke</label>
-            <helpText>Fields supported to authenticate a card transaction</helpText>
-            <helpText lang="de-DE">Unterstützte Felder zur Authentifizierung einer Kartentransaktion. https://developers.google.com/pay/api/web/reference/request-objects#CardParameters</helpText>
+            <label>Supported Authentication Methods</label>
+            <label lang="de-DE">Unterstützte Authentifizierungsmethoden</label>
+            <helpText>This refer to the authentication methods that Google Pay can process transactions with. Prefer to leave these settings as it is unless a change is requested by our support team.</helpText>
+            <helpText lang="de-DE">Dies bezieht sich auf die Authentifizierungsmethoden, mit denen Google Pay Transaktionen verarbeiten kann. Lassen Sie diese Einstellungen so, wie sie sind, es sei denn, unser Support-Team fordert eine Änderung an.</helpText>
             <defaultValue>["PAN_ONLY", "CRYPTOGRAM_3DS"]</defaultValue>
             <options>
                 <option>

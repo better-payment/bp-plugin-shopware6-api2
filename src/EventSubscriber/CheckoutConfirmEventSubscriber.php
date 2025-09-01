@@ -113,7 +113,7 @@ class CheckoutConfirmEventSubscriber implements EventSubscriberInterface
                     'googlePay' => [
                         'allowedCardNetworks' => $this->configReader->get(ConfigReader::GOOGLE_PAY_ALLOWED_CARD_NETWORKS),
                         'allowedAuthMethods' => $this->configReader->get(ConfigReader::GOOGLE_PAY_ALLOWED_AUTH_METHODS),
-                        'gateway' => $this->configReader->get(ConfigReader::GOOGLE_PAY_GATEWAY_ID),
+                        'gateway' => 'processingpagateq',
                         'gatewayMerchantId' =>  $this->configReader->get(ConfigReader::GOOGLE_PAY_GATEWAY_MERCHANT_ID),
                         'merchantId' =>  $this->configReader->get(ConfigReader::GOOGLE_PAY_MERCHANT_ID),
                         'merchantName'=>  $this->configReader->get(ConfigReader::GOOGLE_PAY_MERCHANT_NAME),
