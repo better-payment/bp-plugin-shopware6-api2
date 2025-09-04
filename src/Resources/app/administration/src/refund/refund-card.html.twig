@@ -1,8 +1,6 @@
 {% block sw_order_detail_details_payment %}
     {% parent %}
-    <sw-card
-            v-if="refundCardIsVisible"
-            :title="$tc('betterpayment.refund.cardTitle')">
+    <sw-card v-if="refundCardIsVisible" :title="$tc('betterpayment.refund.cardTitle')">
         <template #grid>
             <sw-card-section divider="bottom" :slim="true">
                 <sw-container v-if="isFullyRefunded">
@@ -11,22 +9,16 @@
                     </sw-label>
                 </sw-container>
                 <sw-container>
-                    <sw-label variant="info" style="height: auto">
+                    <sw-label variant="info" style="height: max-content">
                         <div style="white-space: normal;">
                             <span v-if="paymentMethod == 'cc'">
                                 {{ $tc('betterpayment.refund.labels.paymentMethodsInfo.creditCard') }}
                             </span>
-                            <span v-else-if="paymentMethod == 'sofort'">
-                                {{ $tc('betterpayment.refund.labels.paymentMethodsInfo.sofort') }}
-                            </span>
-                            <span v-else-if="paymentMethod == 'paydirekt'">
-                                {{ $tc('betterpayment.refund.labels.paymentMethodsInfo.paydirekt') }}
-                            </span>
                             <span v-else-if="paymentMethod == 'paypal'">
                                 {{ $tc('betterpayment.refund.labels.paymentMethodsInfo.paypal') }}
                             </span>
-                            <span v-else-if="paymentMethod == 'giro'">
-                                {{ $tc('betterpayment.refund.labels.paymentMethodsInfo.giropay') }}
+                            <span v-else-if="paymentMethod == 'sofort'">
+                                {{ $tc('betterpayment.refund.labels.paymentMethodsInfo.sofort') }}
                             </span>
                             <span v-else-if="paymentMethod == 'rtp'">
                                 {{ $tc('betterpayment.refund.labels.paymentMethodsInfo.requestToPay') }}
@@ -58,50 +50,51 @@
                         </div>
                     </sw-label>
                 </sw-container>
-                <sw-container columns="1fr 1fr" gap="0px 14px">
-                    <sw-container rows="1fr 1fr 1fr 1fr" gap="10px 0px">
+                <sw-container columns="1fr 1fr" gap="14px">
+                    <sw-container rows="1fr 1fr">
                         <sw-number-field
-                                required numberType="float" :digits="2" :allowEmpty="false" size="small"
-                                :disabled="!canCreateRefund || isFullyRefunded"
-                                :label="$tc('betterpayment.refund.labels.amount')"
-                                v-model:value="refund.amount">
+                            required numberType="float" :digits="2" :allowEmpty="false" size="small"
+                            :disabled="!canCreateRefund || isFullyRefunded"
+                            :label="$tc('betterpayment.refund.labels.amount')"
+                            v-model:value="refund.amount">
                         </sw-number-field>
-                        <sw-datepicker
-                                size="small" :label="$tc('betterpayment.refund.labels.date')"
-                                :disabled="!canCreateRefund || isFullyRefunded"
-                                v-model:value="refund.execution_date">
-                        </sw-datepicker>
                         <sw-text-field
-                                :copyable="true" :copyableTooltip="true" disabled size="small"
-                                :label="$tc('betterpayment.refund.labels.transactionId')"
-                                v-model:value="betterPaymentTransactionId">
-                        </sw-text-field>
-                        <sw-label variant="info" style="height: auto">
-                            <div style="white-space: normal;">
-                                {{ $tc('betterpayment.refund.labels.refundIdInfo') }}
-                            </div>
-                        </sw-label>
-                        <sw-text-field
-                                size="small" :label="$tc('betterpayment.refund.labels.refundId')"
-                                :disabled="!canCreateRefund || isFullyRefunded"
-                                v-model:value="refund.refund_id">
+                            :copyable="true" :copyableTooltip="true" disabled size="small"
+                            :label="$tc('betterpayment.refund.labels.transactionId')"
+                            v-model:value="betterPaymentTransactionId">
                         </sw-text-field>
                     </sw-container>
-                    <sw-textarea-field
-                            type="textarea" size="small"
+                    <sw-container rows="1fr 1fr">
+                        <sw-datepicker
+                            size="small" :label="$tc('betterpayment.refund.labels.date')"
                             :disabled="!canCreateRefund || isFullyRefunded"
-                            :label="$tc('betterpayment.refund.labels.comment')"
-                            v-model:value="refund.comment">
-                    </sw-textarea-field>
+                            v-model:value="refund.execution_date">
+                        </sw-datepicker>
+                        <sw-text-field
+                            size="small" :label="$tc('betterpayment.refund.labels.refundId')"
+                            :disabled="!canCreateRefund || isFullyRefunded"
+                            v-model:value="refund.refund_id">
+                            <template #hint>
+                                <p>{{ $tc('betterpayment.refund.labels.refundIdInfo') }}</p>
+                            </template>
+                        </sw-text-field>
+                    </sw-container>
                 </sw-container>
+                <sw-textarea-field
+                    type="textarea" size="small"
+                    :disabled="!canCreateRefund || isFullyRefunded"
+                    :label="$tc('betterpayment.refund.labels.comment')"
+                    v-model:value="refund.comment">
+                </sw-textarea-field>
                 <sw-button-process
-                        style="float: right"
-                        :processSuccess="processSuccess"
-                        :disabled="buttonDisabled || !canCreateRefund || isFullyRefunded"
-                        @click="createRefund"
-                        variant="ghost"
-                        size="small"
-                        @update:process-success="createRefundFinished">
+                    style="float: right"
+                    :processSuccess="processSuccess"
+                    :disabled="buttonDisabled || !canCreateRefund || isFullyRefunded"
+                    @click="createRefund"
+                    variant="action"
+                    size="small"
+                    @update:process-success="createRefundFinished"
+                >
                     {{ $tc('betterpayment.refund.actions.createNew') }}
                 </sw-button-process>
             </sw-card-section>

@@ -2,56 +2,67 @@
 
 namespace BetterPayment\PaymentHandler;
 
-use BetterPayment\Util\BetterPaymentClient;
 use BetterPayment\Util\PaymentStatusMapper;
-use Shopware\Core\Checkout\Payment\Cart\PaymentHandler\SynchronousPaymentHandlerInterface;
-use Shopware\Core\Checkout\Payment\Cart\SyncPaymentTransactionStruct;
-use Shopware\Core\Checkout\Payment\PaymentException;
+use Shopware\Core\Checkout\Payment\Cart\PaymentHandler\AbstractPaymentHandler;
+use Shopware\Core\Checkout\Payment\Cart\PaymentHandler\PaymentHandlerType;
+use Shopware\Core\Checkout\Payment\Cart\PaymentTransactionStruct;
+use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
-use Shopware\Core\Framework\Validation\DataBag\RequestDataBag;
-use Shopware\Core\System\SalesChannel\SalesChannelContext;
+use Shopware\Core\Framework\Struct\Struct;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 
-class GooglePayPaymentHandler implements SynchronousPaymentHandlerInterface
+class GooglePayPaymentHandler extends AbstractPaymentHandler
 {
     private PaymentStatusMapper $paymentStatusMapper;
-    private BetterPaymentClient $betterPaymentClient;
-    private EntityRepository $orderRepository;
+    private EntityRepository $orderTransactionRepository;
 
     public function __construct(
         PaymentStatusMapper $paymentStatusMapper,
-        BetterPaymentClient $betterPaymentClient,
-        EntityRepository $orderRepository,
-    ){
+        EntityRepository $orderTransactionRepository,
+    ) {
         $this->paymentStatusMapper = $paymentStatusMapper;
-        $this->betterPaymentClient = $betterPaymentClient;
-        $this->orderRepository = $orderRepository;
+        $this->orderTransactionRepository = $orderTransactionRepository;
     }
 
-    public function pay(SyncPaymentTransactionStruct $transaction, RequestDataBag $dataBag, SalesChannelContext $salesChannelContext): void
+    public function supports(PaymentHandlerType $type, string $paymentMethodId, Context $context): bool
     {
-        try {
-            $context = $salesChannelContext->getContext();
+        return false;
+    }
 
-            $this->paymentStatusMapper->updateOrderTransactionStateFromPaymentHandler($transaction->getOrderTransaction()->getId(), $dataBag->get('betterpayment_google_pay_transaction_status'), $context);
-            $this->betterPaymentClient->storeBetterPaymentTransactionID($transaction->getOrderTransaction()->getId(), $dataBag->get('betterpayment_google_pay_transaction_id'), $context);
+    public function pay(Request $request, PaymentTransactionStruct $transaction, Context $context, ?Struct $validateStruct): ?RedirectResponse
+    {
+        $this->storeBetterPaymentTransactionId($transaction->getOrderTransactionId(), $request->get('betterpayment_google_pay_transaction_id'), $context);
+        $this->storeBetterPaymentGooglePayOrderId($transaction->getOrderTransactionId(), $request->get('betterpayment_google_pay_order_id'), $context);
+        $this->paymentStatusMapper->updateOrderTransactionStateFromPaymentHandler($transaction->getOrderTransactionId(), $request->get('betterpayment_google_pay_transaction_status'), $context);
 
-            // Set Google Pay order id as custom field to order, so that it can be matched with order in payment gateway
-            // Here we cannot use core (by shopware) order number. Because of the flow, the order is created after request sent to payment gateway
-            $this->orderRepository->update([
-                [
-                    'id' => $transaction->getOrder()->getId(),
-                    'customFields' => [
-                        'betterpayment_google_pay_order_id' => $dataBag->get('betterpayment_google_pay_order_id'),
-                    ]
+        // SyncPaymentHandler, so no redirect
+        return null;
+    }
+
+    private function storeBetterPaymentTransactionId(string $orderTransactionId, string $betterPaymentTransactionId, Context $context): void
+    {
+        $this->orderTransactionRepository->update([
+            [
+                'id' => $orderTransactionId,
+                'customFields' => [
+                    'better_payment_transaction_id' => $betterPaymentTransactionId
                 ]
-            ], $context);
-        } catch (\Exception $e) {
-            throw PaymentException::syncProcessInterrupted(
-                $transaction->getOrderTransaction()->getId(),
-                'An error occurred during the communication with external payment gateway' . PHP_EOL
-                . $e->getMessage() . PHP_EOL
-                . 'TRACE: ' . $e->getTraceAsString()
-            );
-        }
+            ]
+        ], $context);
+    }
+
+    // Set Google Pay order id as custom field to order, so that it can be matched with order in payment gateway
+    // Here we cannot use core (by shopware) order number. Because of the flow, the order is created after request sent to payment gateway
+    private function storeBetterPaymentGooglePayOrderId(string $orderTransactionId, string $betterPaymentApplePayOrderId, Context $context): void
+    {
+        $this->orderTransactionRepository->update([
+            [
+                'id' => $orderTransactionId,
+                'customFields' => [
+                    'betterpayment_apple_pay_order_id' => $betterPaymentApplePayOrderId,
+                ]
+            ]
+        ], $context);
     }
 }

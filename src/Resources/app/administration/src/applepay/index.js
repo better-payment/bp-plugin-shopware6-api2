@@ -16,7 +16,7 @@ Component.override('sw-order-detail-details', {
         },
 
         applePayOrderId() {
-            return this.order.customFields.betterpayment_apple_pay_order_id;
+            return this.transaction.customFields.betterpayment_apple_pay_order_id;
         },
 
         paymentMethod() {

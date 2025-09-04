@@ -16,7 +16,7 @@ Component.override('sw-order-detail-details', {
         },
 
         googlePayOrderId() {
-            return this.order.customFields.betterpayment_google_pay_order_id;
+            return this.transaction.customFields.betterpayment_google_pay_order_id;
         },
 
         paymentMethod() {
