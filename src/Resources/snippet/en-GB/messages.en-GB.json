@@ -1,8 +1,7 @@
 {
   "betterpayment": {
     "general": {
-      "requiredLabel": "Required fields are indicated with ",
-      "riskCheckAgreementLabel": "I agree that my data may be forwarded to risk check processing services."
+      "requiredLabel": "Required fields are indicated with "
     },
 
     "invoice-instructions": {
@@ -28,14 +27,15 @@
       "agreementLabel": "I agree to the following mandate "
     },
 
-    "missing-risk-check-information-modal": {
-      "title": "Missing information for Risk Checks",
-      "body1": "Your selected payment method, requires you to provide following information:",
-      "body2": "Please, go to your profile to update the information, or simply select a different payment method.",
-      "birthdate": "Date of Birth",
+    "riskCheck": {
+      "title": "Risk Check Information",
+      "agreementLabel": "I agree that my data may be forwarded to risk check processing services.",
       "gender": "Gender",
-      "close_button": "Close",
-      "action_button": "Go to profile"
+      "selectGender": "Select gender...",
+      "male": "Male",
+      "female": "Female",
+      "diverse": "Diverse",
+      "birthdate": "Date of Birth"
     },
 
     "register": {

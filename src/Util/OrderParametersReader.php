@@ -53,7 +53,7 @@ class OrderParametersReader
             $this->getCommonParameters($orderTransaction),
             $this->getBillingAddressParameters($orderTransaction),
             $this->getShippingAddressParameters($orderTransaction),
-            $this->getRiskCheckParameters($orderTransaction),
+            $this->getRiskCheckParameters($orderTransaction, $request),
             $this->getCompanyDetailParameters($orderTransaction),
             $this->getRedirectUrlParameters($orderTransaction, $transaction),
             $this->getSpecialParameters($orderTransaction, $request),
@@ -207,7 +207,7 @@ class OrderParametersReader
         return [];
     }
 
-    private function getRiskCheckParameters(OrderTransactionEntity $orderTransaction): array
+    private function getRiskCheckParameters(OrderTransactionEntity $orderTransaction, Request $request): array
     {
         $parameters = [];
         $paymentMethodId = $orderTransaction->getPaymentMethodId();
@@ -216,13 +216,13 @@ class OrderParametersReader
         if ($paymentMethodId == SEPADirectDebit::UUID) {
             if ($this->configReader->getBool(ConfigReader::SEPA_DIRECT_DEBIT_COLLECT_DATE_OF_BIRTH)) {
                 $parameters += [
-                    'date_of_birth' => $this->getBirthday($customer)
+                    'date_of_birth' => $this->getBirthday($customer, $request)
                 ];
             }
 
             if ($this->configReader->getBool(ConfigReader::SEPA_DIRECT_DEBIT_COLLECT_GENDER)) {
                 $parameters += [
-                    'gender' => $this->getGender($customer)
+                    'gender' => $this->getGender($customer, $request)
                 ];
             }
 
@@ -232,13 +232,13 @@ class OrderParametersReader
         if ($paymentMethodId == Invoice::UUID) {
             if ($this->configReader->getBool(ConfigReader::INVOICE_COLLECT_DATE_OF_BIRTH)) {
                 $parameters += [
-                    'date_of_birth' => $this->getBirthday($customer)
+                    'date_of_birth' => $this->getBirthday($customer, $request)
                 ];
             }
 
             if ($this->configReader->getBool(ConfigReader::INVOICE_COLLECT_GENDER)) {
                 $parameters += [
-                    'gender' => $this->getGender($customer)
+                    'gender' => $this->getGender($customer, $request)
                 ];
             }
 
@@ -248,14 +248,14 @@ class OrderParametersReader
         return [];
     }
 
-    private function getBirthday(CustomerEntity $customer): ?string
+    private function getBirthday(CustomerEntity $customer, Request $request): ?string
     {
-        return $customer->getBirthday()?->format('Y-m-d');
+        return $customer->getBirthday()?->format('Y-m-d') ?? $request->get('betterpayment_birthdate');
     }
 
     // returns m|f|d|null as required by API and as custom field setup (null if not set yet)
-    private function getGender(CustomerEntity $customer): ?string
+    private function getGender(CustomerEntity $customer, Request $request): ?string
     {
-        return $customer->getCustomFields()[CustomFieldInstaller::CUSTOMER_GENDER];
+        return $customer->getCustomFields()[CustomFieldInstaller::CUSTOMER_GENDER] ?? $request->get('betterpayment_gender');
     }
 }

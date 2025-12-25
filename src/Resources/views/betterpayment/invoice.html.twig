@@ -1,11 +1,17 @@
-{% if config('BetterPayment.config.invoiceRiskCheckAgreement') %}
-    <div>
-        <input type="checkbox" id="riskCheckAgreement" form="confirmOrderForm" required>
-        <label for="riskCheckAgreement">{{ 'betterpayment.general.riskCheckAgreementLabel' | trans }}<span class="text-danger"> *</span></label>
-    </div>
+{% if config('BetterPayment.config.invoiceCollectGender') or config('BetterPayment.config.invoiceCollectDateOfBirth') or config('BetterPayment.config.invoiceRiskCheckAgreement') %}
+    {% sw_include '@Storefront/betterpayment/component/risk-check-title.html.twig' %}
 
-    <br>
-    <p class="text-muted">{{ 'betterpayment.general.requiredLabel' | trans }}<span class="text-danger">*</span></p>
+    {% if config('BetterPayment.config.invoiceCollectGender') and page.extensions.betterpayment.genderIsMissing %}
+        {% sw_include '@Storefront/betterpayment/component/risk-check-gender-field.html.twig' %}
+    {% endif %}
+
+    {% if config('BetterPayment.config.invoiceCollectDateOfBirth') and page.extensions.betterpayment.birthdayIsMissing %}
+        {% sw_include '@Storefront/betterpayment/component/risk-check-birthdate-field.html.twig' %}
+    {% endif %}
+
+    {% if config('BetterPayment.config.invoiceRiskCheckAgreement') %}
+        {% sw_include '@Storefront/betterpayment/component/risk-check-agreement-checkbox.html.twig' %}
+    {% endif %}
+
+    {% sw_include '@Storefront/betterpayment/component/required-fields-indicator-information.html.twig' %}
 {% endif %}
-
-{% sw_include '@Storefront/betterpayment/missing-risk-check-information-modal.html.twig' %}
