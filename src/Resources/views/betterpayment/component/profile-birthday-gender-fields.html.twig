@@ -1,7 +1,10 @@
 {% if config('BetterPayment.config.sepaDirectDebitCollectGender') or config('BetterPayment.config.invoiceCollectGender') %}
     <div class="form-row">
         <div class="form-group col-md-3 col-sm-6">
-            <label for="better_payment_customer_gender">{{ 'betterpayment.register.labelGender' | trans }}*</label>
+            <label for="better_payment_customer_gender">
+                {{ 'betterpayment.register.labelGender' | trans }}
+                <span class="form-required-label">*</span>
+            </label>
             <select name="better_payment_customer_gender" id="better_payment_customer_gender" class="form-select" required>
                 <option disabled selected value="">{{ 'betterpayment.register.selectGender' | trans }}</option>
                 <option value="m"
@@ -23,7 +26,7 @@
         // wait for the document to finish loading
         document.addEventListener('DOMContentLoaded', () => {
             // get the account type selection element
-            const accountType = document.getElementById('accountType');
+            const accountType = document.getElementsByName('accountType')[0];
 
             // get the gender field
             // label is in the same element as field itself, so no need fetch it separately
@@ -42,16 +45,14 @@
                 genderField.style.display = 'block';
             };
 
+            // hide the fields if "Commercial" is selected by default
+            accountType.value === 'business' ? hideGenderField() : showGenderField();
+
             // listen for changes in the account type selection
             accountType.addEventListener('change', () => {
                 // check if the selected account type is "Commercial" - key is business
                 accountType.value === 'business' ? hideGenderField() : showGenderField();
             });
-
-            // hide the fields if "Commercial" is selected by default
-            if (accountType.value === 'business') {
-                hideGenderField();
-            }
         });
     </script>
 {% endif %}
@@ -60,7 +61,7 @@
     // wait for the document to finish loading
     document.addEventListener('DOMContentLoaded', () => {
         // get the account type selection element
-        const accountType = document.getElementById('accountType');
+        const accountType = document.getElementsByName('accountType')[0];
 
         // get config values to see whether we need to collect birthday or gender
         const birthdayIsCollected = {{ (config('BetterPayment.config.sepaDirectDebitCollectDateOfBirth') or config('BetterPayment.config.invoiceCollectDateOfBirth')) | json_encode }};
@@ -82,9 +83,6 @@
                 birthdayMonth.required = false;
                 birthdayYear.required = false;
 
-                // remove asterisk from label to be added later when shown
-                birthdayLabel.innerText = birthdayLabel.innerText.replace('*', '');
-
                 birthdayField.style.display = 'none';
                 birthdayLabel.style.display = 'none';
             };
@@ -96,24 +94,22 @@
                 birthdayYear.required = true;
 
                 // add asterisk to label to indicate as required
-                if (!birthdayLabel.innerText.includes('*')) {
-                    birthdayLabel.innerText += '*';
+                if (!birthdayLabel.innerHTML.includes('*')) {
+                    birthdayLabel.innerHTML += ' <span class="form-required-label">*</span>';
                 }
 
                 birthdayField.style.display = 'flex';
                 birthdayLabel.style.display = 'block';
             };
 
+            // hide the fields if "Commercial" is selected by default
+            accountType.value === 'business' ? hideBirthdayField() : showBirthdayField();
+
             // listen for changes in the account type selection
             accountType.addEventListener('change', () => {
                 // check if the selected account type is "Commercial" - key is business
                 accountType.value === 'business' ? hideBirthdayField() : showBirthdayField();
             });
-
-            // hide the fields if "Commercial" is selected by default
-            if (accountType.value === 'business') {
-                hideBirthdayField();
-            }
         }
     });
 </script>
