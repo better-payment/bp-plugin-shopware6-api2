@@ -32,11 +32,11 @@
 {% if config('BetterPayment.config.sepaDirectDebitCollectGender') or config('BetterPayment.config.sepaDirectDebitCollectDateOfBirth') or config('BetterPayment.config.sepaDirectDebitRiskCheckAgreement') %}
     {% sw_include '@Storefront/betterpayment/component/risk-check-title.html.twig' %}
 
-    {% if config('BetterPayment.config.sepaDirectDebitCollectGender') and page.extensions.betterpayment.genderIsMissing %}
+    {% if config('BetterPayment.config.sepaDirectDebitCollectGender') %}
         {% sw_include '@Storefront/betterpayment/component/risk-check-gender-field.html.twig' %}
     {% endif %}
 
-    {% if config('BetterPayment.config.sepaDirectDebitCollectDateOfBirth') and page.extensions.betterpayment.birthdayIsMissing %}
+    {% if config('BetterPayment.config.sepaDirectDebitCollectDateOfBirth') %}
         {% sw_include '@Storefront/betterpayment/component/risk-check-birthdate-field.html.twig' %}
     {% endif %}
 

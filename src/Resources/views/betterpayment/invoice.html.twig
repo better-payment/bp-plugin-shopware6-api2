@@ -1,11 +1,11 @@
 {% if config('BetterPayment.config.invoiceCollectGender') or config('BetterPayment.config.invoiceCollectDateOfBirth') or config('BetterPayment.config.invoiceRiskCheckAgreement') %}
     {% sw_include '@Storefront/betterpayment/component/risk-check-title.html.twig' %}
 
-    {% if config('BetterPayment.config.invoiceCollectGender') and page.extensions.betterpayment.genderIsMissing %}
+    {% if config('BetterPayment.config.invoiceCollectGender') %}
         {% sw_include '@Storefront/betterpayment/component/risk-check-gender-field.html.twig' %}
     {% endif %}
 
-    {% if config('BetterPayment.config.invoiceCollectDateOfBirth') and page.extensions.betterpayment.birthdayIsMissing %}
+    {% if config('BetterPayment.config.invoiceCollectDateOfBirth') %}
         {% sw_include '@Storefront/betterpayment/component/risk-check-birthdate-field.html.twig' %}
     {% endif %}
 
