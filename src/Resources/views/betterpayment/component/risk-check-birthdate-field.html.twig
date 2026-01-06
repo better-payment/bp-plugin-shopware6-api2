@@ -1,0 +1,18 @@
+{% set birthdate = context.customer.birthday ?? null %}
+
+<div class="form-group col-md-3 col-sm-6">
+    <label for="betterpayment_birthdate">
+        {{ 'betterpayment.riskCheck.birthdate' | trans }}
+        <span class="text-danger">*</span>
+    </label>
+
+    <input
+            required
+            type="date"
+            id="betterpayment_birthdate"
+            name="betterpayment_birthdate"
+            class="form-control"
+            form="confirmOrderForm"
+            value="{{ birthdate ? birthdate|date('Y-m-d') : '' }}"
+    >
+</div>

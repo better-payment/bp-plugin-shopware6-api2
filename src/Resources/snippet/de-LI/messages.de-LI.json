@@ -1,8 +1,7 @@
 {
   "betterpayment": {
     "general": {
-      "requiredLabel": "Erforderliche Felder sind gekennzeichnet mit ",
-      "riskCheckAgreementLabel": "Ich bin damit einverstanden, dass meine Daten an die für die Risikoüberprüfung zuständigen Stellen weitergeleitet werden."
+      "requiredLabel": "Erforderliche Felder sind gekennzeichnet mit "
     },
 
     "invoice-instructions": {
@@ -28,14 +27,15 @@
       "agreementLabel": "Ich erkläre mich mit dem folgenden Sepa-Mandat einverstanden "
     },
 
-    "missing-risk-check-information-modal": {
+    "riskCheck": {
       "title": "Fehlende Informationen für Risikoprüfungen",
-      "body1": "Für die von Ihnen gewählte Zahlungsmethode müssen Sie folgende Angaben machen:",
-      "body2": "Bitte gehen Sie zu Ihrem Profil, um die Informationen zu aktualisieren, oder wählen Sie einfach eine andere Zahlungsmethode.",
-      "birthdate": "Geburtsdatum",
+      "agreementLabel": "Ich bin damit einverstanden, dass meine Daten an die für die Risikoüberprüfung zuständigen Stellen weitergeleitet werden.",
       "gender": "Geschlecht",
-      "close_button": "Schließen",
-      "action_button": "Zum Profil"
+      "selectGender": "Geschlecht auswählen...",
+      "male": "Männlich",
+      "female": "Weiblich",
+      "diverse": "Vielfältig",
+      "birthdate": "Geburtsdatum"
     },
 
     "register": {

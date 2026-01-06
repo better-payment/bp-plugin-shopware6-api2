@@ -1,0 +1,32 @@
+{% set gender = context.customer.customFields.better_payment_customer_gender ?? null %}
+
+<div class="form-group col-md-3 col-sm-6">
+    <label for="betterpayment_gender">
+        {{ 'betterpayment.riskCheck.gender' | trans }}
+        <span class="text-danger">*</span>
+    </label>
+
+    <select
+            id="betterpayment_gender"
+            name="betterpayment_gender"
+            class="form-select"
+            form="confirmOrderForm"
+            required
+    >
+        <option value="" disabled {{ gender is empty ? 'selected' : '' }}>
+            {{ 'betterpayment.riskCheck.selectGender' | trans }}
+        </option>
+
+        <option value="m" {{ gender == 'm' ? 'selected' : '' }}>
+            {{ 'betterpayment.riskCheck.male' | trans }}
+        </option>
+
+        <option value="f" {{ gender == 'f' ? 'selected' : '' }}>
+            {{ 'betterpayment.riskCheck.female' | trans }}
+        </option>
+
+        <option value="d" {{ gender == 'd' ? 'selected' : '' }}>
+            {{ 'betterpayment.riskCheck.diverse' | trans }}
+        </option>
+    </select>
+</div>

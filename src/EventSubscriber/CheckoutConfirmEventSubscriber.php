@@ -40,7 +40,6 @@ class CheckoutConfirmEventSubscriber implements EventSubscriberInterface
     {
         $page = $event->getPage();
         $paymentMethod = $event->getSalesChannelContext()->getPaymentMethod();
-        $customer = $event->getSalesChannelContext()->getCustomer();
         if ($paymentMethod->getId() == SEPADirectDebit::UUID) {
             $data = new CheckoutData();
 
@@ -49,8 +48,6 @@ class CheckoutConfirmEventSubscriber implements EventSubscriberInterface
                 'creditorID' => $this->configReader->getString(ConfigReader::SEPA_DIRECT_DEBIT_CREDITOR_ID),
                 'companyName' => $this->configReader->getString(ConfigReader::SEPA_DIRECT_DEBIT_COMPANY_NAME),
                 'mandateReference' => Uuid::randomHex(),
-                'birthdayIsMissing' => $this->birthdayIsMissing($customer) && $this->configReader->getBool(ConfigReader::SEPA_DIRECT_DEBIT_COLLECT_DATE_OF_BIRTH),
-                'genderIsMissing' => $this->genderIsMissing($customer) && $this->configReader->getBool(ConfigReader::SEPA_DIRECT_DEBIT_COLLECT_GENDER),
             ]);
 
             $page->addExtension(CheckoutData::EXTENSION_NAME, $data);
@@ -75,8 +72,6 @@ class CheckoutConfirmEventSubscriber implements EventSubscriberInterface
 
             $data->assign([
                 'template' => '@Storefront/betterpayment/invoice.html.twig',
-                'birthdayIsMissing' => $this->birthdayIsMissing($customer) && $this->configReader->getBool(ConfigReader::INVOICE_COLLECT_DATE_OF_BIRTH),
-                'genderIsMissing' => $this->genderIsMissing($customer) && $this->configReader->getBool(ConfigReader::INVOICE_COLLECT_GENDER),
             ]);
 
             $page->addExtension(CheckoutData::EXTENSION_NAME, $data);
@@ -148,16 +143,5 @@ class CheckoutConfirmEventSubscriber implements EventSubscriberInterface
             'appVersion' => $this->configReader->getAppVersion(),
             'environment' => $this->configReader->get(ConfigReader::ENVIRONMENT),
         ];
-    }
-
-    private function birthdayIsMissing(CustomerEntity $customer): bool
-    {
-        return !$customer->getBirthday();
-    }
-
-    private function genderIsMissing(CustomerEntity $customer): bool
-    {
-        $customFields = $customer->getCustomFields();
-        return isset($customFields[CustomFieldInstaller::CUSTOMER_GENDER]) ? !$customFields[CustomFieldInstaller::CUSTOMER_GENDER] : true;
     }
 }

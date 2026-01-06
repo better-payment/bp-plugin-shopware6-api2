@@ -1,5 +1,11 @@
 This changelog follows the specifications of https://keepachangelog.com. Please, follow the specs when adding a new entry
 
+## [4.0.1] - 2025-12-25
+
+### Added
+- Add inline gender and birthdate fields in checkout for payment methods that require risk check
+
+
 ## [4.0.0] - 2025-09-01
 
 ### Added

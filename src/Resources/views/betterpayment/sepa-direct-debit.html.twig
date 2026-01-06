@@ -1,20 +1,20 @@
-<h3>{{ 'betterpayment.sepa-direct-debit.title' | trans }}</h3>
-
-<input hidden name="betterpayment_account_holder" value="{{ context.customer.firstName ~ ' ' ~ context.customer.lastName }}" form="confirmOrderForm">
-<input hidden name="betterpayment_sepa_mandate" value="{{ page.extensions.betterpayment.mandateReference }}" form="confirmOrderForm">
-
-<div class="form-group">
-    <label for="betterpayment_iban">{{ 'betterpayment.sepa-direct-debit.iban' | trans }}<span class="text-danger">*</span></label>
-    <input type="text" id="betterpayment_iban" name="betterpayment_iban" class="form-control" form="confirmOrderForm" required>
-    <small class="form-text text-muted">{{ 'betterpayment.sepa-direct-debit.ibanHelpText' | trans }}</small>
-</div>
-<div class="form-group">
-    <label for="betterpayment_bic">{{ 'betterpayment.sepa-direct-debit.bic' | trans }}</label>
-    <input type="text" id="betterpayment_bic" name="betterpayment_bic" class="form-control" form="confirmOrderForm">
-    <small class="form-text text-muted">{{ 'betterpayment.sepa-direct-debit.bicHelpText' | trans }}</small>
-</div>
-
 <div>
+    <h3>{{ 'betterpayment.sepa-direct-debit.title' | trans }}</h3>
+
+    <input hidden name="betterpayment_account_holder" value="{{ context.customer.firstName ~ ' ' ~ context.customer.lastName }}" form="confirmOrderForm">
+    <input hidden name="betterpayment_sepa_mandate" value="{{ page.extensions.betterpayment.mandateReference }}" form="confirmOrderForm">
+
+    <div class="form-group">
+        <label for="betterpayment_iban">{{ 'betterpayment.sepa-direct-debit.iban' | trans }}<span class="text-danger">*</span></label>
+        <input type="text" id="betterpayment_iban" name="betterpayment_iban" class="form-control" form="confirmOrderForm" required>
+        <small class="form-text text-muted">{{ 'betterpayment.sepa-direct-debit.ibanHelpText' | trans }}</small>
+    </div>
+    <div class="form-group">
+        <label for="betterpayment_bic">{{ 'betterpayment.sepa-direct-debit.bic' | trans }}</label>
+        <input type="text" id="betterpayment_bic" name="betterpayment_bic" class="form-control" form="confirmOrderForm">
+        <small class="form-text text-muted">{{ 'betterpayment.sepa-direct-debit.bicHelpText' | trans }}</small>
+    </div>
+
     <label><b>{{ 'betterpayment.sepa-direct-debit.customerName' | trans }}</b></label> {{ context.customer.firstName ~ ' ' ~ context.customer.lastName }}
     <br>
     <label><b>{{ 'betterpayment.sepa-direct-debit.creditorId' | trans }}</b></label> {{ page.extensions.betterpayment.creditorID }}
@@ -27,16 +27,22 @@
         <input type="checkbox" id="agreement" form="confirmOrderForm" required>
         <label for="agreement">{{ 'betterpayment.sepa-direct-debit.agreementLabel' | trans }}<span class="text-danger">*</span></label>
     </div>
-
-    {% if config('BetterPayment.config.sepaDirectDebitRiskCheckAgreement') %}
-    <div>
-        <input type="checkbox" id="riskCheckAgreement" form="confirmOrderForm" required>
-        <label for="riskCheckAgreement">{{ 'betterpayment.general.riskCheckAgreementLabel' | trans }}<span class="text-danger"> *</span></label>
-    </div>
-    {% endif %}
 </div>
 
-<br>
-<p class="text-muted">{{ 'betterpayment.general.requiredLabel' | trans }}<span class="text-danger">*</span></p>
+{% if config('BetterPayment.config.sepaDirectDebitCollectGender') or config('BetterPayment.config.sepaDirectDebitCollectDateOfBirth') or config('BetterPayment.config.sepaDirectDebitRiskCheckAgreement') %}
+    {% sw_include '@Storefront/betterpayment/component/risk-check-title.html.twig' %}
 
-{% sw_include '@Storefront/betterpayment/missing-risk-check-information-modal.html.twig' %}
+    {% if config('BetterPayment.config.sepaDirectDebitCollectGender') %}
+        {% sw_include '@Storefront/betterpayment/component/risk-check-gender-field.html.twig' %}
+    {% endif %}
+
+    {% if config('BetterPayment.config.sepaDirectDebitCollectDateOfBirth') %}
+        {% sw_include '@Storefront/betterpayment/component/risk-check-birthdate-field.html.twig' %}
+    {% endif %}
+
+    {% if config('BetterPayment.config.sepaDirectDebitRiskCheckAgreement') %}
+        {% sw_include '@Storefront/betterpayment/component/risk-check-agreement-checkbox.html.twig' %}
+    {% endif %}
+{% endif %}
+
+{% sw_include '@Storefront/betterpayment/component/required-fields-indicator-information.html.twig' %}
