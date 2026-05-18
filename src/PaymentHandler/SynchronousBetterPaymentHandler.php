@@ -13,6 +13,7 @@ use Shopware\Core\Checkout\Payment\PaymentException;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\Struct\Struct;
+use Shopware\Core\PlatformRequest;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -43,8 +44,9 @@ class SynchronousBetterPaymentHandler extends AbstractPaymentHandler
     public function pay(Request $request, PaymentTransactionStruct $transaction, Context $context, ?Struct $validateStruct): ?RedirectResponse
     {
         try {
+            $salesChannelId = $request->get(PlatformRequest::ATTRIBUTE_SALES_CHANNEL_ID);
             $parameters = $this->orderParametersReader->getAllParameters($request, $transaction, $context);
-            $responseBody = $this->betterPaymentClient->requestPayment($parameters);
+            $responseBody = $this->betterPaymentClient->requestPayment($parameters, $salesChannelId);
             $this->storeBetterPaymentTransactionId($transaction->getOrderTransactionId(), $responseBody['transaction_id'], $context);
             $this->paymentStatusMapper->updateOrderTransactionStateFromPaymentHandler($transaction->getOrderTransactionId(), $responseBody['status'], $context);
         } catch (Exception $e) {

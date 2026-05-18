@@ -15,6 +15,7 @@ use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\Struct\Struct;
+use Shopware\Core\PlatformRequest;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -45,8 +46,9 @@ class AsynchronousBetterPaymentHandler extends AbstractPaymentHandler
     public function pay(Request $request, PaymentTransactionStruct $transaction, Context $context, ?Struct $validateStruct): ?RedirectResponse
     {
         try {
+            $salesChannelId = $request->get(PlatformRequest::ATTRIBUTE_SALES_CHANNEL_ID);
             $parameters = $this->orderParametersReader->getAllParameters($request, $transaction, $context);
-            $responseBody = $this->betterPaymentClient->requestPayment($parameters);
+            $responseBody = $this->betterPaymentClient->requestPayment($parameters, $salesChannelId);
             $this->storeBetterPaymentTransactionId($transaction->getOrderTransactionId(), $responseBody['transaction_id'], $context);
             $redirectUrl = $responseBody['action_data']['url'];
         } catch (Exception $e) {
@@ -63,14 +65,15 @@ class AsynchronousBetterPaymentHandler extends AbstractPaymentHandler
     // When it returns to success url, update the payment status
     public function finalize(Request $request, PaymentTransactionStruct $transaction, Context $context): void
     {
+        $criteria = new Criteria([$transaction->getOrderTransactionId()]);
+        $criteria->addAssociation('order');
+
         /* @var OrderTransactionEntity $orderTransaction */
-        $orderTransaction = $this->orderTransactionRepository->search(
-            new Criteria([$transaction->getOrderTransactionId()]),
-            $context
-        )->first();
+        $orderTransaction = $this->orderTransactionRepository->search($criteria, $context)->first();
+        $salesChannelId = $orderTransaction->getOrder()->getSalesChannelId();
 
         $betterPaymentTransactionId = $orderTransaction->getCustomFields()['better_payment_transaction_id'];
-        $status = $this->betterPaymentClient->getTransaction($betterPaymentTransactionId)['status'];
+        $status = $this->betterPaymentClient->getTransaction($betterPaymentTransactionId, $salesChannelId)['status'];
         $this->paymentStatusMapper->updateOrderTransactionStateFromPaymentHandler($transaction->getOrderTransactionId(), $status, $context);
     }
 

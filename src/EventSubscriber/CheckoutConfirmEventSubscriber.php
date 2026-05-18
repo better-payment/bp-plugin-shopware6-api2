@@ -39,14 +39,15 @@ class CheckoutConfirmEventSubscriber implements EventSubscriberInterface
     public function addPaymentMethodSpecificFormFields(PageLoadedEvent $event): void
     {
         $page = $event->getPage();
+        $salesChannelId = $event->getSalesChannelContext()->getSalesChannelId();
         $paymentMethod = $event->getSalesChannelContext()->getPaymentMethod();
         if ($paymentMethod->getId() == SEPADirectDebit::UUID) {
             $data = new CheckoutData();
 
             $data->assign([
                 'template' => '@Storefront/betterpayment/sepa-direct-debit.html.twig',
-                'creditorID' => $this->configReader->getString(ConfigReader::SEPA_DIRECT_DEBIT_CREDITOR_ID),
-                'companyName' => $this->configReader->getString(ConfigReader::SEPA_DIRECT_DEBIT_COMPANY_NAME),
+                'creditorID' => $this->configReader->getString(ConfigReader::SEPA_DIRECT_DEBIT_CREDITOR_ID, $salesChannelId),
+                'companyName' => $this->configReader->getString(ConfigReader::SEPA_DIRECT_DEBIT_COMPANY_NAME, $salesChannelId),
                 'mandateReference' => Uuid::randomHex(),
             ]);
 
@@ -57,14 +58,14 @@ class CheckoutConfirmEventSubscriber implements EventSubscriberInterface
 
             $data->assign([
                 'template' => '@Storefront/betterpayment/sepa-direct-debit-b2b.html.twig',
-                'creditorID' => $this->configReader->getString(ConfigReader::SEPA_DIRECT_DEBIT_B2B_CREDITOR_ID),
-                'companyName' => $this->configReader->getString(ConfigReader::SEPA_DIRECT_DEBIT_B2B_COMPANY_NAME),
+                'creditorID' => $this->configReader->getString(ConfigReader::SEPA_DIRECT_DEBIT_B2B_CREDITOR_ID, $salesChannelId),
+                'companyName' => $this->configReader->getString(ConfigReader::SEPA_DIRECT_DEBIT_B2B_COMPANY_NAME, $salesChannelId),
                 'mandateReference' => Uuid::randomHex(),
             ]);
 
             $page->addExtension(CheckoutData::EXTENSION_NAME, $data);
         }
-        
+
         // in invoice payment methods (b2c|b2b) only risk check agreement checkbox is added as form field when corresponding config is enabled
         // that's why it also needs to check in if condition whether config is enabled before assigning related template view
         elseif ($paymentMethod->getId() == Invoice::UUID) {
@@ -92,8 +93,8 @@ class CheckoutConfirmEventSubscriber implements EventSubscriberInterface
                 'initialData' => [
                     ...$this->getExpressPaymentMethodInitialData($event),
                     'applePay' => [
-                        'merchantCapabilities' => $this->configReader->getBool(ConfigReader::APPLE_PAY_3DS_ENABLED) ? ["supports3DS"] : [],
-                        'supportedNetworks' => $this->configReader->get(ConfigReader::APPLE_PAY_SUPPORTED_NETWORKS),
+                        'merchantCapabilities' => $this->configReader->getBool(ConfigReader::APPLE_PAY_3DS_ENABLED, $salesChannelId) ? ["supports3DS"] : [],
+                        'supportedNetworks' => $this->configReader->get(ConfigReader::APPLE_PAY_SUPPORTED_NETWORKS, $salesChannelId),
                     ],
                 ],
             ]);
@@ -106,12 +107,12 @@ class CheckoutConfirmEventSubscriber implements EventSubscriberInterface
                 'initialData' => [
                     ...$this->getExpressPaymentMethodInitialData($event),
                     'googlePay' => [
-                        'allowedCardNetworks' => $this->configReader->get(ConfigReader::GOOGLE_PAY_ALLOWED_CARD_NETWORKS),
-                        'allowedAuthMethods' => $this->configReader->get(ConfigReader::GOOGLE_PAY_ALLOWED_AUTH_METHODS),
+                        'allowedCardNetworks' => $this->configReader->get(ConfigReader::GOOGLE_PAY_ALLOWED_CARD_NETWORKS, $salesChannelId),
+                        'allowedAuthMethods' => $this->configReader->get(ConfigReader::GOOGLE_PAY_ALLOWED_AUTH_METHODS, $salesChannelId),
                         'gateway' => 'processingpagateq',
-                        'gatewayMerchantId' =>  $this->configReader->get(ConfigReader::GOOGLE_PAY_GATEWAY_MERCHANT_ID),
-                        'merchantId' =>  $this->configReader->get(ConfigReader::GOOGLE_PAY_MERCHANT_ID),
-                        'merchantName'=>  $this->configReader->get(ConfigReader::GOOGLE_PAY_MERCHANT_NAME),
+                        'gatewayMerchantId' =>  $this->configReader->get(ConfigReader::GOOGLE_PAY_GATEWAY_MERCHANT_ID, $salesChannelId),
+                        'merchantId' =>  $this->configReader->get(ConfigReader::GOOGLE_PAY_MERCHANT_ID, $salesChannelId),
+                        'merchantName'=>  $this->configReader->get(ConfigReader::GOOGLE_PAY_MERCHANT_NAME, $salesChannelId),
                     ],
                 ],
             ]);
@@ -123,6 +124,7 @@ class CheckoutConfirmEventSubscriber implements EventSubscriberInterface
     {
         $page = $event->getPage();
         $customer = $event->getSalesChannelContext()->getCustomer();
+        $salesChannelId = $event->getSalesChannelContext()->getSalesChannelId();
 
         return [
             'orderId' => Uuid::randomHex(),
@@ -135,13 +137,13 @@ class CheckoutConfirmEventSubscriber implements EventSubscriberInterface
                 : $page->getCart()->getPrice()->getCalculatedTaxes()->getAmount(),
             'countryCode' => $customer->getDefaultBillingAddress()->getCountry()->getIso(),
             'currency' => $event->getSalesChannelContext()->getCurrency()->getIsoCode(),
-            'shopName' => $this->configReader->getSystemConfig('core.basicInformation.shopName', $event->getSalesChannelContext()->getSalesChannelId()),
+            'shopName' => $this->configReader->getSystemConfig('core.basicInformation.shopName', $salesChannelId),
             'customerId' => $customer->getCustomerNumber(),
             'customerIp' => $customer->getRemoteAddress(),
             'postbackUrl' => $this->configReader->getPostbackUrl(),
             'appName' => $this->configReader->getAppName(),
             'appVersion' => $this->configReader->getAppVersion(),
-            'environment' => $this->configReader->get(ConfigReader::ENVIRONMENT),
+            'environment' => $this->configReader->get(ConfigReader::ENVIRONMENT, $salesChannelId),
         ];
     }
 }

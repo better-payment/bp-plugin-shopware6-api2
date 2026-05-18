@@ -209,15 +209,16 @@ class OrderParametersReader
     {
         $parameters = [];
         $paymentMethodId = $orderTransaction->getPaymentMethodId();
+        $salesChannelId = $orderTransaction->getOrder()->getSalesChannelId();
 
         if ($paymentMethodId == SEPADirectDebit::UUID) {
-            if ($this->configReader->getBool(ConfigReader::SEPA_DIRECT_DEBIT_COLLECT_DATE_OF_BIRTH)) {
+            if ($this->configReader->getBool(ConfigReader::SEPA_DIRECT_DEBIT_COLLECT_DATE_OF_BIRTH, $salesChannelId)) {
                 $parameters += [
                     'date_of_birth' => $request->get('betterpayment_birthdate')
                 ];
             }
 
-            if ($this->configReader->getBool(ConfigReader::SEPA_DIRECT_DEBIT_COLLECT_GENDER)) {
+            if ($this->configReader->getBool(ConfigReader::SEPA_DIRECT_DEBIT_COLLECT_GENDER, $salesChannelId)) {
                 $parameters += [
                     'gender' => $request->get('betterpayment_gender')
                 ];
@@ -227,13 +228,13 @@ class OrderParametersReader
         }
 
         if ($paymentMethodId == Invoice::UUID) {
-            if ($this->configReader->getBool(ConfigReader::INVOICE_COLLECT_DATE_OF_BIRTH)) {
+            if ($this->configReader->getBool(ConfigReader::INVOICE_COLLECT_DATE_OF_BIRTH, $salesChannelId)) {
                 $parameters += [
                     'date_of_birth' => $request->get('betterpayment_birthdate')
                 ];
             }
 
-            if ($this->configReader->getBool(ConfigReader::INVOICE_COLLECT_GENDER)) {
+            if ($this->configReader->getBool(ConfigReader::INVOICE_COLLECT_GENDER, $salesChannelId)) {
                 $parameters += [
                     'gender' => $request->get('betterpayment_gender')
                 ];

@@ -17,27 +17,27 @@ class BetterPaymentClient
 		$this->configReader = $configReader;
 	}
 
-	private function getClient(): Client
+	private function getClient(?string $salesChannelId = null): Client
     {
         return new Client([
-            'base_uri' => $this->configReader->getAPIUrl()
+            'base_uri' => $this->configReader->getAPIUrl($salesChannelId)
         ]);
     }
 
-    private function getHeaders(): array
+    private function getHeaders(?string $salesChannelId = null): array
     {
         return [
-            'Authorization' => 'Basic '.base64_encode($this->configReader->getAPIKey().':'.$this->configReader->getOutgoingKey()),
+            'Authorization' => 'Basic '.base64_encode($this->configReader->getAPIKey($salesChannelId).':'.$this->configReader->getOutgoingKey($salesChannelId)),
             'Content-Type' => 'application/json'
         ];
     }
 
-    public function requestPayment(array $parameters)
+    public function requestPayment(array $parameters, ?string $salesChannelId = null)
     {
         $body = json_encode($parameters);
-        $request = new Request('POST', 'rest/payment', $this->getHeaders(), $body);
+        $request = new Request('POST', 'rest/payment', $this->getHeaders($salesChannelId), $body);
         try {
-            $response = $this->getClient()->send($request);
+            $response = $this->getClient($salesChannelId)->send($request);
             $responseBody = json_decode((string) $response->getBody(), true);
             if ($responseBody['error_code'] == 0) {
                 return $responseBody;
@@ -50,10 +50,10 @@ class BetterPaymentClient
         }
     }
 
-    public function getTransaction(string $id) {
-        $request = new Request('GET', 'rest/transactions/'.$id, $this->getHeaders());
+    public function getTransaction(string $id, ?string $salesChannelId = null) {
+        $request = new Request('GET', 'rest/transactions/'.$id, $this->getHeaders($salesChannelId));
         try {
-            $response = $this->getClient()->send($request);
+            $response = $this->getClient($salesChannelId)->send($request);
             $responseBody = json_decode((string) $response->getBody(), true);
             if (!isset($responseBody['error_code'])) {
                 return $responseBody;
@@ -66,11 +66,11 @@ class BetterPaymentClient
         }
     }
 
-    public function capture(array $parameters) {
+    public function capture(array $parameters, ?string $salesChannelId = null) {
 		$body = json_encode($parameters);
-        $request = new Request('POST', 'rest/capture', $this->getHeaders(), $body);
+        $request = new Request('POST', 'rest/capture', $this->getHeaders($salesChannelId), $body);
         try {
-            $response = $this->getClient()->send($request);
+            $response = $this->getClient($salesChannelId)->send($request);
             $responseBody = json_decode((string) $response->getBody(), true);
             if ($responseBody['error_code'] == 0) {
                 return $responseBody;
