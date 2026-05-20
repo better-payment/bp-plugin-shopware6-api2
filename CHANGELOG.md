@@ -3,6 +3,12 @@ This changelog follows the specifications of https://keepachangelog.com. Please,
 ## [4.0.1] - 2025-12-25
 
 ### Added
+- Add sales channel context
+
+
+## [4.0.1] - 2025-12-25
+
+### Added
 - Add inline gender and birthdate fields in checkout for payment methods that require risk check
 
 
