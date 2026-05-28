@@ -76,7 +76,7 @@ Component.override('sw-order-detail-details', {
     methods: {
         setAPIProperties() {
             const pluginConfig = ApiService.getByName('systemConfigApiService');
-            pluginConfig.getValues('BetterPayment').then(config => {
+            pluginConfig.getValues('BetterPayment', this.order?.salesChannelId).then(config => {
                 const environment = config['BetterPayment.config.environment'];
 
                 const testAPIUrl = config['BetterPayment.config.testAPIUrl'];

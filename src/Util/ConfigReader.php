@@ -79,49 +79,49 @@ class ConfigReader
         return $this->systemConfigService->get($key, $salesChannelId);
     }
 
-    public function get(string $key)
+    public function get(string $key, ?string $salesChannelId = null)
     {
-        return $this->systemConfigService->get(self::CONFIG_DOMAIN . $key);
+        return $this->systemConfigService->get(self::CONFIG_DOMAIN . $key, $salesChannelId);
     }
 
-    public function getString(string $key): string
+    public function getString(string $key, ?string $salesChannelId = null): string
     {
-        return $this->systemConfigService->getString(self::CONFIG_DOMAIN . $key);
+        return $this->systemConfigService->getString(self::CONFIG_DOMAIN . $key, $salesChannelId);
     }
 
-    public function getBool(string $key): bool
+    public function getBool(string $key, ?string $salesChannelId = null): bool
     {
-        return $this->systemConfigService->getBool(self::CONFIG_DOMAIN . $key);
+        return $this->systemConfigService->getBool(self::CONFIG_DOMAIN . $key, $salesChannelId);
     }
 
-    public function getAPIUrl(): string
+    public function getAPIUrl(?string $salesChannelId = null): string
     {
-        $apiUrl = $this->get(self::ENVIRONMENT) == 'test'
-            ? $this->getString(self::TEST_API_URL)
-            : $this->getString(self::PRODUCTION_API_URL);
+        $apiUrl = $this->get(self::ENVIRONMENT, $salesChannelId) == 'test'
+            ? $this->getString(self::TEST_API_URL, $salesChannelId)
+            : $this->getString(self::PRODUCTION_API_URL, $salesChannelId);
 
         return rtrim($apiUrl, '/');
     }
 
-    public function getAPIKey(): string
+    public function getAPIKey(?string $salesChannelId = null): string
     {
-        return $this->get(self::ENVIRONMENT) == 'test'
-            ? $this->getString(self::TEST_API_KEY)
-            : $this->getString(self::PRODUCTION_API_KEY);
+        return $this->get(self::ENVIRONMENT, $salesChannelId) == 'test'
+            ? $this->getString(self::TEST_API_KEY, $salesChannelId)
+            : $this->getString(self::PRODUCTION_API_KEY, $salesChannelId);
     }
 
-    public function getOutgoingKey(): string
+    public function getOutgoingKey(?string $salesChannelId = null): string
     {
-        return $this->get(self::ENVIRONMENT) == 'test'
-            ? $this->getString(self::TEST_OUTGOING_KEY)
-            : $this->getString(self::PRODUCTION_OUTGOING_KEY);
+        return $this->get(self::ENVIRONMENT, $salesChannelId) == 'test'
+            ? $this->getString(self::TEST_OUTGOING_KEY, $salesChannelId)
+            : $this->getString(self::PRODUCTION_OUTGOING_KEY, $salesChannelId);
     }
 
-    public function getIncomingKey(): string
+    public function getIncomingKey(?string $salesChannelId = null): string
     {
-        return $this->get(self::ENVIRONMENT) == 'test'
-            ? $this->getString(self::TEST_INCOMING_KEY)
-            : $this->getString(self::PRODUCTION_INCOMING_KEY);
+        return $this->get(self::ENVIRONMENT, $salesChannelId) == 'test'
+            ? $this->getString(self::TEST_INCOMING_KEY, $salesChannelId)
+            : $this->getString(self::PRODUCTION_INCOMING_KEY, $salesChannelId);
     }
 
     public function getAppUrl(): string

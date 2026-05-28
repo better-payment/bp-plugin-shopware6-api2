@@ -79,8 +79,9 @@ class OrderInvoiceDocumentCreatedEventSubscriber implements EventSubscriberInter
 				)->first();
 
 				$orderTransaction = $order->getTransactions()->last();
+				$salesChannelId = $order->getSalesChannelId();
 
-				if ($this->isCapturable($orderTransaction)) {
+				if ($this->isCapturable($orderTransaction, $salesChannelId)) {
 					$invoiceId = $payload['config']['documentNumber'];
                     $invoiceDate = $payload['config']['documentDate'];
 
@@ -92,7 +93,7 @@ class OrderInvoiceDocumentCreatedEventSubscriber implements EventSubscriberInter
 	                    'comment' => 'Captured using Shopware 6 plugin',
 	                ];
 
-					$this->betterPaymentClient->capture($captureParameters);
+					$this->betterPaymentClient->capture($captureParameters, $salesChannelId);
 				}
 			}
 		}
@@ -102,27 +103,28 @@ class OrderInvoiceDocumentCreatedEventSubscriber implements EventSubscriberInter
      * Checks if an order transaction is capturable based on the payment method and corresponding configuration flag.
      *
      * @param OrderTransactionEntity $orderTransaction
+     * @param string|null $salesChannelId
      * @return bool Whether the order transaction is capturable or not.
      */
-    public function isCapturable(OrderTransactionEntity $orderTransaction): bool
+    public function isCapturable(OrderTransactionEntity $orderTransaction, ?string $salesChannelId = null): bool
     {
         $paymentMethodCustomFields = $orderTransaction->getPaymentMethod()->getCustomFields();
         $transactionCustomFields = $orderTransaction->getCustomFields();
-        if (!isset($paymentMethodCustomFields['shortname']) || !isset($transactionCustomFields['better_payment_transaction_id'])) 
+        if (!isset($paymentMethodCustomFields['shortname']) || !isset($transactionCustomFields['better_payment_transaction_id']))
         {
             return false;
         }
 
         $paymentMethodShortname = $paymentMethodCustomFields['shortname'];
-        
-        return ($paymentMethodShortname == Invoice::SHORTNAME 
-                && $this->configReader->getBool(ConfigReader::INVOICE_AUTOMATICALLY_CAPTURE_ON_ORDER_INVOICE_DOCUMENT_SENT))
-            || ($paymentMethodShortname == InvoiceB2B::SHORTNAME 
-                && $this->configReader->getBool(ConfigReader::INVOICE_B2B_AUTOMATICALLY_CAPTURE_ON_ORDER_INVOICE_DOCUMENT_SENT)
+
+        return ($paymentMethodShortname == Invoice::SHORTNAME
+                && $this->configReader->getBool(ConfigReader::INVOICE_AUTOMATICALLY_CAPTURE_ON_ORDER_INVOICE_DOCUMENT_SENT, $salesChannelId))
+            || ($paymentMethodShortname == InvoiceB2B::SHORTNAME
+                && $this->configReader->getBool(ConfigReader::INVOICE_B2B_AUTOMATICALLY_CAPTURE_ON_ORDER_INVOICE_DOCUMENT_SENT, $salesChannelId)
             || ($paymentMethodShortname == SEPADirectDebit::SHORTNAME
-                && $this->configReader->getBool(ConfigReader::SEPA_DIRECT_DEBIT_AUTOMATICALLY_CAPTURE_ON_ORDER_INVOICE_DOCUMENT_SENT))
+                && $this->configReader->getBool(ConfigReader::SEPA_DIRECT_DEBIT_AUTOMATICALLY_CAPTURE_ON_ORDER_INVOICE_DOCUMENT_SENT, $salesChannelId))
             || ($paymentMethodShortname == SEPADirectDebitB2B::SHORTNAME
-                && $this->configReader->getBool(ConfigReader::SEPA_DIRECT_DEBIT_B2B_AUTOMATICALLY_CAPTURE_ON_ORDER_INVOICE_DOCUMENT_SENT)));
+                && $this->configReader->getBool(ConfigReader::SEPA_DIRECT_DEBIT_B2B_AUTOMATICALLY_CAPTURE_ON_ORDER_INVOICE_DOCUMENT_SENT, $salesChannelId)));
     }
 
 }

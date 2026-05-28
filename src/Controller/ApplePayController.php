@@ -5,6 +5,7 @@ namespace BetterPayment\Controller;
 use BetterPayment\Util\ConfigReader;
 use BetterPayment\Util\PaymentStatusMapper;
 use GuzzleHttp\Client;
+use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,14 +35,16 @@ class ApplePayController extends AbstractController
     }
 
     #[Route(path: 'validate-merchant', name: 'frontend.betterpayment.apple-pay.validate-merchant', methods: ['POST'])]
-    public function validateMerchant(): Response
+    public function validateMerchant(SalesChannelContext $salesChannelContext): Response
     {
+        $salesChannelId = $salesChannelContext->getSalesChannelId();
+
         $client = new Client([
-            'base_uri' => $this->configReader->getApiUrl(),
+            'base_uri' => $this->configReader->getApiUrl($salesChannelId),
         ]);
 
         $headers = [
-            'Authorization' => 'Basic '.base64_encode($this->configReader->getAPIKey().':'.$this->configReader->getOutgoingKey()),
+            'Authorization' => 'Basic '.base64_encode($this->configReader->getAPIKey($salesChannelId).':'.$this->configReader->getOutgoingKey($salesChannelId)),
             'Content-Type' => 'application/json',
         ];
 
@@ -62,14 +65,16 @@ class ApplePayController extends AbstractController
     }
 
     #[Route(path: 'process-payment', name: 'frontend.betterpayment.apple-pay.process-payment', methods: ['POST'])]
-    public function processPayment(Request $request): Response
+    public function processPayment(Request $request, SalesChannelContext $salesChannelContext): Response
     {
+        $salesChannelId = $salesChannelContext->getSalesChannelId();
+
         $client = new Client([
-            'base_uri' => $this->configReader->getApiUrl(),
+            'base_uri' => $this->configReader->getApiUrl($salesChannelId),
         ]);
 
         $headers = [
-            'Authorization' => 'Basic '.base64_encode($this->configReader->getAPIKey().':'.$this->configReader->getOutgoingKey()),
+            'Authorization' => 'Basic '.base64_encode($this->configReader->getAPIKey($salesChannelId).':'.$this->configReader->getOutgoingKey($salesChannelId)),
             'Content-Type' => 'application/json',
         ];
 
